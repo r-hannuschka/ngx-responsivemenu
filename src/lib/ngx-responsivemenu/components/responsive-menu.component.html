@@ -1,5 +1,5 @@
 <div class="menu" #buttonWrapper>
-    <button type="button" #moreBtn (click)="toggleOverflow()" davinciMenuItem style="margin: 10px;">...</button>
+    <button type="button" #moreBtn (click)="toggleOverflow()" ngxResponsiveMenuItem style="margin: 10px;">...</button>
 </div>
 <div #overflowContent class="overflow-wrapper" [ngStyle]="{'display': showOverflow && isOverflow ? 'block' : 'none'}">
 </div>

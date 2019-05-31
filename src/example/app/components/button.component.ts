@@ -1,7 +1,7 @@
 import { Component, OnInit, AfterViewInit, Input } from "@angular/core";
 
 @Component({
-    selector: "davinci-button",
+    selector: "app-button",
     templateUrl: "button.component.html"
 })
 export class ButtonComponent implements OnInit, AfterViewInit {

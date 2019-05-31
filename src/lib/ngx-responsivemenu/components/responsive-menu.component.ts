@@ -16,7 +16,7 @@ import { takeUntil } from "rxjs/operators";
 import { Subject } from "rxjs";
 
 @Component({
-    selector: "davinci-responsive-menu",
+    selector: "ngx-responsivemenu",
     templateUrl: "responsive-menu.component.html",
     styleUrls: ["./responsive-menu.component.scss"]
 })

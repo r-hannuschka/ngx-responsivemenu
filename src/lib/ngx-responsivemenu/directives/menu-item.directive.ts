@@ -1,7 +1,7 @@
 import { Directive, ElementRef, AfterViewInit, HostBinding } from "@angular/core";
 
 @Directive( {
-    selector: "[davinciMenuItem]"
+    selector: "[ngxResponsiveMenuItem]"
 } )
 export class MenuItemDirective implements AfterViewInit {
 

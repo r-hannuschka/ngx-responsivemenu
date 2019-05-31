@@ -2,7 +2,7 @@
   "compileOnSave": false,
   "compilerOptions": {
     "baseUrl": "./",
-    "outDir": "./dist/out-tsc",
+    "outDir": "../dist/out-tsc",
     "sourceMap": true,
     "declaration": false,
     "module": "esnext",
@@ -17,6 +17,14 @@
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
+    "paths": {
+      "ngx-responsivemenu": [
+        "../dist/ngx-responsivemenu"
+      ],
+      "ngx-responsivemenu/*": [
+        "../dist/ngx-responsivemenu/*"
+      ]
+    }
   }
 }

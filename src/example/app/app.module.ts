@@ -3,7 +3,7 @@ import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { AppComponent } from "./app.component";
 import { ButtonComponent } from "./components/button.component";
-import { ResponsiveMenuModule } from "./modules/responsive-menu/responsive-menu.module";
+import { ResponsiveMenuModule } from "lib/public-api";
 
 @NgModule({
   declarations: [
