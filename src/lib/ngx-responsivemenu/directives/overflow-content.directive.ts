@@ -1,6 +1,6 @@
 import { Directive, ViewContainerRef, Renderer2, OnInit, OnDestroy } from "@angular/core";
 import { Subject } from "rxjs";
-import { startWith, takeUntil } from "rxjs/operators";
+import { startWith, takeUntil, filter } from "rxjs/operators";
 import { OverflowControl } from "../provider/overflow.control";
 import { MenuItemDirective } from "./menu-item.directive";
 
@@ -32,6 +32,7 @@ export class OverflowContentDirective implements OnInit, OnDestroy {
         this.overflowCtrl.show
             .pipe(
                 takeUntil(this.isDestroyed),
+                filter((items) => items.length > 0),
                 startWith(this.overflowCtrl.data.items)
             )
             .subscribe((items) => this.renderContent(items));

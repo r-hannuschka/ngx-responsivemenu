@@ -16,22 +16,19 @@ export class AppComponent {
 
     public buttons = [{
         label: "Button 1",
-        overflow: true
+        visible: false
     }, {
         label: "Button 2",
-        overflow: false
+        visible: true
     }, {
         label: "Button 3",
-        overflow: false
-    }, {
-        label: "Button 4",
-        overflow: false
+        visible: true
     }];
 
     addMoarCondend() {
         const newBtn = {
             label: `Button ${this.buttons.length + 1}`,
-            overflow: false
+            visible: true
         };
         this.buttons = [...this.buttons, newBtn];
     }

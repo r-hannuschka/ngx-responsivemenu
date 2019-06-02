@@ -35,14 +35,9 @@ export class OverflowControl {
     }
 
     public update() {
-
-        if (!this.rendered) {
-            return;
+        if (this.rendered) {
+            this.overflowModel.items.length === 0 ? this.close() : this.show$.next(this.overflowModel.items);
         }
-
-        this.overflowModel.items.length === 0
-            ? this.close()
-            : this.show$.next(this.overflowModel.items);
     }
 
     public open() {

@@ -19,31 +19,31 @@ import { takeUntil } from "rxjs/operators";
 import { Subject } from "rxjs";
 import { OverflowControl } from "../provider/overflow.control";
 
-@Component({
+@Component( {
     selector: "ngx-responsivemenu",
     templateUrl: "responsive-menu.component.html",
     styleUrls: ["./responsive-menu.component.scss"]
-})
+} )
 export class ResponsiveMenuComponent implements AfterViewInit, AfterContentInit, OnDestroy {
 
-    @ContentChildren(MenuItemDirective)
+    @ContentChildren( MenuItemDirective )
     public menuItems: QueryList<MenuItemDirective>;
 
     @Input()
     public showMax = -1;
 
-    @ViewChild("overflowTemplate", {read: TemplateRef, static: true})
+    @ViewChild( "overflowTemplate", { read: TemplateRef, static: true } )
     @Input()
     public overflowTemplate: TemplateRef<any>;
 
-    @ViewChild("overflowContainer", {read: ViewContainerRef, static: true})
+    @ViewChild( "overflowContainer", { read: ViewContainerRef, static: true } )
     @Input()
     public overflowContainer;
 
-    @ViewChild("buttonWrapper", {read: ElementRef, static: true})
+    @ViewChild( "buttonWrapper", { read: ElementRef, static: true } )
     private buttonBar: ElementRef;
 
-    @ViewChild("moreBtn", {read: MenuItemDirective, static: true})
+    @ViewChild( "moreBtn", { read: MenuItemDirective, static: true } )
     private moreBtn: MenuItemDirective;
 
     private overflowItems: MenuItemDirective[] = [];
@@ -67,26 +67,26 @@ export class ResponsiveMenuComponent implements AfterViewInit, AfterContentInit,
     /** used width from all buttons, more button not included */
     private usedWidth: number;
 
-    constructor(
+    public constructor(
         @Host() private overflowCtrl: OverflowControl,
         private renderer: Renderer2
-    ) {}
+    ) { }
 
     public ngOnDestroy() {
-        this.isDestroyed$.next(true);
+        this.isDestroyed$.next( true );
     }
 
     public ngAfterContentInit() {
         this.menuItems.changes
-            .pipe(takeUntil(this.isDestroyed$))
-            .subscribe(() => this.update());
+            .pipe( takeUntil( this.isDestroyed$ ) )
+            .subscribe( () => this.update() );
     }
 
     /**
      * view has been initialized and rendered to dom
      */
     public ngAfterViewInit() {
-        this.overflowCtrl.data.host     = this.overflowContainer;
+        this.overflowCtrl.data.host = this.overflowContainer;
         this.overflowCtrl.data.template = this.overflowTemplate;
         this.render();
     }
@@ -107,13 +107,13 @@ export class ResponsiveMenuComponent implements AfterViewInit, AfterContentInit,
     /**
      * remove old items from view so we ensure we have a clean tree
      */
-    private clearView(parent: ElementRef, keep?: ElementRef) {
-        Array.from(parent.nativeElement.childNodes)
-            .forEach((child) => {
-                if (!keep || keep.nativeElement !== child) {
-                    this.renderer.removeChild(parent.nativeElement, child);
+    private clearView( parent: ElementRef, keep?: ElementRef ) {
+        Array.from( parent.nativeElement.childNodes )
+            .forEach( ( child ) => {
+                if ( !keep || keep.nativeElement !== child ) {
+                    this.renderer.removeChild( parent.nativeElement, child );
                 }
-            });
+            } );
     }
 
     /**
@@ -122,22 +122,23 @@ export class ResponsiveMenuComponent implements AfterViewInit, AfterContentInit,
      */
     private render() {
         this.initRenderProcess();
-        const items = this.menuItems.toArray().reverse();
+
+        const items = this.prepareMenuItems();
         let isOverflow = false;
 
-        for (let index = items.length - 1, count = 0; index > -1; index-- , count++) {
+        for ( let index = 0, count = 0, ln = items.length; index < ln; index++ , count++ ) {
             const item = items[index];
             isOverflow = isOverflow || this.showMax > -1 && count >= this.showMax;
 
-            if (!isOverflow) {
-                this.addItem(item);
-                if (this.validateSize(item)) {
+            if ( !isOverflow ) {
+                this.addItem( item );
+                if ( this.validateSize( item ) ) {
                     continue;
                 }
-                this.removeItem(item);
+                this.removeItem( item );
                 isOverflow = true;
             }
-            this.overflowItems.push(item);
+            this.overflowItems.push( item );
         }
         this.finalizeRenderProcess();
     }
@@ -149,19 +150,18 @@ export class ResponsiveMenuComponent implements AfterViewInit, AfterContentInit,
     private initRenderProcess() {
         this.overflowItems = [];
         this.possibleOverflowItems = [];
+
         this.overflowCtrl.data.items = [];
 
-        this.renderer.setStyle(this.moreBtn.nativeElement, "display", "block");
-        this.renderer.setStyle(this.moreBtn.nativeElement, "visibility", "hidden");
+        this.clearView( this.buttonBar, this.moreBtn );
+
+        this.renderer.setStyle( this.moreBtn.nativeElement, "display", "block" );
+        this.renderer.setStyle( this.moreBtn.nativeElement, "visibility", "hidden" );
 
         this.reservedWidth = this.moreBtn.width;
 
-        /*
-        this.clearView(this.overflowContent);
-        this.clearView(this.buttonBar, this.moreBtn);
-
         /** @todo should exclude border / padding (inner width) */
-        this.maxWidth  = this.buttonBar.nativeElement.getBoundingClientRect().width;
+        this.maxWidth = this.buttonBar.nativeElement.getBoundingClientRect().width;
         this.usedWidth = 0;
     }
 
@@ -170,44 +170,74 @@ export class ResponsiveMenuComponent implements AfterViewInit, AfterContentInit,
      * remove them from button bar and add them to overflow
      */
     private finalizeRenderProcess() {
-        if (this.overflowItems.length) {
+        if ( this.overflowItems.length ) {
             /** remove possible overflow items now */
-            this.possibleOverflowItems.forEach((item) => {
-                this.removeItem(item);
-            });
-            this.renderer.setStyle(this.moreBtn.nativeElement, "visibility", "visible");
-            this.overflowCtrl.data.items = [...this.possibleOverflowItems, ...this.overflowItems];
+            this.possibleOverflowItems.forEach( ( item ) => {
+                this.removeItem( item );
+            } );
+            this.renderer.setStyle( this.moreBtn.nativeElement, "visibility", "visible" );
+            /** merge menu items so they have correct order */
+            this.overflowCtrl.data.items = this.mergeMenuItems();
         } else {
-            this.renderer.setStyle(this.moreBtn.nativeElement, "display", "none");
+            this.renderer.setStyle( this.moreBtn.nativeElement, "display", "none" );
         }
-
 
         this.possibleOverflowItems = [];
         this.overflowItems = [];
     }
 
     /** add new item to button bar */
-    private addItem(item: MenuItemDirective) {
-        this.renderer.appendChild(this.buttonBar.nativeElement, item.nativeElement);
+    private addItem( item: MenuItemDirective ) {
+        this.renderer.appendChild( this.buttonBar.nativeElement, item.nativeElement );
     }
 
     /** remove item from button bar */
-    private removeItem(item: MenuItemDirective) {
-        this.renderer.removeChild(this.buttonBar.nativeElement, item.nativeElement);
+    private removeItem( item: MenuItemDirective ) {
+        this.renderer.removeChild( this.buttonBar.nativeElement, item.nativeElement );
+    }
+
+    /**
+     * prepare menu items, filter out items which should be hidden by default
+     * and put them to overflow
+     */
+    private prepareMenuItems(): MenuItemDirective[] {
+        const items = this.menuItems.toArray();
+        return items.reduce<MenuItemDirective[]>( ( itemCollection, menuItem ) => {
+            menuItem.visible
+                ? itemCollection.push( menuItem )
+                : this.overflowItems.push( menuItem );
+
+            return itemCollection;
+        }, [] );
+    }
+
+    /**
+     * merge buttons since they displayed in incorret order
+     * buttons which are defined as visible: false will allways rendered
+     * to overflow, but this will change the order of buttons now
+     */
+    private mergeMenuItems(): MenuItemDirective[] {
+        if ( !this.overflowItems.length ) {
+            return this.possibleOverflowItems;
+        }
+        const items = [...this.possibleOverflowItems, ...this.overflowItems];
+        return this.menuItems.toArray().filter( ( item ) => {
+            return items.indexOf( item ) > -1;
+        } );
     }
 
     /**
      * validate rendered item fits into button container
      */
-    private validateSize(item: MenuItemDirective, isLast = false): boolean {
+    private validateSize( item: MenuItemDirective, isLast = false ): boolean {
         this.usedWidth = this.usedWidth + item.width;
 
-        if (this.usedWidth > this.maxWidth) {
+        if ( this.usedWidth > this.maxWidth ) {
             return false;
         }
 
-        if (!isLast && this.usedWidth + this.reservedWidth > this.maxWidth) {
-            this.possibleOverflowItems.push(item);
+        if ( !isLast && this.usedWidth + this.reservedWidth > this.maxWidth ) {
+            this.possibleOverflowItems.push( item );
         }
         return true;
     }

@@ -8,7 +8,7 @@
 </ng-template>
 
 <ngx-responsivemenu [overflowTemplate]="myOverflowTemplate" [overflowContainer]="overflowContainer">
-  <app-button ngxResponsiveMenuItem *ngFor="let btn of buttons" [label]="btn.label" #foobar></app-button>
+  <app-button ngxResponsiveMenuItem *ngFor="let btn of buttons" [label]="btn.label" [visible]="btn.visible"></app-button>
 </ngx-responsivemenu>
 
 <div>

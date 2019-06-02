@@ -1,4 +1,4 @@
-import { ViewContainerRef, TemplateRef, InjectionToken } from "@angular/core";
+import { ViewContainerRef, TemplateRef } from "@angular/core";
 import { MenuItemDirective } from "../directives/menu-item.directive";
 
 export class OverflowModel<T> {
@@ -37,5 +37,3 @@ export class OverflowModel<T> {
         return this.items.length > 0;
     }
 }
-
-export const OVERFLOW_MODEL = new InjectionToken("Overflow Model");

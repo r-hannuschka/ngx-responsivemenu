@@ -1,4 +1,4 @@
-import { Directive, ElementRef, AfterViewInit, HostBinding, Input, ViewContainerRef } from "@angular/core";
+import { Directive, ElementRef, AfterViewInit, HostBinding, Input } from "@angular/core";
 
 @Directive({
     selector: "[ngxResponsiveMenuItem]"
@@ -8,7 +8,7 @@ export class MenuItemDirective implements AfterViewInit {
     private domElRef: HTMLElement;
 
     @Input()
-    forceOverflow = false;
+    public visible = true;
 
     @HostBinding("class")
     public className = "responsive-menu--item";
