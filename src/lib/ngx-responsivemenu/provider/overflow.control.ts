@@ -34,6 +34,12 @@ export class OverflowControl {
         return this.rendered;
     }
 
+    public update() {
+        if (this.rendered) {
+            this.show$.next(this.overflowModel.items);
+        }
+    }
+
     public open() {
         if (!this.rendered && this.overflowModel.items.length) {
             this.overflowModel.host.createEmbeddedView(this.overflowModel.template);

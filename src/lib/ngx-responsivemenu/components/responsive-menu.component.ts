@@ -101,6 +101,7 @@ export class ResponsiveMenuComponent implements AfterViewInit, AfterContentInit,
      */
     public update() {
         this.render();
+        this.overflowCtrl.update();
     }
 
     /**
@@ -147,6 +148,8 @@ export class ResponsiveMenuComponent implements AfterViewInit, AfterContentInit,
      */
     private initRenderProcess() {
         this.overflowItems = [];
+        this.possibleOverflowItems = [];
+        this.overflowCtrl.data.items = [];
 
         this.renderer.setStyle(this.moreBtn.nativeElement, "display", "block");
         this.renderer.setStyle(this.moreBtn.nativeElement, "visibility", "hidden");
@@ -167,18 +170,17 @@ export class ResponsiveMenuComponent implements AfterViewInit, AfterContentInit,
      * remove them from button bar and add them to overflow
      */
     private finalizeRenderProcess() {
-
         if (this.overflowItems.length) {
             /** remove possible overflow items now */
             this.possibleOverflowItems.forEach((item) => {
                 this.removeItem(item);
             });
-
-            this.overflowCtrl.data.items = [...this.possibleOverflowItems, ...this.overflowItems];
             this.renderer.setStyle(this.moreBtn.nativeElement, "visibility", "visible");
+            this.overflowCtrl.data.items = [...this.possibleOverflowItems, ...this.overflowItems];
         } else {
             this.renderer.setStyle(this.moreBtn.nativeElement, "display", "none");
         }
+
 
         this.possibleOverflowItems = [];
         this.overflowItems = [];
