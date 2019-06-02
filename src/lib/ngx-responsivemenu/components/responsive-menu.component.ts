@@ -9,11 +9,15 @@ import {
     QueryList,
     Renderer2,
     ViewChild,
+    TemplateRef,
+    ViewContainerRef,
+    Host,
 } from "@angular/core";
 
 import { MenuItemDirective } from "../directives/menu-item.directive";
 import { takeUntil } from "rxjs/operators";
 import { Subject } from "rxjs";
+import { OverflowControl } from "../provider/overflow.control";
 
 @Component({
     selector: "ngx-responsivemenu",
@@ -28,9 +32,18 @@ export class ResponsiveMenuComponent implements AfterViewInit, AfterContentInit,
     @Input()
     public showMax = -1;
 
+    @ViewChild("overflowTemplate", {read: TemplateRef, static: true})
+    @Input()
+    public overflowTemplate: TemplateRef<any>;
+
+    @ViewChild("overflowContainer", {read: ViewContainerRef, static: true})
+    @Input()
+    overflowContainer;
+
     /** true if we handle overflow */
     public isOverflow = false;
 
+    /** @todo move to control */
     public showOverflow = false;
 
     @ViewChild("buttonWrapper", {read: ElementRef, static: true})
@@ -39,8 +52,7 @@ export class ResponsiveMenuComponent implements AfterViewInit, AfterContentInit,
     @ViewChild("moreBtn", {read: MenuItemDirective, static: true})
     private moreBtn: MenuItemDirective;
 
-    @ViewChild("overflowContent", {read: ElementRef, static: true})
-    private overflowContent: ElementRef;
+    private overflowItems: MenuItemDirective[] = [];
 
     private isDestroyed$: Subject<boolean> = new Subject();
 
@@ -62,6 +74,7 @@ export class ResponsiveMenuComponent implements AfterViewInit, AfterContentInit,
     private usedWidth: number;
 
     constructor(
+        @Host() private overflowCtrl: OverflowControl,
         private renderer: Renderer2
     ) {}
 
@@ -79,11 +92,13 @@ export class ResponsiveMenuComponent implements AfterViewInit, AfterContentInit,
      * view has been initialized and rendered to dom
      */
     public ngAfterViewInit() {
+        this.overflowCtrl.data.host     = this.overflowContainer;
+        this.overflowCtrl.data.template = this.overflowTemplate;
         this.render();
     }
 
     public toggleOverflow() {
-        this.showOverflow = !this.showOverflow;
+        this.overflowCtrl.isOpen() ? this.overflowCtrl.close() : this.overflowCtrl.open();
     }
 
     /**
@@ -113,27 +128,22 @@ export class ResponsiveMenuComponent implements AfterViewInit, AfterContentInit,
     private render() {
         this.initRenderProcess();
         const items = this.menuItems.toArray().reverse();
+        let isOverflow = false;
 
         for (let index = items.length - 1, count = 0; index > -1; index-- , count++) {
             const item = items[index];
-
-            let isOverflow = this.isOverflow;
             isOverflow = isOverflow || this.showMax > -1 && count >= this.showMax;
-            this.isOverflow = isOverflow;
-
-            let renderParent = isOverflow ? this.overflowContent.nativeElement : this.buttonBar.nativeElement;
 
             if (!isOverflow) {
                 this.renderer.appendChild(this.buttonBar.nativeElement, item.nativeElement);
                 if (this.validateSize(item)) {
                     continue;
                 }
-                renderParent = this.overflowContent.nativeElement;
-                this.isOverflow = true;
+                this.renderer.removeChild(this.buttonBar.nativeElement, item.nativeElement);
+                isOverflow = true;
             }
-            this.renderer.appendChild(renderParent, item.nativeElement);
+            this.overflowItems.push(item);
         }
-
         this.finalizeRenderProcess();
     }
 
@@ -142,6 +152,8 @@ export class ResponsiveMenuComponent implements AfterViewInit, AfterContentInit,
      * clean up all views, get dimensions from elements
      */
     private initRenderProcess() {
+        this.overflowItems = [];
+        /*
         this.isOverflow = false;
 
         this.clearView(this.overflowContent);
@@ -153,8 +165,8 @@ export class ResponsiveMenuComponent implements AfterViewInit, AfterContentInit,
         this.reservedWidth = this.moreBtn.width;
 
         /** @todo should exclude border / padding (inner width) */
-        this.maxWidth      = this.buttonBar.nativeElement.getBoundingClientRect().width;
-        this.usedWidth     = 0;
+        this.maxWidth  = this.buttonBar.nativeElement.getBoundingClientRect().width;
+        this.usedWidth = 0;
     }
 
     /**
@@ -162,19 +174,11 @@ export class ResponsiveMenuComponent implements AfterViewInit, AfterContentInit,
      * remove them from button bar and add them to overflow
      */
     private finalizeRenderProcess() {
-        if (this.isOverflow) {
-            this.possibleOverflowItems.forEach((item) => {
-                this.renderer.insertBefore(
-                    this.overflowContent.nativeElement,
-                    item.nativeElement,
-                    this.overflowContent.nativeElement.firstChild
-                );
-            });
-            this.renderer.setStyle(this.moreBtn.nativeElement, "visibility", "visible");
-        } else {
-            this.renderer.setStyle(this.moreBtn.nativeElement, "display", "none");
-        }
-        this.possibleOverflowItems = [];
+        this.overflowCtrl.data.items = [...this.possibleOverflowItems, ...this.overflowItems];
+        this.renderer.setStyle(this.moreBtn.nativeElement, "visibility", "visible");
+        this.renderer.setStyle(this.moreBtn.nativeElement, "display", "block");
+
+        // this.menuData.overflowItems = [...this.possibleOverflowItems, ...this.overflowItems];
     }
 
     /**

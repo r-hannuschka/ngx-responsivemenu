@@ -1,5 +1,13 @@
+<!-- own overflow template could be overridden -->
+<ng-template #overflowTemplate>
+    <h1>ich bin das Hauseigene Overflow Template</h1>
+    <ngx-responsivemenu-content></ngx-responsivemenu-content>
+</ng-template>
+
+<!-- visible buttons -->
 <div class="menu" #buttonWrapper>
-    <button type="button" #moreBtn (click)="toggleOverflow()" ngxResponsiveMenuItem style="margin: 10px;">...</button>
+    <button type="button" #moreBtn (click)="toggleOverflow()" ngxResponsiveMenuItem>...</button>
 </div>
-<div #overflowContent class="overflow-wrapper" [ngStyle]="{'display': showOverflow && isOverflow ? 'block' : 'none'}">
-</div>
+
+<!-- container to render overflow if required -->
+<ng-container #overflowContainer></ng-container>

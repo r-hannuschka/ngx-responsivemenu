@@ -5,10 +5,23 @@ import { AppComponent } from "./app.component";
 import { ButtonComponent } from "./components/button.component";
 import { ResponsiveMenuModule } from "lib/public-api";
 
+import { Pipe, PipeTransform } from "@angular/core";
+
+@Pipe({
+    name: "ViewContainerRef"
+})
+export class ViewContainerRefPipe implements PipeTransform {
+    transform(value: any, ...args: any[]): any {
+        console.log(value);
+        return value;
+    }
+}
+
 @NgModule({
   declarations: [
     AppComponent,
-    ButtonComponent
+    ButtonComponent,
+    ViewContainerRefPipe
   ],
   imports: [
     BrowserModule,

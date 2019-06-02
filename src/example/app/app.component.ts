@@ -1,20 +1,38 @@
-import { Component } from "@angular/core";
+import { Component, ViewChild, ViewContainerRef } from "@angular/core";
+import { OverflowControl } from "lib/public-api";
 
 @Component({
-    selector: "davinci-root",
+    selector: "app-root",
     templateUrl: "./app.component.html",
-    styleUrls: ["./app.component.scss"]
+    styleUrls: ["./app.component.scss"],
+    viewProviders: [OverflowControl]
 })
 export class AppComponent {
 
     public showMore = false;
 
+    @ViewChild("menuOverflow", { read: ViewContainerRef, static: true})
+    public overflowContainer: ViewContainerRef;
+
     public buttons = [{
-        label: "button 1"
+        label: "Button 1",
+        overflow: true
+    }, {
+        label: "Button 2",
+        overflow: false
+    }, {
+        label: "Button 3",
+        overflow: false
+    }, {
+        label: "Button 4",
+        overflow: false
     }];
 
     addMoarCondend() {
-        const newBtn = { label: `Buddon ${this.buttons.length + 1}` };
+        const newBtn = {
+            label: `Button ${this.buttons.length + 1}`,
+            overflow: false
+        };
         this.buttons = [...this.buttons, newBtn];
     }
 

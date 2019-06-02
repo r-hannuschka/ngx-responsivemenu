@@ -1,6 +1,17 @@
-<h1>Davinci Dev App working</h1>
 <button type="button" (click)="addMoarCondend()">add moar</button>
 <button type="button" (click)="removeBtn()">remove</button>
-<ngx-responsivemenu>
-    <app-button ngxResponsiveMenuItem *ngFor="let btn of buttons" [label]="btn.label"></app-button>
+
+<ng-template #myOverflowTemplate>
+  <h1>custom overflow template</h1>
+  <ngx-responsivemenu-content></ngx-responsivemenu-content>
+</ng-template>
+
+<ngx-responsivemenu [overflowContainer]="overflowContainer">
+  <app-button ngxResponsiveMenuItem *ngFor="let btn of buttons" [label]="btn.label" #foobar></app-button>
 </ngx-responsivemenu>
+
+<div>
+    <h1>hier kann nen bissel extra content kommen nun wooooot</h1>
+    <!-- render overflow template into this place -->
+    <ng-container #menuOverflow></ng-container>
+</div>
