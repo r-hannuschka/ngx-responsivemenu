@@ -1,4 +1,4 @@
-import { Directive, ViewContainerRef, AfterViewInit, Input, Renderer2, OnInit } from "@angular/core";
+import { Directive, ViewContainerRef, Renderer2, OnInit } from "@angular/core";
 import { OverflowControl } from "../provider/overflow.control";
 import { MenuItemDirective } from "./menu-item.directive";
 
@@ -18,17 +18,13 @@ export class OverflowContentDirective implements OnInit {
     }
 
     ngOnInit() {
-        const el = this.viewRef.element.nativeElement;
-
-        /** render initial */
+        /** this will render multiple times, not that i want i think */
         this.renderContent(this.overflowCtrl.data.items);
-
-        this.overflowCtrl.show$.subscribe((items) => {
-            this.renderContent(items);
-        });
     }
 
     private renderContent(nodes: MenuItemDirective[]) {
+
+        /** @todo clear before we render new items */
         nodes.forEach(item => {
             this.renderer.appendChild(this.viewRef.element.nativeElement, item.nativeElement);
         });

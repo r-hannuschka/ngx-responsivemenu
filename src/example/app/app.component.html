@@ -4,9 +4,10 @@
 <ng-template #myOverflowTemplate>
   <h1>custom overflow template</h1>
   <ngx-responsivemenu-content></ngx-responsivemenu-content>
+  <h3>mit footer und so</h3>
 </ng-template>
 
-<ngx-responsivemenu [overflowContainer]="overflowContainer">
+<ngx-responsivemenu [overflowTemplate]="myOverflowTemplate" [overflowContainer]="overflowContainer">
   <app-button ngxResponsiveMenuItem *ngFor="let btn of buttons" [label]="btn.label" #foobar></app-button>
 </ngx-responsivemenu>
 

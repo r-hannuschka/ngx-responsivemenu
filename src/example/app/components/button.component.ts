@@ -12,6 +12,7 @@ export class ButtonComponent implements OnInit, AfterViewInit {
     constructor() { }
 
     ngOnInit() {
+        console.log("init ????");
     }
 
     ngAfterViewInit() {

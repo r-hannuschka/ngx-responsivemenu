@@ -1,7 +1,7 @@
 import { OverflowModel } from "../model/overflow.model";
 import { Injectable } from "@angular/core";
 import { MenuItemDirective } from "../directives/menu-item.directive";
-import { Subject } from "rxjs";
+import { Subject, Observable } from "rxjs";
 
 @Injectable()
 export class OverflowControl {
@@ -10,9 +10,17 @@ export class OverflowControl {
 
     private overflowModel: OverflowModel<any>;
 
-    public show$: Subject<MenuItemDirective[]> = new Subject();
+    private show$: Subject<MenuItemDirective[]> = new Subject();
 
-    public hide$: Subject<void> = new Subject();
+    private hide$: Subject<void> = new Subject();
+
+    public get show(): Observable<MenuItemDirective[]> {
+        return this.show$.asObservable();
+    }
+
+    public get hide(): Observable<void> {
+        return this.hide$.asObservable();
+    }
 
     public constructor() {
         this.overflowModel = new OverflowModel();
@@ -27,20 +35,18 @@ export class OverflowControl {
     }
 
     public open() {
-        if (!this.rendered) {
-            this.overflowModel.host.createEmbeddedView( this.overflowModel.template );
+        if (!this.rendered && this.overflowModel.items.length) {
+            this.overflowModel.host.createEmbeddedView(this.overflowModel.template);
             this.rendered = true;
+            this.show$.next(this.overflowModel.items);
         }
-        this.show$.next(this.overflowModel.items);
     }
 
     public close() {
-
-        if ( this.rendered ) {
-            // this would completly remove that element wtf ...
-            // this.overflowModel.host.createEmbeddedView( this.overflowModel.template );
-            this.hide$.next();
+        if (this.rendered) {
             this.rendered = false;
+            this.overflowModel.host.clear();
+            this.hide$.next();
         }
     }
 }

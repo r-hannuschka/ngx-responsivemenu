@@ -6,5 +6,11 @@
     flex-direction: row;
     justify-content: flex-end;
     max-width: 200px;
+
+    ::ng-deep {
+        .responsive-menu--item {
+            flex-shrink: 0;
+        }
+    }
   }
 }

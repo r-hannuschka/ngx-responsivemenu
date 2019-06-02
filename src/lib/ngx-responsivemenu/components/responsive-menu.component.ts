@@ -38,13 +38,7 @@ export class ResponsiveMenuComponent implements AfterViewInit, AfterContentInit,
 
     @ViewChild("overflowContainer", {read: ViewContainerRef, static: true})
     @Input()
-    overflowContainer;
-
-    /** true if we handle overflow */
-    public isOverflow = false;
-
-    /** @todo move to control */
-    public showOverflow = false;
+    public overflowContainer;
 
     @ViewChild("buttonWrapper", {read: ElementRef, static: true})
     private buttonBar: ElementRef;
@@ -135,11 +129,11 @@ export class ResponsiveMenuComponent implements AfterViewInit, AfterContentInit,
             isOverflow = isOverflow || this.showMax > -1 && count >= this.showMax;
 
             if (!isOverflow) {
-                this.renderer.appendChild(this.buttonBar.nativeElement, item.nativeElement);
+                this.addItem(item);
                 if (this.validateSize(item)) {
                     continue;
                 }
-                this.renderer.removeChild(this.buttonBar.nativeElement, item.nativeElement);
+                this.removeItem(item);
                 isOverflow = true;
             }
             this.overflowItems.push(item);
@@ -153,16 +147,15 @@ export class ResponsiveMenuComponent implements AfterViewInit, AfterContentInit,
      */
     private initRenderProcess() {
         this.overflowItems = [];
-        /*
-        this.isOverflow = false;
-
-        this.clearView(this.overflowContent);
-        this.clearView(this.buttonBar, this.moreBtn);
 
         this.renderer.setStyle(this.moreBtn.nativeElement, "display", "block");
         this.renderer.setStyle(this.moreBtn.nativeElement, "visibility", "hidden");
 
         this.reservedWidth = this.moreBtn.width;
+
+        /*
+        this.clearView(this.overflowContent);
+        this.clearView(this.buttonBar, this.moreBtn);
 
         /** @todo should exclude border / padding (inner width) */
         this.maxWidth  = this.buttonBar.nativeElement.getBoundingClientRect().width;
@@ -174,11 +167,31 @@ export class ResponsiveMenuComponent implements AfterViewInit, AfterContentInit,
      * remove them from button bar and add them to overflow
      */
     private finalizeRenderProcess() {
-        this.overflowCtrl.data.items = [...this.possibleOverflowItems, ...this.overflowItems];
-        this.renderer.setStyle(this.moreBtn.nativeElement, "visibility", "visible");
-        this.renderer.setStyle(this.moreBtn.nativeElement, "display", "block");
 
-        // this.menuData.overflowItems = [...this.possibleOverflowItems, ...this.overflowItems];
+        if (this.overflowItems.length) {
+            /** remove possible overflow items now */
+            this.possibleOverflowItems.forEach((item) => {
+                this.removeItem(item);
+            });
+
+            this.overflowCtrl.data.items = [...this.possibleOverflowItems, ...this.overflowItems];
+            this.renderer.setStyle(this.moreBtn.nativeElement, "visibility", "visible");
+        } else {
+            this.renderer.setStyle(this.moreBtn.nativeElement, "display", "none");
+        }
+
+        this.possibleOverflowItems = [];
+        this.overflowItems = [];
+    }
+
+    /** add new item to button bar */
+    private addItem(item: MenuItemDirective) {
+        this.renderer.appendChild(this.buttonBar.nativeElement, item.nativeElement);
+    }
+
+    /** remove item from button bar */
+    private removeItem(item: MenuItemDirective) {
+        this.renderer.removeChild(this.buttonBar.nativeElement, item.nativeElement);
     }
 
     /**
