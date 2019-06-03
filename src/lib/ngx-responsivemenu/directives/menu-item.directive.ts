@@ -1,8 +1,8 @@
 import { Directive, ElementRef, AfterViewInit, HostBinding, Input } from "@angular/core";
 
-@Directive({
+@Directive( {
     selector: "[ngxResponsiveMenuItem]"
-})
+} )
 export class MenuItemDirective implements AfterViewInit {
 
     private domElRef: HTMLElement;
@@ -10,7 +10,7 @@ export class MenuItemDirective implements AfterViewInit {
     @Input()
     public visible = true;
 
-    @HostBinding("class")
+    @HostBinding( "class" )
     public className = "responsive-menu--item";
 
     constructor(
@@ -31,10 +31,10 @@ export class MenuItemDirective implements AfterViewInit {
 
     public get width(): number {
         const width = this.bounds.width;
-        const style = getComputedStyle(this.domElRef);
+        const style = getComputedStyle( this.domElRef );
 
-        const marginLeft  = parseInt(style.getPropertyValue("margin-left"), 10);
-        const marginRight = parseInt(style.getPropertyValue("margin-right"), 10);
+        const marginLeft = parseInt( style.getPropertyValue( "margin-left" ), 10 );
+        const marginRight = parseInt( style.getPropertyValue( "margin-right" ), 10 );
 
         return width + marginLeft + marginRight;
     }

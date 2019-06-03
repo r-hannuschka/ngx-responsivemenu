@@ -12,12 +12,14 @@ import {
     TemplateRef,
     ViewContainerRef,
     Host,
+    ContentChild,
 } from "@angular/core";
 
 import { MenuItemDirective } from "../directives/menu-item.directive";
 import { takeUntil } from "rxjs/operators";
 import { Subject } from "rxjs";
 import { OverflowControl } from "../provider/overflow.control";
+import { MenuItemMoreDirective } from "../directives/menu-more.directive";
 
 @Component( {
     selector: "ngx-responsivemenu",
@@ -26,32 +28,50 @@ import { OverflowControl } from "../provider/overflow.control";
 } )
 export class ResponsiveMenuComponent implements AfterViewInit, AfterContentInit, OnDestroy {
 
+    public isCustomButton = false;
+
     @ContentChildren( MenuItemDirective )
     public menuItems: QueryList<MenuItemDirective>;
 
     @Input()
     public showMax = -1;
 
-    @ViewChild( "overflowTemplate", { read: TemplateRef, static: true } )
+    @ViewChild( "overflowTemplate", {read: TemplateRef, static: true })
     @Input()
     public overflowTemplate: TemplateRef<any>;
 
-    @ViewChild( "overflowContainer", { read: ViewContainerRef, static: true } )
+    @ViewChild( "overflowContainer", {read: ViewContainerRef, static: true })
     @Input()
     public overflowContainer;
+
+    /**
+     * static: false wait until change detection loop has been finished in this case
+     * button el will not rendered to dom if a custom button is given but we have to wait
+     * until change detection finished before we get it
+     */
+    @ViewChild(MenuItemMoreDirective, {read: MenuItemMoreDirective, static: false })
+    public set defaultMoreBtn(btn: MenuItemMoreDirective) {
+        if (!this.moreBtn) {
+            this.moreBtn = btn;
+        }
+    }
+
+    /**
+     * check if custom button is defined so we dont need to render default more button
+     */
+    @ContentChild(MenuItemMoreDirective, {read: MenuItemMoreDirective, static: true })
+    public set customMoreButton(btn: MenuItemMoreDirective) {
+        this.isCustomButton = Boolean(btn);
+        this.moreBtn = btn;
+    }
 
     @ViewChild( "buttonWrapper", { read: ElementRef, static: true } )
     private buttonBar: ElementRef;
 
-    @ViewChild( "moreBtn", { read: MenuItemDirective, static: true } )
-    private moreBtn: MenuItemDirective;
-
-    private overflowItems: MenuItemDirective[] = [];
-
     private isDestroyed$: Subject<boolean> = new Subject();
 
-    /** max width of button bar */
-    private maxWidth: number;
+    /** more button */
+    private moreBtn: MenuItemMoreDirective;
 
     /**
      * possible overflow items, which fits into button bar but not with more button
@@ -60,6 +80,11 @@ export class ResponsiveMenuComponent implements AfterViewInit, AfterContentInit,
      * for an overflow button
      */
     private possibleOverflowItems: MenuItemDirective[] = [];
+
+    private overflowItems: MenuItemDirective[] = [];
+
+    /** max width of button bar */
+    private maxWidth: number;
 
     /** reserved width which we will need to show more button */
     private reservedWidth: number;
@@ -86,13 +111,10 @@ export class ResponsiveMenuComponent implements AfterViewInit, AfterContentInit,
      * view has been initialized and rendered to dom
      */
     public ngAfterViewInit() {
+        this.addItem(this.moreBtn);
         this.overflowCtrl.data.host = this.overflowContainer;
         this.overflowCtrl.data.template = this.overflowTemplate;
         this.render();
-    }
-
-    public toggleOverflow() {
-        this.overflowCtrl.isOpen() ? this.overflowCtrl.close() : this.overflowCtrl.open();
     }
 
     /**
@@ -109,11 +131,11 @@ export class ResponsiveMenuComponent implements AfterViewInit, AfterContentInit,
      */
     private clearView( parent: ElementRef, keep?: ElementRef ) {
         Array.from( parent.nativeElement.childNodes )
-            .forEach( ( child ) => {
+            .forEach((child ) => {
                 if ( !keep || keep.nativeElement !== child ) {
                     this.renderer.removeChild( parent.nativeElement, child );
                 }
-            } );
+            });
     }
 
     /**
@@ -150,19 +172,16 @@ export class ResponsiveMenuComponent implements AfterViewInit, AfterContentInit,
     private initRenderProcess() {
         this.overflowItems = [];
         this.possibleOverflowItems = [];
-
         this.overflowCtrl.data.items = [];
 
-        this.clearView( this.buttonBar, this.moreBtn );
-
-        this.renderer.setStyle( this.moreBtn.nativeElement, "display", "block" );
-        this.renderer.setStyle( this.moreBtn.nativeElement, "visibility", "hidden" );
+        this.moreBtn.show(true);
+        this.clearView(this.buttonBar, this.moreBtn);
 
         this.reservedWidth = this.moreBtn.width;
-
         /** @todo should exclude border / padding (inner width) */
         this.maxWidth = this.buttonBar.nativeElement.getBoundingClientRect().width;
         this.usedWidth = 0;
+
     }
 
     /**
@@ -174,12 +193,11 @@ export class ResponsiveMenuComponent implements AfterViewInit, AfterContentInit,
             /** remove possible overflow items now */
             this.possibleOverflowItems.forEach( ( item ) => {
                 this.removeItem( item );
-            } );
-            this.renderer.setStyle( this.moreBtn.nativeElement, "visibility", "visible" );
-            /** merge menu items so they have correct order */
+            });
+            this.moreBtn.show();
             this.overflowCtrl.data.items = this.mergeMenuItems();
         } else {
-            this.renderer.setStyle( this.moreBtn.nativeElement, "display", "none" );
+            this.moreBtn.hide();
         }
 
         this.possibleOverflowItems = [];
@@ -221,9 +239,9 @@ export class ResponsiveMenuComponent implements AfterViewInit, AfterContentInit,
             return this.possibleOverflowItems;
         }
         const items = [...this.possibleOverflowItems, ...this.overflowItems];
-        return this.menuItems.toArray().filter( ( item ) => {
+        return this.menuItems.toArray().filter((item) => {
             return items.indexOf( item ) > -1;
-        } );
+        });
     }
 
     /**

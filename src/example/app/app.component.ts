@@ -16,7 +16,7 @@ export class AppComponent {
 
     public buttons = [{
         label: "Button 1",
-        visible: false
+        visible: true
     }, {
         label: "Button 2",
         visible: true

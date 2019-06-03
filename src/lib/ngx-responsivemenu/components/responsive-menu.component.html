@@ -5,7 +5,7 @@
 
 <!-- visible buttons -->
 <div class="menu" #buttonWrapper>
-    <button type="button" #moreBtn (click)="toggleOverflow()" ngxResponsiveMenuItem>...</button>
+    <button type="button" *ngIf="!isCustomButton" ngxResponsiveMenuMore>...</button>
 </div>
 
 <!-- default container where over items will be rendered in -->
