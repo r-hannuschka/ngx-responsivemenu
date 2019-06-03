@@ -1,3 +1,20 @@
 davinci-responsive-menu {
     width: 200px;
 }
+
+.sidebar {
+    position: absolute;
+    right: 0;
+    left: 0;
+    background:darkgreen;
+    bottom: 0;
+    top: 67px;
+    padding: 5px;
+}
+
+  @media only screen and (min-width: 600px) {
+
+    header {
+        flex-direction: row;
+    }
+  }

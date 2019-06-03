@@ -1,20 +1,13 @@
-<button type="button" (click)="addMoarCondend()">add moar</button>
-<button type="button" (click)="removeBtn()">remove</button>
+<app-header></app-header>
 
-<ng-template #myOverflowTemplate>
-  <h1>custom overflow template</h1>
-  <ngx-responsivemenu-content></ngx-responsivemenu-content>
-  <h3>mit footer und so</h3>
+<router-outlet></router-outlet>
+
+
+<ng-template #sideBarTpl>
+    <section class="sidebar">
+        <ngx-responsivemenu-content></ngx-responsivemenu-content>
+    </section>
 </ng-template>
 
-
-<ngx-responsivemenu [overflowTemplate]="myOverflowTemplate" [overflowContainer]="overflowContainer">
-  <app-button ngxResponsiveMenuItem *ngFor="let btn of buttons" [label]="btn.label" [visible]="btn.visible"></app-button>
-  <app-button ngxResponsiveMenuMore [label]="'super fetter button brauch platz'"></app-button>
-</ngx-responsivemenu>
-
-<div>
-    <h1>hier kann nen bissel extra content kommen nun wooooot</h1>
-    <!-- render overflow template into this place -->
-    <ng-container #menuOverflow></ng-container>
-</div>
+<!-- entry point for sideBarTpl -->
+<ng-container #sideBarNav></ng-container>

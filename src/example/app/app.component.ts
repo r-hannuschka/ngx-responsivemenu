@@ -1,4 +1,4 @@
-import { Component, ViewChild, ViewContainerRef } from "@angular/core";
+import { Component, AfterViewInit, ViewChild, ViewContainerRef, TemplateRef } from "@angular/core";
 import { OverflowControl } from "lib/public-api";
 
 @Component({
@@ -7,33 +7,20 @@ import { OverflowControl } from "lib/public-api";
     styleUrls: ["./app.component.scss"],
     viewProviders: [OverflowControl]
 })
-export class AppComponent {
+export class AppComponent implements AfterViewInit {
 
-    public showMore = false;
+    @ViewChild("sideBarNav", {read: ViewContainerRef, static: true})
+    private sideNav: ViewContainerRef;
 
-    @ViewChild("menuOverflow", { read: ViewContainerRef, static: true})
-    public overflowContainer: ViewContainerRef;
+    @ViewChild("sideBarTpl", {read: TemplateRef, static: true})
+    private sideTpl: TemplateRef<any>;
 
-    public buttons = [{
-        label: "Button 1",
-        visible: true
-    }, {
-        label: "Button 2",
-        visible: true
-    }, {
-        label: "Button 3",
-        visible: true
-    }];
-
-    addMoarCondend() {
-        const newBtn = {
-            label: `Button ${this.buttons.length + 1}`,
-            visible: true
-        };
-        this.buttons = [...this.buttons, newBtn];
+    public constructor(
+        private overflowCtrl: OverflowControl) {
     }
 
-    removeBtn() {
-        this.buttons = [...this.buttons.slice(0, -1)];
+    public ngAfterViewInit() {
+        this.overflowCtrl.data.host     = this.sideNav;
+        this.overflowCtrl.data.template = this.sideTpl;
     }
 }
