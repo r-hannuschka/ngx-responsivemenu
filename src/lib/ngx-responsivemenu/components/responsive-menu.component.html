@@ -4,8 +4,10 @@
 </ng-template>
 
 <!-- visible buttons -->
-<div class="menu" #buttonWrapper>
-    <button type="button" *ngIf="!isCustomButton" ngxResponsiveMenuMore>...</button>
+<div class="menu" #menuPane>
+    <div #buttonPane style="display: inline-flex; flex-direction: row; flex-wrap: nowrap; padding-right: 30px;flex-shrink: 0;">
+        <button type="button" *ngIf="!isCustomButton" ngxResponsiveMenuMore>...</button>
+    </div>
 </div>
 
 <!-- default container where over items will be rendered in -->

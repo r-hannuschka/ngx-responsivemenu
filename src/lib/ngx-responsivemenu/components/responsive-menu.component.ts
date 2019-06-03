@@ -36,11 +36,11 @@ export class ResponsiveMenuComponent implements AfterViewInit, AfterContentInit,
     @Input()
     public showMax = -1;
 
-    @ViewChild( "overflowTemplate", {read: TemplateRef, static: true })
+    @ViewChild( "overflowTemplate", { read: TemplateRef, static: true } )
     @Input()
     public overflowTemplate: TemplateRef<any>;
 
-    @ViewChild( "overflowContainer", {read: ViewContainerRef, static: true })
+    @ViewChild( "overflowContainer", { read: ViewContainerRef, static: true } )
     @Input()
     public overflowContainer;
 
@@ -49,9 +49,9 @@ export class ResponsiveMenuComponent implements AfterViewInit, AfterContentInit,
      * button el will not rendered to dom if a custom button is given but we have to wait
      * until change detection finished before we get it
      */
-    @ViewChild(MenuItemMoreDirective, {read: MenuItemMoreDirective, static: false })
-    public set defaultMoreBtn(btn: MenuItemMoreDirective) {
-        if (!this.moreBtn) {
+    @ViewChild( MenuItemMoreDirective, { read: MenuItemMoreDirective, static: false } )
+    public set defaultMoreBtn( btn: MenuItemMoreDirective ) {
+        if ( !this.moreBtn ) {
             this.moreBtn = btn;
         }
     }
@@ -59,14 +59,17 @@ export class ResponsiveMenuComponent implements AfterViewInit, AfterContentInit,
     /**
      * check if custom button is defined so we dont need to render default more button
      */
-    @ContentChild(MenuItemMoreDirective, {read: MenuItemMoreDirective, static: true })
-    public set customMoreButton(btn: MenuItemMoreDirective) {
-        this.isCustomButton = Boolean(btn);
+    @ContentChild( MenuItemMoreDirective, { read: MenuItemMoreDirective, static: true } )
+    public set customMoreButton( btn: MenuItemMoreDirective ) {
+        this.isCustomButton = Boolean( btn );
         this.moreBtn = btn;
     }
 
-    @ViewChild( "buttonWrapper", { read: ElementRef, static: true } )
-    private buttonBar: ElementRef;
+    @ViewChild( "menuPane", { read: ElementRef, static: true } )
+    private menuPane: ElementRef;
+
+    @ViewChild( "buttonPane", { read: ElementRef, static: true } )
+    private buttonPane: ElementRef;
 
     private isDestroyed$: Subject<boolean> = new Subject();
 
@@ -89,9 +92,6 @@ export class ResponsiveMenuComponent implements AfterViewInit, AfterContentInit,
     /** reserved width which we will need to show more button */
     private reservedWidth: number;
 
-    /** used width from all buttons, more button not included */
-    private usedWidth: number;
-
     public constructor(
         private overflowCtrl: OverflowControl,
         private renderer: Renderer2
@@ -111,7 +111,7 @@ export class ResponsiveMenuComponent implements AfterViewInit, AfterContentInit,
      * view has been initialized and rendered to dom
      */
     public ngAfterViewInit() {
-        this.addItem(this.moreBtn);
+        this.addItem( this.moreBtn );
         this.overflowCtrl.data.host = this.overflowContainer;
         this.overflowCtrl.data.template = this.overflowTemplate;
         this.render();
@@ -131,11 +131,11 @@ export class ResponsiveMenuComponent implements AfterViewInit, AfterContentInit,
      */
     private clearView( parent: ElementRef, keep?: ElementRef ) {
         Array.from( parent.nativeElement.childNodes )
-            .forEach((child ) => {
+            .forEach( ( child ) => {
                 if ( !keep || keep.nativeElement !== child ) {
                     this.renderer.removeChild( parent.nativeElement, child );
                 }
-            });
+            } );
     }
 
     /**
@@ -174,14 +174,13 @@ export class ResponsiveMenuComponent implements AfterViewInit, AfterContentInit,
         this.possibleOverflowItems = [];
         this.overflowCtrl.data.items = [];
 
-        this.moreBtn.show(true);
-        this.clearView(this.buttonBar, this.moreBtn);
+        this.clearView( this.buttonPane, this.moreBtn );
 
+        this.moreBtn.show( true );
         this.reservedWidth = this.moreBtn.width;
-        /** @todo should exclude border / padding (inner width) */
-        this.maxWidth = this.buttonBar.nativeElement.getBoundingClientRect().width;
-        this.usedWidth = 0;
+        this.moreBtn.hide();
 
+        this.maxWidth = this.menuPane.nativeElement.getBoundingClientRect().width;
     }
 
     /**
@@ -193,7 +192,7 @@ export class ResponsiveMenuComponent implements AfterViewInit, AfterContentInit,
             /** remove possible overflow items now */
             this.possibleOverflowItems.forEach( ( item ) => {
                 this.removeItem( item );
-            });
+            } );
             this.moreBtn.show();
             this.overflowCtrl.data.items = this.mergeMenuItems();
         } else {
@@ -206,12 +205,12 @@ export class ResponsiveMenuComponent implements AfterViewInit, AfterContentInit,
 
     /** add new item to button bar */
     private addItem( item: MenuItemDirective ) {
-        this.renderer.appendChild( this.buttonBar.nativeElement, item.nativeElement );
+        this.renderer.appendChild( this.buttonPane.nativeElement, item.nativeElement );
     }
 
     /** remove item from button bar */
     private removeItem( item: MenuItemDirective ) {
-        this.renderer.removeChild( this.buttonBar.nativeElement, item.nativeElement );
+        this.renderer.removeChild( this.buttonPane.nativeElement, item.nativeElement );
     }
 
     /**
@@ -220,13 +219,13 @@ export class ResponsiveMenuComponent implements AfterViewInit, AfterContentInit,
      */
     private prepareMenuItems(): MenuItemDirective[] {
         const items = this.menuItems.toArray();
-        return items.reduce<MenuItemDirective[]>( ( itemCollection, menuItem ) => {
+        return items.reduce<MenuItemDirective[]>((itemCollection, menuItem) => {
             menuItem.visible
                 ? itemCollection.push( menuItem )
                 : this.overflowItems.push( menuItem );
 
             return itemCollection;
-        }, [] );
+        }, []);
     }
 
     /**
@@ -247,16 +246,27 @@ export class ResponsiveMenuComponent implements AfterViewInit, AfterContentInit,
     /**
      * validate rendered item fits into button container
      */
-    private validateSize( item: MenuItemDirective, isLast = false ): boolean {
-        this.usedWidth = this.usedWidth + item.width;
+    private validateSize( item: MenuItemDirective ): boolean {
+        const usedSize = parseInt( this.buttonPane.nativeElement.offsetWidth, 10 );
 
-        if ( this.usedWidth > this.maxWidth ) {
-            return false;
+        /** item fits together with more button */
+        if ( usedSize + this.reservedWidth <= this.maxWidth ) {
+            return true;
         }
 
-        if ( !isLast && this.usedWidth + this.reservedWidth > this.maxWidth ) {
+        /**
+         * item dont fits together with more btn but into view
+         * if this is the last button he could stay in button pane
+         */
+        if ( usedSize <= this.maxWidth ) {
+            console.log( item.nativeElement );
             this.possibleOverflowItems.push( item );
+            return true;
         }
-        return true;
+
+        /**
+         * item dont fits anymore this is an overflow
+         */
+        return false;
     }
 }

@@ -49,6 +49,17 @@ export class MenuItemMoreDirective extends MenuItemDirective implements AfterVie
         this.renderer.setStyle(this.nativeElement, "display", hidden ? "none" : null);
     }
 
+    public get width(): number {
+
+        const width = this.bounds.width;
+        const style = getComputedStyle( this.nativeElement );
+
+        const marginLeft  = parseInt(style.getPropertyValue("margin-left") , 10);
+        const marginRight = parseInt(style.getPropertyValue("margin-right"), 10);
+
+        return width + marginLeft + marginRight;
+    }
+
     /**
      * if we click on the button we want to open the overlay
      */
