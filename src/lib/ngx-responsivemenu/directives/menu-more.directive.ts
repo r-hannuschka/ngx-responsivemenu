@@ -1,7 +1,12 @@
-import { Directive, ElementRef, OnInit, AfterViewInit, OnDestroy, ViewContainerRef, Renderer2, HostBinding } from "@angular/core";
+import { Directive, ElementRef, OnInit, AfterViewInit, OnDestroy, ViewContainerRef, Renderer2, HostBinding, Input } from "@angular/core";
 import { fromEvent, Subscription } from "rxjs";
 import { MenuItemDirective } from "./menu-item.directive";
 import { OverflowControl } from "../provider/overflow.control";
+
+export enum BtnAlign {
+    LEFT = "left",
+    RIGHT = "right"
+}
 
 @Directive( {
     selector: "[ngxResponsiveMenuMore]"
@@ -12,6 +17,9 @@ export class MenuItemMoreDirective extends MenuItemDirective implements AfterVie
 
     @HostBinding("class.more")
     public className = true;
+
+    @Input()
+    public align: BtnAlign = BtnAlign.RIGHT;
 
     constructor(
         private overflowCtrl: OverflowControl,

@@ -11,7 +11,6 @@ import {
     ViewChild,
     TemplateRef,
     ViewContainerRef,
-    Host,
     ContentChild,
 } from "@angular/core";
 
@@ -19,7 +18,7 @@ import { MenuItemDirective } from "../directives/menu-item.directive";
 import { takeUntil } from "rxjs/operators";
 import { Subject } from "rxjs";
 import { OverflowControl } from "../provider/overflow.control";
-import { MenuItemMoreDirective } from "../directives/menu-more.directive";
+import { MenuItemMoreDirective, BtnAlign } from "../directives/menu-more.directive";
 
 @Component( {
     selector: "ngx-responsivemenu",
@@ -111,7 +110,7 @@ export class ResponsiveMenuComponent implements AfterViewInit, AfterContentInit,
      * view has been initialized and rendered to dom
      */
     public ngAfterViewInit() {
-        this.addItem( this.moreBtn );
+        this.renderer.appendChild(this.buttonPane.nativeElement, this.moreBtn.nativeElement);
         this.overflowCtrl.data.host = this.overflowContainer;
         this.overflowCtrl.data.template = this.overflowTemplate;
         this.render();
@@ -135,7 +134,7 @@ export class ResponsiveMenuComponent implements AfterViewInit, AfterContentInit,
                 if ( !keep || keep.nativeElement !== child ) {
                     this.renderer.removeChild( parent.nativeElement, child );
                 }
-            } );
+            });
     }
 
     /**
@@ -153,8 +152,8 @@ export class ResponsiveMenuComponent implements AfterViewInit, AfterContentInit,
             isOverflow = isOverflow || this.showMax > -1 && count >= this.showMax;
 
             if ( !isOverflow ) {
-                this.addItem( item );
-                if ( this.validateSize( item ) ) {
+                this.addItem(item);
+                if ( this.validateSize(item)) {
                     continue;
                 }
                 this.removeItem( item );
@@ -190,9 +189,9 @@ export class ResponsiveMenuComponent implements AfterViewInit, AfterContentInit,
     private finalizeRenderProcess() {
         if ( this.overflowItems.length ) {
             /** remove possible overflow items now */
-            this.possibleOverflowItems.forEach( ( item ) => {
+            this.possibleOverflowItems.forEach((item) => {
                 this.removeItem( item );
-            } );
+            });
             this.moreBtn.show();
             this.overflowCtrl.data.items = this.mergeMenuItems();
         } else {
@@ -205,7 +204,11 @@ export class ResponsiveMenuComponent implements AfterViewInit, AfterContentInit,
 
     /** add new item to button bar */
     private addItem( item: MenuItemDirective ) {
-        this.renderer.appendChild( this.buttonPane.nativeElement, item.nativeElement );
+        if (this.moreBtn.align === BtnAlign.LEFT) {
+            this.renderer.appendChild(this.buttonPane.nativeElement, item.nativeElement);
+        } else {
+            this.renderer.insertBefore(this.buttonPane.nativeElement, item.nativeElement, this.moreBtn.nativeElement);
+        }
     }
 
     /** remove item from button bar */
@@ -247,7 +250,7 @@ export class ResponsiveMenuComponent implements AfterViewInit, AfterContentInit,
      * validate rendered item fits into button container
      */
     private validateSize( item: MenuItemDirective ): boolean {
-        const usedSize = parseInt( this.buttonPane.nativeElement.offsetWidth, 10 );
+        const usedSize = parseInt(this.buttonPane.nativeElement.offsetWidth, 10);
 
         /** item fits together with more button */
         if ( usedSize + this.reservedWidth <= this.maxWidth ) {
@@ -259,7 +262,6 @@ export class ResponsiveMenuComponent implements AfterViewInit, AfterContentInit,
          * if this is the last button he could stay in button pane
          */
         if ( usedSize <= this.maxWidth ) {
-            console.log( item.nativeElement );
             this.possibleOverflowItems.push( item );
             return true;
         }
