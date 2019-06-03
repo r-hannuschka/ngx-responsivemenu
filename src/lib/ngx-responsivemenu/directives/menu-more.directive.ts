@@ -1,4 +1,4 @@
-import { Directive, ElementRef, OnInit, AfterViewInit, OnDestroy, ViewContainerRef, Renderer2 } from "@angular/core";
+import { Directive, ElementRef, OnInit, AfterViewInit, OnDestroy, ViewContainerRef, Renderer2, HostBinding } from "@angular/core";
 import { fromEvent, Subscription } from "rxjs";
 import { MenuItemDirective } from "./menu-item.directive";
 import { OverflowControl } from "../provider/overflow.control";
@@ -9,6 +9,9 @@ import { OverflowControl } from "../provider/overflow.control";
 export class MenuItemMoreDirective extends MenuItemDirective implements AfterViewInit, OnDestroy {
 
     private click$: Subscription;
+
+    @HostBinding("class.more")
+    public className = true;
 
     constructor(
         private overflowCtrl: OverflowControl,
@@ -39,11 +42,11 @@ export class MenuItemMoreDirective extends MenuItemDirective implements AfterVie
     }
 
     private setVisible(hidden = false) {
-        this.renderer.setStyle(this.nativeElement, "visibility", hidden ? "hidden" : "visible");
+        this.renderer.setStyle(this.nativeElement, "visibility", hidden ? "hidden" : null);
     }
 
     private setDisplay(hidden = false) {
-        this.renderer.setStyle(this.nativeElement, "display", hidden ? "none" : "block");
+        this.renderer.setStyle(this.nativeElement, "display", hidden ? "none" : null);
     }
 
     /**

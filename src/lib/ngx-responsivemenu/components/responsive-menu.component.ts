@@ -93,7 +93,7 @@ export class ResponsiveMenuComponent implements AfterViewInit, AfterContentInit,
     private usedWidth: number;
 
     public constructor(
-        @Host() private overflowCtrl: OverflowControl,
+        private overflowCtrl: OverflowControl,
         private renderer: Renderer2
     ) { }
 

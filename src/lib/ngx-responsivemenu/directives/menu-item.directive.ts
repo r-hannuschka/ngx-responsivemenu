@@ -10,8 +10,8 @@ export class MenuItemDirective implements AfterViewInit {
     @Input()
     public visible = true;
 
-    @HostBinding( "class" )
-    public className = "responsive-menu--item";
+    @HostBinding("class.responsive-menu--item")
+    public className = true;
 
     constructor(
         private el: ElementRef
