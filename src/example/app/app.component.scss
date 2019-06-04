@@ -12,9 +12,31 @@ davinci-responsive-menu {
     padding: 5px;
 }
 
-  @media only screen and (min-width: 600px) {
+
+main {
+    min-height: 100%;
+    padding: 0 15px 220px;
+
+    .content {
+        max-width: 800px;
+        margin: 0 auto;
+    }
 
     header {
-        flex-direction: row;
+        background: linear-gradient(to top, #373737, #212121);
+        color: #FFF;
+        padding: 50px 10px 30px 10px;
+        margin: 0 -15px;
+
+        app-header {
+            max-width: 800px;
+            margin: 0 auto;
+        }
     }
-  }
+}
+
+footer {
+    background: linear-gradient(to top, #373737, #212121);
+    height: 200px;
+    margin-top: -200px;
+}

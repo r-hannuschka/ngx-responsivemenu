@@ -1,4 +1,7 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
+import { ResponsiveMenuComponent } from "lib/ngx-responsivemenu/components/responsive-menu.component";
+import { WindowResize } from "example/app/provider/window.resize";
+import { Router } from "@angular/router";
 
 @Component({
     selector: "app-header",
@@ -8,14 +11,23 @@ import { Component, OnInit } from "@angular/core";
 
 export class HeaderComponent implements OnInit {
 
+    @ViewChild(ResponsiveMenuComponent, { read: ResponsiveMenuComponent, static: false })
+    private responsiveMenu: ResponsiveMenuComponent;
+
+    public constructor(
+        private router: Router,
+        private resize: WindowResize
+    ) {}
+
     public buttons: any[] = [];
 
     ngOnInit() {
 
         this.buttons = [{
-            label: "btn 1",
+            label: "Responsive Menu",
             visible: true,
-            active: true
+            active: true,
+            route: "responsive-menu"
         }, {
             label: "btn 2",
             visible: true,
@@ -33,9 +45,14 @@ export class HeaderComponent implements OnInit {
             visible: true,
             active: false
         }];
+
+        this.resize.onChange()
+            .subscribe(() => {
+                this.responsiveMenu.update();
+            });
     }
 
-    public doSomeCoolStuff() {
-        console.log("dodo");
+    public goTo(route: string) {
+        this.router.navigate([route]);
     }
 }

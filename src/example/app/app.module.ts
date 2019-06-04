@@ -6,11 +6,29 @@ import { AppComponent } from "./app.component";
 import { ButtonComponent } from "./components/button.component";
 import { ResponsiveMenuModule } from "lib/public-api";
 import { HeaderComponent } from "./components/header/header.component";
-import { AbsComponent } from "./components/abs/abs.component";
+import { ResponsiveMenuPage } from "./pages/responsive-menu/responsive-menu.page";
+
+import { HighlightModule } from "ngx-highlightjs";
+import xml from "highlight.js/lib/languages/xml";
+import scss from "highlight.js/lib/languages/scss";
+import typescript from "highlight.js/lib/languages/typescript";
+import javascript from "highlight.js/lib/languages/javascript";
+
+/**
+ * Import every language you wish to highlight here
+ * NOTE: The name of each language must match the file name its imported from
+ */
+export function hljsLanguages() {
+  return [
+    {name: "typescript", func: typescript},
+    {name: "javascript", func: javascript},
+    {name: "scss", func: scss},
+    {name: "xml", func: xml}
+  ];
+}
 
 @NgModule( {
     declarations: [
-        AbsComponent,
         AppComponent,
         ButtonComponent,
         HeaderComponent
@@ -19,12 +37,11 @@ import { AbsComponent } from "./components/abs/abs.component";
         BrowserModule,
         CommonModule,
         ResponsiveMenuModule,
-        RouterModule.forRoot( [
-            {
-                path: "",
-                component: AbsComponent
-            }
-        ] ),
+        ResponsiveMenuPage,
+        RouterModule.forRoot([]),
+        HighlightModule.forRoot({
+            languages: hljsLanguages
+        })
     ],
     bootstrap: [
         AppComponent
