@@ -1,15 +1,22 @@
 :host {
-  display: block;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 
-  .menu {
+  .responsive-menu--item {
+    flex-shrink: 0;
+  }
+
+  .buttonWrapper {
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
+  }
 
-    ::ng-deep {
-        .responsive-menu--item {
-            flex-shrink: 0;
-        }
-    }
+  .buttonPane {
+    display: inline-flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    flex-shrink: 0;
   }
 }

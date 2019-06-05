@@ -4,11 +4,15 @@
 </ng-template>
 
 <!-- visible buttons -->
-<div class="menu" #menuPane>
-    <div #buttonPane style="display: inline-flex; flex-direction: row; flex-wrap: nowrap; padding-right: 30px;flex-shrink: 0;">
+<div class="buttonWrapper">
+    <!-- should use tmp button pane to render buttons first -->
+    <div #tmpButtonPane class="buttonPane"></div>
+    <div #buttonPane class="buttonPane">
         <button type="button" *ngIf="!isCustomButton" ngxResponsiveMenuMore>...</button>
     </div>
 </div>
 
 <!-- default container where over items will be rendered in -->
-<ng-container #overflowContainer></ng-container>
+<div class="overflow">
+    <ng-container #overflowContainer></ng-container>
+</div>
