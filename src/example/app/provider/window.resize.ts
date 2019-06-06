@@ -67,11 +67,9 @@ export class WindowResize {
      * register to window resize events
      */
     private subscribeToWindowResizeEvent(): void {
-        this.zone.runOutsideAngular(() => {
-            this.resizeSubscription = this.windowResize$
-                .pipe(debounceAnimationFrame())
-                .subscribe(() => this.shared$.next());
-        });
+        this.resizeSubscription = this.windowResize$
+            .pipe(debounceAnimationFrame())
+            .subscribe(() => this.shared$.next());
     }
 }
 

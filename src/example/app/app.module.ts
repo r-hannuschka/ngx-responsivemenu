@@ -6,7 +6,7 @@ import { AppComponent } from "./app.component";
 import { ButtonComponent } from "./components/button.component";
 import { ResponsiveMenuModule } from "lib/public-api";
 import { HeaderComponent } from "./components/header/header.component";
-import { ResponsiveMenuPage } from "./pages/responsive-menu/responsive-menu.page";
+import { ExamplePage } from "./pages/examples/example.page";
 
 import { HighlightModule } from "ngx-highlightjs";
 import xml from "highlight.js/lib/languages/xml";
@@ -37,7 +37,7 @@ export function hljsLanguages() {
         BrowserModule,
         CommonModule,
         ResponsiveMenuModule,
-        ResponsiveMenuPage,
+        ExamplePage,
         RouterModule.forRoot([]),
         HighlightModule.forRoot({
             languages: hljsLanguages

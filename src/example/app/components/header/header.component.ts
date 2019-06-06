@@ -24,26 +24,10 @@ export class HeaderComponent implements OnInit {
     ngOnInit() {
 
         this.buttons = [{
-            label: "Responsive Menu",
+            label: "Examples",
             visible: true,
             active: true,
-            route: "responsive-menu"
-        }, {
-            label: "btn 2",
-            visible: true,
-            active: false
-        }, {
-            label: "btn 3",
-            visible: true,
-            active: false
-        }, {
-            label: "btn 4",
-            visible: true,
-            active: false
-        }, {
-            label: "btn 5",
-            visible: true,
-            active: false
+            route: "examples"
         }];
 
         this.resize.onChange()
