@@ -13,7 +13,8 @@ import {
     ViewContainerRef,
     ContentChild,
     ChangeDetectorRef,
-    ChangeDetectionStrategy,
+    Output,
+    EventEmitter,
 } from "@angular/core";
 
 import { MenuItemDirective } from "../directives/menu-item.directive";
@@ -25,8 +26,7 @@ import { MenuItemMoreDirective, BtnAlign } from "../directives/menu-more.directi
 @Component( {
     selector: "ngx-responsivemenu",
     templateUrl: "responsive-menu.component.html",
-    styleUrls: ["./responsive-menu.component.scss"],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    styleUrls: ["./responsive-menu.component.scss"]
 } )
 export class ResponsiveMenuComponent implements AfterViewInit, AfterContentInit, OnDestroy {
 
@@ -37,6 +37,9 @@ export class ResponsiveMenuComponent implements AfterViewInit, AfterContentInit,
 
     @Input()
     public showMax = -1;
+
+    @Output()
+    rendered: EventEmitter<void> = new EventEmitter();
 
     @ViewChild( "overflowTemplate", { read: TemplateRef, static: true } )
     @Input()
@@ -118,7 +121,6 @@ export class ResponsiveMenuComponent implements AfterViewInit, AfterContentInit,
      * view has been initialized and rendered to dom
      */
     public ngAfterViewInit() {
-        this.changeDetector.detach();
         this.renderer.appendChild( this.buttonPane.nativeElement, this.moreBtn.nativeElement );
         this.overflowCtrl.data.host = this.overflowContainer;
         this.overflowCtrl.data.template = this.overflowTemplate;
@@ -130,8 +132,8 @@ export class ResponsiveMenuComponent implements AfterViewInit, AfterContentInit,
      * update view, this will remove all
      * contents and rerender buttons
      */
-    public update() {
-        this.render();
+    public update(width?: number) {
+        this.render(width);
         this.overflowCtrl.update();
     }
 
@@ -149,7 +151,8 @@ export class ResponsiveMenuComponent implements AfterViewInit, AfterContentInit,
      * render buttons to button menubar, if they not fits anymore or
      * max show count is reached put them directly to the overflow container
      */
-    private render() {
+    private render(width?: number) {
+        this.maxWidth = width || this.hostEl.nativeElement.getBoundingClientRect().width;
         this.initRenderProcess();
 
         const items = this.prepareMenuItems();
@@ -185,8 +188,6 @@ export class ResponsiveMenuComponent implements AfterViewInit, AfterContentInit,
         this.moreBtn.show(true);
         this.reservedWidth = this.moreBtn.width;
         this.moreBtn.hide();
-
-        this.maxWidth = this.hostEl.nativeElement.getBoundingClientRect().width;
     }
 
     /**
@@ -202,6 +203,7 @@ export class ResponsiveMenuComponent implements AfterViewInit, AfterContentInit,
         this.possibleOverflowItems = [];
         this.overflowItems = [];
         this.changeDetector.detectChanges();
+        this.rendered.emit();
     }
 
     /**
