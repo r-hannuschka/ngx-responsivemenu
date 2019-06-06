@@ -8,7 +8,7 @@
     <!-- should use tmp button pane to render buttons first -->
     <div #tmpButtonPane class="buttonPane"></div>
     <div #buttonPane class="buttonPane">
-        <button type="button" *ngIf="!isCustomButton" ngxResponsiveMenuMore>...</button>
+        <button type="button"  ngxResponsiveMenuMore *ngIf="!isCustomButton">...</button>
     </div>
 </div>
 

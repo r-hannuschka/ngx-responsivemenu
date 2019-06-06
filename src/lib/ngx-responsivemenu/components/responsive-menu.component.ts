@@ -20,7 +20,7 @@ import { MenuItemDirective } from "../directives/menu-item.directive";
 import { takeUntil } from "rxjs/operators";
 import { Subject } from "rxjs";
 import { OverflowControl } from "../provider/overflow.control";
-import { MenuItemMoreDirective } from "../directives/menu-more.directive";
+import { MenuItemMoreDirective, BtnAlign } from "../directives/menu-more.directive";
 
 @Component( {
     selector: "ngx-responsivemenu",
@@ -40,19 +40,6 @@ export class ResponsiveMenuComponent implements AfterViewInit, AfterContentInit,
 
     @ViewChild( "overflowTemplate", { read: TemplateRef, static: true } )
     @Input()
-    /**
-     * Set all todos status (completed or not)
-     *
-     * @example
-     * // set all at completed
-     * TodoStore.setAllTo(true);
-     *
-     * @example
-     * // set all at not completed
-     * TodoStore.setAllTo(false);
-     *
-     * @param {boolean} completed Status of all todos
-     */
     public overflowTemplate: TemplateRef<any>;
 
     @ViewChild( "overflowContainer", { read: ViewContainerRef, static: true } )
@@ -64,7 +51,7 @@ export class ResponsiveMenuComponent implements AfterViewInit, AfterContentInit,
      * button el will not rendered to dom if a custom button is given but we have to wait
      * until change detection finished before we get it
      */
-    @ViewChild( MenuItemMoreDirective, { read: MenuItemMoreDirective, static: false } )
+    @ViewChild(MenuItemMoreDirective, {read: MenuItemMoreDirective, static: false})
     public set defaultMoreBtn( btn: MenuItemMoreDirective ) {
         if ( !this.moreBtn ) {
             this.moreBtn = btn;
@@ -77,7 +64,9 @@ export class ResponsiveMenuComponent implements AfterViewInit, AfterContentInit,
     @ContentChild( MenuItemMoreDirective, { read: MenuItemMoreDirective, static: true } )
     public set customMoreButton( btn: MenuItemMoreDirective ) {
         this.isCustomButton = Boolean( btn );
-        this.moreBtn = btn;
+        if (btn) {
+            this.moreBtn = btn;
+        }
     }
 
     @ViewChild( "buttonPane", { read: ElementRef, static: true } )
@@ -113,7 +102,6 @@ export class ResponsiveMenuComponent implements AfterViewInit, AfterContentInit,
         private hostEl: ElementRef,
         private changeDetector: ChangeDetectorRef
     ) {
-        this.changeDetector.detach();
     }
 
     public ngOnDestroy() {
@@ -130,6 +118,7 @@ export class ResponsiveMenuComponent implements AfterViewInit, AfterContentInit,
      * view has been initialized and rendered to dom
      */
     public ngAfterViewInit() {
+        this.changeDetector.detach();
         this.renderer.appendChild( this.buttonPane.nativeElement, this.moreBtn.nativeElement );
         this.overflowCtrl.data.host = this.overflowContainer;
         this.overflowCtrl.data.template = this.overflowTemplate;
@@ -239,7 +228,10 @@ export class ResponsiveMenuComponent implements AfterViewInit, AfterContentInit,
         return this.menuItems.toArray().reduce((overflowItems, item) => {
 
             if ( !items.length || items.indexOf(item) === -1 ) {
-                item.addTo(this.buttonPane.nativeElement);
+                this.moreBtn.align === BtnAlign.LEFT
+                    ? item.addTo(this.buttonPane.nativeElement)
+                    : item.addTo(this.buttonPane.nativeElement, this.moreBtn.nativeElement);
+
                 return overflowItems;
             }
 

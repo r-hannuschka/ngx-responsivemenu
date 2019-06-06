@@ -10,7 +10,7 @@ export class MenuItemDirective implements AfterViewInit {
     @Input()
     public visible = true;
 
-    @HostBinding("class.responsive-menu--item")
+    @HostBinding( "class.responsive-menu--item" )
     public className = true;
 
     constructor(
@@ -22,13 +22,17 @@ export class MenuItemDirective implements AfterViewInit {
         this.domElRef = this.el.nativeElement;
     }
 
-    public addTo(parent: HTMLElement) {
+    public addTo( parent: HTMLElement, before: HTMLElement = null ) {
+        if (before) {
+            this.renderer.insertBefore(parent, this.el.nativeElement, before);
+            return;
+        }
         this.renderer.appendChild(parent, this.el.nativeElement);
     }
 
     public remove() {
-        const root: HTMLElement = this.renderer.parentNode(this.el.nativeElement);
-        this.renderer.removeChild(root, this.el.nativeElement);
+        const root: HTMLElement = this.renderer.parentNode( this.el.nativeElement );
+        this.renderer.removeChild( root, this.el.nativeElement );
     }
 
     public get nativeElement(): HTMLElement {
