@@ -1,4 +1,4 @@
-import { Directive, ViewContainerRef, Renderer2, OnInit, OnDestroy } from "@angular/core";
+import { Directive, ViewContainerRef, OnInit, OnDestroy } from "@angular/core";
 import { Subject } from "rxjs";
 import { startWith, takeUntil, filter, tap } from "rxjs/operators";
 import { OverflowControl } from "../provider/overflow.control";
@@ -12,7 +12,6 @@ export class OverflowContentDirective implements OnInit, OnDestroy {
     private isDestroyed: Subject<boolean>;
 
     constructor(
-        private renderer: Renderer2,
         private viewRef: ViewContainerRef,
         private overflowCtrl: OverflowControl
     ) {
@@ -41,7 +40,7 @@ export class OverflowContentDirective implements OnInit, OnDestroy {
     /** render nodes into host view */
     private renderContent(nodes: MenuItemDirective[]) {
         nodes.forEach(item => {
-            this.renderer.appendChild(this.viewRef.element.nativeElement, item.nativeElement);
+            item.addTo(this.viewRef.element.nativeElement);
         });
     }
 }
