@@ -130,7 +130,11 @@ export class ResponsiveMenuComponent implements AfterViewInit, AfterContentInit,
      * view has been initialized and rendered to dom
      */
     public ngAfterViewInit() {
-        this.renderer.appendChild( this.buttonPane.nativeElement, this.moreBtn.nativeElement );
+
+        if (this.isCustomButton) {
+            this.renderer.appendChild( this.buttonPane.nativeElement, this.moreBtn.nativeElement );
+        }
+
         this.overflowCtrl.data.host = this.overflowContainer;
         this.overflowCtrl.data.template = this.overflowTemplate;
 

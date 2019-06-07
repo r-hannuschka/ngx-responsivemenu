@@ -16,9 +16,7 @@ import { MenuItemMoreDirective } from "./directives/menu-more.directive";
         OverflowContentDirective,
         ResponsiveMenuComponent,
     ],
-    providers: [
-        OverflowControl
-    ],
+    providers: [ OverflowControl ],
     declarations: [
         MenuItemDirective,
         MenuItemMoreDirective,
