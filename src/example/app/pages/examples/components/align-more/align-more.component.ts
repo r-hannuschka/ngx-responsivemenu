@@ -3,14 +3,13 @@ import { OverflowControl } from "lib/public-api";
 import { ResizeEvent, ResizableDirective } from "angular-resizable-element";
 import { ResponsiveMenuComponent } from "lib/ngx-responsivemenu/components/responsive-menu.component";
 
-@Component( {
-    selector: "app-showmax-example",
-    templateUrl: "showmax.component.html",
-    styleUrls: ["./showmax.component.scss"],
+@Component({
+    selector: "app-alignmore-example",
+    templateUrl: "align-more.component.html",
+    styleUrls: ["./align-more.component.scss"],
     viewProviders: [OverflowControl]
-} )
-
-export class ShowMaxExampleComponent implements OnInit {
+})
+export class AlignMoreExampleComponent implements OnInit {
 
     public style;
 
@@ -28,31 +27,48 @@ export class SimpleExampleComponent implements OnInit {
 
     public items: string[] = [];
 
+    public createMenuItem() {
+        this.items.push(\`Item #$\{this.items.length\}\`);
+    }
+
+    public removeMenuItem() {
+        this.items.pop();
+    }
+
     ngOnInit() {
-        /** create array with 10 items */
-        this.items = Array.from( Array.from({length: 10}), (v, index) => \`Item #$\{index\}\`);
+        /** create array with 3 items */
+        this.items = Array.from( Array.from({length: 3}), (v, index) => \`Item #$\{index\}\`);
     }
 }
 `;
 
-    public exampleHtml = `<ngx-responsivemenu [showMax]=3>
+    public exampleHtml = `<button type="button" (click)="createMenuItem()">create menu item</button>
+<button type="button" (click)="removeMenuItem()">remove menu item</button>
+<ngx-responsivemenu>
     <div ngxResponsiveMenuItem *ngFor="let item of items">{{item}}</div>
-    </ngx-responsivemenu>
-</div>
+</ngx-responsivemenu>
 `;
 
-    @ViewChild( ResponsiveMenuComponent, { read: ResponsiveMenuComponent, static: true } )
+    @ViewChild(ResponsiveMenuComponent, {read: ResponsiveMenuComponent, static: true})
     private responsiveMenu: ResponsiveMenuComponent;
 
-    @ViewChild( ResizableDirective, { read: ResizableDirective, static: true } )
+    @ViewChild(ResizableDirective, {read: ResizableDirective, static: true})
     private resizeDirective: ResizableDirective;
+
+    public createMenuItem() {
+        this.items.push(`Item #${this.items.length}`);
+    }
+
+    public removeMenuItem() {
+        this.items.pop();
+    }
 
     ngOnInit() {
         /** create array with 10 items */
-        this.items = Array.from( Array.from( { length: 10 } ), ( v, index ) => `Item #${ index }` );
+        this.items = Array.from( Array.from({length: 3}), (v, index) => `Item #${index}` );
 
         this.resizeDirective.resizing
-            .subscribe( ( event: ResizeEvent ) => {
+            .subscribe((event: ResizeEvent) => {
                 this.style = {
                     position: "static",
                     left: `${ event.rectangle.left }px`,
@@ -60,8 +76,8 @@ export class SimpleExampleComponent implements OnInit {
                     width: `${ event.rectangle.width }px`,
                     height: `${ event.rectangle.height }px`
                 };
-                this.responsiveMenu.update( event.rectangle.width );
-            } );
+                this.responsiveMenu.update(event.rectangle.width);
+            });
     }
 }
 

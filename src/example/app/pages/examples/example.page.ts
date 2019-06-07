@@ -1,15 +1,20 @@
+/** modules */
 import { NgModule } from "@angular/core";
 import { NoopAnimationsModule } from "@angular/platform-browser/animations";
 import { CommonModule } from "@angular/common";
 import { RouterModule } from "@angular/router";
 import { MatTabsModule } from "@angular/material";
-import { ResizableModule, ResizeHandleDirective } from "angular-resizable-element";
+import { ResizableModule } from "angular-resizable-element";
 import { ResponsiveMenuModule } from "lib/public-api";
+import { HighlightModule } from "ngx-highlightjs";
+
+/** components */
 import { MainComponent } from "./components/main.component";
+import { ExampleTileComponent } from "./components/tile/tile.component";
+import { DynamicExampleComponent } from "./components/dynamic/dynamic.component";
 import { SimpleExampleComponent } from "./components/simple/simple.component";
 import { ShowMaxExampleComponent } from "./components/show-max/showmax.component";
-import { HighlightModule } from "ngx-highlightjs";
-import { ExampleTileComponent } from "./components/tile/tile.component";
+import { AlignMoreExampleComponent } from "./components/align-more/align-more.component";
 
 @NgModule({
     imports: [
@@ -33,8 +38,10 @@ import { ExampleTileComponent } from "./components/tile/tile.component";
     declarations: [
         MainComponent,
         ExampleTileComponent,
+        AlignMoreExampleComponent,
+        DynamicExampleComponent,
         SimpleExampleComponent,
-        ShowMaxExampleComponent
+        ShowMaxExampleComponent,
     ],
     providers: [],
 })

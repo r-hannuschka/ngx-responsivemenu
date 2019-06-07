@@ -1,3 +1,23 @@
-<ngx-responsivemenu [showMax]=2>
-    <div ngxResponsiveMenuItem *ngFor="let item of items">{{item}}</div>
-</ngx-responsivemenu>
+<app-example-tile>
+
+  <h4 title>Showmax amount of items</h4>
+
+  <ng-container description>
+      <p>Show max amount of 3 items if enough space, all other items will rendered to overflow container.</p>
+  </ng-container>
+
+  <ng-container code>
+    <pre><code [highlight]="exampleCode"></code></pre>
+  </ng-container>
+
+  <ng-container html>
+    <pre><code [highlight]="exampleHtml"></code></pre>
+  </ng-container>
+
+  <div mwlResizable example [enableGhostResize]="false" [ngStyle]="style" class="rectangle"
+    [resizeEdges]="{bottom: false, right: true, top: false, left: false}">
+    <ngx-responsivemenu [showMax]=3>
+      <div ngxResponsiveMenuItem *ngFor="let item of items">{{item}}</div>
+    </ngx-responsivemenu>
+  </div>
+</app-example-tile>

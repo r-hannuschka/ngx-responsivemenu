@@ -18,8 +18,6 @@ export class SimpleExampleComponent implements OnInit {
 
     public exampleCode = `import { Component, OnInit } from "@angular/core";
 import { OverflowControl } from "ngx-responsivemenu";
-import { ResizeEvent, ResizableDirective } from "angular-resizable-element";
-import { ResponsiveMenuComponent } from "lib/ngx-responsivemenu/components/responsive-menu.component";
 
 @Component({
     selector: "app-examples--responsivemenu-simple",
@@ -30,39 +28,16 @@ export class SimpleExampleComponent implements OnInit {
 
     public items: string[] = [];
 
-    public style;
-
-    @ViewChild(ResponsiveMenuComponent, {read: ResponsiveMenuComponent, static: true})
-    private responsiveMenu: ResponsiveMenuComponent;
-
-    @ViewChild(ResizableDirective, {read: ResizableDirective, static: true})
-    private resizeDirective: ResizableDirective;
-
     ngOnInit() {
         /** create array with 10 items */
         this.items = Array.from( Array.from({length: 10}), (v, index) => \`Item #$\{index\}\`);
-
-        this.resizeDirective.resizing
-            .subscribe((event: ResizeEvent) => {
-                this.style = {
-                    position: "fixed",
-                    left: \`$\{ event.rectangle.left \}px\`,
-                    top: \`$\{ event.rectangle.top \}px\`,
-                    width: \`$\{ event.rectangle.width \}px\`,
-                    height: \`$\{ event.rectangle.height \}px\`
-                };
-                this.responsiveMenu.update(event.rectangle.width);
-            });
     }
 }
 `;
 
-    public exampleHtml = `<div mwlResizable [enableGhostResize]="false" [ngStyle]="style" class="rectangle"
-    [resizeEdges]="{bottom: false, right: true, top: false, left: false}">
-    <ngx-responsivemenu>
-      <div ngxResponsiveMenuItem *ngFor="let item of items">{{item}}</div>
-    </ngx-responsivemenu>
-  </div>
+    public exampleHtml = ` <ngx-responsivemenu>
+    <div ngxResponsiveMenuItem *ngFor="let item of items">{{item}}</div>
+</ngx-responsivemenu>
 `;
 
     @ViewChild(ResponsiveMenuComponent, {read: ResponsiveMenuComponent, static: true})
@@ -78,7 +53,7 @@ export class SimpleExampleComponent implements OnInit {
         this.resizeDirective.resizing
             .subscribe((event: ResizeEvent) => {
                 this.style = {
-                    position: "fixed",
+                    position: "static",
                     left: `${ event.rectangle.left }px`,
                     top: `${ event.rectangle.top }px`,
                     width: `${ event.rectangle.width }px`,

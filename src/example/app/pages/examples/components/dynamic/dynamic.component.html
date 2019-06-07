@@ -1,0 +1,27 @@
+<app-example-tile>
+
+  <h4 title>Add Remove Items on Runtime</h4>
+
+  <ng-container description>
+      <p>Add and Remove menu items</p>
+  </ng-container>
+
+  <ng-container code>
+    <pre><code [highlight]="exampleCode"></code></pre>
+  </ng-container>
+
+  <ng-container html>
+    <pre><code [highlight]="exampleHtml"></code></pre>
+  </ng-container>
+
+    <div example>
+        <button type="button" (click)="createMenuItem()">create menu item</button>
+        <button type="button" (click)="removeMenuItem()">remove menu item</button>
+        <div mwlResizable [enableGhostResize]="false" [ngStyle]="style" class="rectangle"
+            [resizeEdges]="{bottom: false, right: true, top: false, left: false}">
+            <ngx-responsivemenu>
+                <div ngxResponsiveMenuItem *ngFor="let item of items">{{item}}</div>
+            </ngx-responsivemenu>
+        </div>
+    </div>
+</app-example-tile>
