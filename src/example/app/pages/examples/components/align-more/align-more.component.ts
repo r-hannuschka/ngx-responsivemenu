@@ -27,24 +27,14 @@ export class SimpleExampleComponent implements OnInit {
 
     public items: string[] = [];
 
-    public createMenuItem() {
-        this.items.push(\`Item #$\{this.items.length\}\`);
-    }
-
-    public removeMenuItem() {
-        this.items.pop();
-    }
-
     ngOnInit() {
-        /** create array with 3 items */
-        this.items = Array.from( Array.from({length: 3}), (v, index) => \`Item #$\{index\}\`);
+        /** create array with 10 items */
+        this.items = Array.from( Array.from({length: 10}), (v, index) => \`Item #$\{index\}\`);
     }
 }
 `;
 
-    public exampleHtml = `<button type="button" (click)="createMenuItem()">create menu item</button>
-<button type="button" (click)="removeMenuItem()">remove menu item</button>
-<ngx-responsivemenu>
+    public exampleHtml = `<ngx-responsivemenu [alignToggle]="'left'">
     <div ngxResponsiveMenuItem *ngFor="let item of items">{{item}}</div>
 </ngx-responsivemenu>
 `;
@@ -55,17 +45,9 @@ export class SimpleExampleComponent implements OnInit {
     @ViewChild(ResizableDirective, {read: ResizableDirective, static: true})
     private resizeDirective: ResizableDirective;
 
-    public createMenuItem() {
-        this.items.push(`Item #${this.items.length}`);
-    }
-
-    public removeMenuItem() {
-        this.items.pop();
-    }
-
     ngOnInit() {
         /** create array with 10 items */
-        this.items = Array.from( Array.from({length: 3}), (v, index) => `Item #${index}` );
+        this.items = Array.from( Array.from({length: 10}), (v, index) => `Item #${index}` );
 
         this.resizeDirective.resizing
             .subscribe((event: ResizeEvent) => {

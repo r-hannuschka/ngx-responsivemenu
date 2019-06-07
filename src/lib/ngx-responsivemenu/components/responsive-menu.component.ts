@@ -122,8 +122,8 @@ export class ResponsiveMenuComponent implements AfterViewInit, AfterContentInit,
 
     public ngAfterContentInit() {
         this.menuItems.changes
-            .pipe( takeUntil( this.isDestroyed$ ) )
-            .subscribe( () => this.update() );
+            .pipe(takeUntil(this.isDestroyed$))
+            .subscribe(() => this.update());
     }
 
     /**

@@ -88,7 +88,7 @@
     "ngx-responsivemenu": {
       "projectType": "library",
       "root": "lib",
-      "sourceRoot": "lib-responsivemenu",
+      "sourceRoot": "lib/ngx-responsivemenu",
       "prefix": "ngx-responsivemenu",
       "architect": {
         "build": {
