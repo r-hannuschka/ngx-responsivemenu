@@ -97,6 +97,14 @@
             "tsConfig": "lib/tsconfig.lib.json",
             "project": "lib/ng-package.json"
           }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "lib/tests/main.ts",
+            "tsConfig": "lib/tests/tsconfig.spec.json",
+            "karmaConfig": "lib/tests/karma.conf.js"
+          }
         }
       }
     }
