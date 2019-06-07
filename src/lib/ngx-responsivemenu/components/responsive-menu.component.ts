@@ -245,15 +245,14 @@ export class ResponsiveMenuComponent implements AfterViewInit, AfterContentInit,
             : [];
 
         return this.menuItems.toArray().reduce((overflowItems, item) => {
-            if ( !items.length || items.indexOf(item) === -1 ) {
+            // remove all items so they are not rendered anymore
+            item.remove();
+            if (!items.length || items.indexOf(item) === -1) {
                 this.alignToggle === BtnAlign.LEFT
                     ? item.addTo(this.buttonPane.nativeElement)
                     : item.addTo(this.buttonPane.nativeElement, this.moreBtn.nativeElement);
                 return overflowItems;
             }
-
-            /** remove item from tmp button pane so it is not rendered anymore */
-            item.remove();
 
             /** push item to overflow */
             overflowItems.push(item);
