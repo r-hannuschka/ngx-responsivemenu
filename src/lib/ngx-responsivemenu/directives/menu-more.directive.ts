@@ -2,11 +2,6 @@ import { Directive, ElementRef, OnInit, AfterViewInit, OnDestroy, Renderer2, Hos
 import { fromEvent, Subscription } from "rxjs";
 import { OverflowControl } from "../provider/overflow.control";
 
-export enum BtnAlign {
-    LEFT = "left",
-    RIGHT = "right"
-}
-
 /**
  * more button which automatically registers on click event an show overflow if required
  *
@@ -29,10 +24,6 @@ export class MenuItemMoreDirective implements AfterViewInit, OnDestroy {
      */
     @HostBinding("class.more")
     public className = true;
-
-    /** set position of button */
-    @Input()
-    public align: BtnAlign = BtnAlign.RIGHT;
 
     constructor(
         private overflowCtrl: OverflowControl,

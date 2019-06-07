@@ -21,7 +21,12 @@ import { MenuItemDirective } from "../directives/menu-item.directive";
 import { takeUntil } from "rxjs/operators";
 import { Subject } from "rxjs";
 import { OverflowControl } from "../provider/overflow.control";
-import { MenuItemMoreDirective, BtnAlign } from "../directives/menu-more.directive";
+import { MenuItemMoreDirective } from "../directives/menu-more.directive";
+
+export enum BtnAlign {
+    LEFT = "left",
+    RIGHT = "right"
+}
 
 @Component( {
     selector: "ngx-responsivemenu",
@@ -37,6 +42,10 @@ export class ResponsiveMenuComponent implements AfterViewInit, AfterContentInit,
 
     @Input()
     public showMax = -1;
+
+    /** set position of more button */
+    @Input()
+    public alignToggle: BtnAlign = BtnAlign.RIGHT;
 
     @Output()
     rendered: EventEmitter<void> = new EventEmitter();
@@ -230,7 +239,7 @@ export class ResponsiveMenuComponent implements AfterViewInit, AfterContentInit,
         return this.menuItems.toArray().reduce((overflowItems, item) => {
 
             if ( !items.length || items.indexOf(item) === -1 ) {
-                this.moreBtn.align === BtnAlign.LEFT
+                this.alignToggle === BtnAlign.LEFT
                     ? item.addTo(this.buttonPane.nativeElement)
                     : item.addTo(this.buttonPane.nativeElement, this.moreBtn.nativeElement);
 
