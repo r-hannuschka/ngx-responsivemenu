@@ -235,14 +235,16 @@ export class ResponsiveMenuComponent implements AfterViewInit, AfterContentInit,
      * all others will added to buttonPane
      */
     private finalizeMenuItems(): MenuItemDirective[] {
-        const items = this.possibleOverflowItems.concat(this.overflowItems);
-        return this.menuItems.toArray().reduce((overflowItems, item) => {
 
+        const items = this.overflowItems.length
+            ? this.possibleOverflowItems.concat(this.overflowItems)
+            : [];
+
+        return this.menuItems.toArray().reduce((overflowItems, item) => {
             if ( !items.length || items.indexOf(item) === -1 ) {
                 this.alignToggle === BtnAlign.LEFT
                     ? item.addTo(this.buttonPane.nativeElement)
                     : item.addTo(this.buttonPane.nativeElement, this.moreBtn.nativeElement);
-
                 return overflowItems;
             }
 
