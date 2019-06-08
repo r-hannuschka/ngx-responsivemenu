@@ -4,7 +4,7 @@ import { ResponsiveMenuComponent } from "./components/responsive-menu.component"
 import { CommonModule } from "@angular/common";
 import { OverflowContentDirective } from "./directives/overflow-content.directive";
 import { OverflowControl } from "./provider/overflow.control";
-import { MenuItemMoreDirective } from "./directives/menu-more.directive";
+import { MenuToggleDirective } from "./directives/menu-toggle.directive";
 
 @NgModule({
     imports: [
@@ -12,14 +12,14 @@ import { MenuItemMoreDirective } from "./directives/menu-more.directive";
     ],
     exports: [
         MenuItemDirective,
-        MenuItemMoreDirective,
+        MenuToggleDirective,
         OverflowContentDirective,
         ResponsiveMenuComponent,
     ],
     providers: [ OverflowControl ],
     declarations: [
         MenuItemDirective,
-        MenuItemMoreDirective,
+        MenuToggleDirective,
         OverflowContentDirective,
         ResponsiveMenuComponent,
     ]

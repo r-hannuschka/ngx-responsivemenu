@@ -21,7 +21,7 @@ import { MenuItemDirective } from "../directives/menu-item.directive";
 import { takeUntil } from "rxjs/operators";
 import { Subject } from "rxjs";
 import { OverflowControl } from "../provider/overflow.control";
-import { MenuItemMoreDirective } from "../directives/menu-more.directive";
+import { MenuToggleDirective } from "../directives/menu-toggle.directive";
 
 export enum BtnAlign {
     LEFT = "left",
@@ -63,8 +63,8 @@ export class ResponsiveMenuComponent implements AfterViewInit, AfterContentInit,
      * button el will not rendered to dom if a custom button is given but we have to wait
      * until change detection finished before we get it
      */
-    @ViewChild(MenuItemMoreDirective, {read: MenuItemMoreDirective, static: false})
-    public set defaultMoreBtn( btn: MenuItemMoreDirective ) {
+    @ViewChild(MenuToggleDirective, {read: MenuToggleDirective, static: false})
+    public set defaultMoreBtn( btn: MenuToggleDirective ) {
         if ( !this.moreBtn ) {
             this.moreBtn = btn;
         }
@@ -73,8 +73,8 @@ export class ResponsiveMenuComponent implements AfterViewInit, AfterContentInit,
     /**
      * check if custom button is defined so we dont need to render default more button
      */
-    @ContentChild( MenuItemMoreDirective, { read: MenuItemMoreDirective, static: true } )
-    public set customMoreButton( btn: MenuItemMoreDirective ) {
+    @ContentChild( MenuToggleDirective, { read: MenuToggleDirective, static: true } )
+    public set customMoreButton( btn: MenuToggleDirective ) {
         this.isCustomButton = Boolean( btn );
         if (btn) {
             this.moreBtn = btn;
@@ -90,7 +90,7 @@ export class ResponsiveMenuComponent implements AfterViewInit, AfterContentInit,
     private isDestroyed$: Subject<boolean> = new Subject();
 
     /** more button */
-    private moreBtn: MenuItemMoreDirective;
+    private moreBtn: MenuToggleDirective;
 
     /**
      * possible overflow items, which fits into button bar but not with more button
@@ -130,14 +130,12 @@ export class ResponsiveMenuComponent implements AfterViewInit, AfterContentInit,
      * view has been initialized and rendered to dom
      */
     public ngAfterViewInit() {
-
         if (this.isCustomButton) {
             this.renderer.appendChild( this.buttonPane.nativeElement, this.moreBtn.nativeElement );
         }
 
         this.overflowCtrl.data.host = this.overflowContainer;
         this.overflowCtrl.data.template = this.overflowTemplate;
-
         this.render();
     }
 
@@ -165,8 +163,8 @@ export class ResponsiveMenuComponent implements AfterViewInit, AfterContentInit,
      * max show count is reached put them directly to the overflow container
      */
     private render(width?: number) {
-        this.maxWidth = width || this.hostEl.nativeElement.getBoundingClientRect().width;
         this.initRenderProcess();
+        this.maxWidth = width || this.hostEl.nativeElement.getBoundingClientRect().width;
 
         const items = this.prepareMenuItems();
         let isOverflow = false;

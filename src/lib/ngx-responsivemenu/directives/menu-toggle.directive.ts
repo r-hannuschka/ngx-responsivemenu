@@ -9,13 +9,13 @@ import { OverflowControl } from "../provider/overflow.control";
  *
  * <ngx-responsivemenu>
  *     ...
- *     <button ngxResponsiveMenuMore [OPTIONS...]></button>
+ *     <button ngxResponsiveMenuToggle></button>
  * </ngx-responsivemenu>
  */
 @Directive( {
-    selector: "[ngxResponsiveMenuMore]"
+    selector: "[ngxResponsiveMenuToggle]"
 } )
-export class MenuItemMoreDirective implements AfterViewInit, OnDestroy {
+export class MenuToggleDirective implements AfterViewInit, OnDestroy {
 
     private click$: Subscription;
 
