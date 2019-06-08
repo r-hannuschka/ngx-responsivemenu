@@ -2,7 +2,11 @@ import { Subject, Observable } from "rxjs";
 
 export class AsyncEvent {
 
-    private event$: Subject<boolean> = new Subject();
+    private event$: Subject<boolean>;
+
+    public constructor() {
+        this.event$ = new Subject();
+    }
 
     public get completed(): Promise<boolean> {
         return this.event$.toPromise();
@@ -20,6 +24,5 @@ export class AsyncEvent {
 
     private complete() {
         this.event$.complete();
-        this.event$ = null;
     }
 }

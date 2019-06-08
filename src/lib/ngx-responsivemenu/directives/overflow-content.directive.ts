@@ -1,6 +1,6 @@
 import { Directive, ViewContainerRef, OnInit, OnDestroy, Output, EventEmitter } from "@angular/core";
 import { Subject } from "rxjs";
-import { takeUntil, filter } from "rxjs/operators";
+import { takeUntil, filter, startWith } from "rxjs/operators";
 import { OverflowControl } from "../provider/overflow.control";
 import { MenuItemDirective } from "./menu-item.directive";
 import { AsyncEvent } from "../provider/async-event";
@@ -42,6 +42,10 @@ export class OverflowContentDirective implements OnInit, OnDestroy {
 
     public ngOnInit() {
 
+        if (this.overflowCtrl.open) {
+            this.renderContent(this.overflowCtrl.data.items);
+        }
+
         this.overflowCtrl.show
             .pipe(
                 takeUntil(this.isDestroyed),
@@ -49,9 +53,8 @@ export class OverflowContentDirective implements OnInit, OnDestroy {
             ).subscribe((items) => this.renderContent(items));
 
         this.overflowCtrl.hide
-            .pipe(
-                takeUntil(this.isDestroyed),
-            ).subscribe((items) => this.removeContent(items));
+            .pipe(takeUntil(this.isDestroyed))
+            .subscribe((items) => this.removeContent(items));
     }
 
     /**
@@ -59,13 +62,11 @@ export class OverflowContentDirective implements OnInit, OnDestroy {
      * will call beforeRender and afterRender hooks
      */
     private async renderContent(nodes: MenuItemDirective[]) {
-
         if (this.beforeRender.observers.length) {
             const event = new AsyncEvent();
             this.beforeRender.emit(event);
             await event.completed;
         }
-
         nodes.forEach((item) => item.addTo(this.viewRef.element.nativeElement));
         this.afterRender.emit();
     }
@@ -74,13 +75,11 @@ export class OverflowContentDirective implements OnInit, OnDestroy {
      * remove content from overflow container, will call beforeRemove and afterRemove hooks
      */
     private async removeContent(nodes: MenuItemDirective[]) {
-
         if (this.beforeRemove.observers.length) {
             const event = new AsyncEvent();
             this.beforeRemove.emit(event);
             await event.completed;
         }
-
         nodes.forEach((item) => item.remove());
         this.afterRemove.emit();
     }

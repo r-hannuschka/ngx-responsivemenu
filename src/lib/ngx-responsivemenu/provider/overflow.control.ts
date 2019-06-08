@@ -1,8 +1,7 @@
 import { OverflowModel } from "../model/overflow.model";
 import { Injectable } from "@angular/core";
 import { MenuItemDirective } from "../directives/menu-item.directive";
-import { Subject, Observable, concat } from "rxjs";
-import { mergeMap } from "rxjs/operators";
+import { Observable, ReplaySubject, Subject } from "rxjs";
 
 @Injectable()
 export class OverflowControl {
