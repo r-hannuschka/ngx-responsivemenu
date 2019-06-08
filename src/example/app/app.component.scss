@@ -5,44 +5,72 @@ davinci-responsive-menu {
 main {
     min-height: 100%;
 
+    background: lighten(#373737, 50%);
+
     header {
         background: linear-gradient(to top, #373737, #212121);
         color: #FFF;
         padding: 50px 10px 30px 10px;
 
         app-header {
-            max-width: 800px;
             margin: 0 auto;
         }
     }
 
     .body {
         position: relative;
-        max-width: 800px;
         margin: 0 auto;
         overflow-x: hidden;
         display: flex;
+        background: #FFF;
     }
 
     .content {
         padding: 0 15px 220px;
+        max-width: 1024px;
+        margin: auto;
         flex: 1;
     }
 
     .sidebar {
         position: absolute;
         white-space: nowrap;
-        background: #373737;
-        opacity: .95;
-        color: #FFF;
+        background: #FFF;
+        color: darken(#373737, 10%);
         right: 0;
         top: 0;
-        bottom: 0;
+        bottom: 200px;
         z-index: 10;
+        -webkit-box-shadow: -2px 0px 5px 0px rgba(0,0,0,0.5);
+        -moz-box-shadow: -2px 0px 5px 0px rgba(0,0,0,0.5);
+        box-shadow: -2px 0px 5px 0px rgba(0,0,0,0.5);
+    }
+
+    .sidebar h4 {
+        padding: .5rem 1rem;
+        margin: 0 0 10px;
+        border-bottom: 1px solid darken(#373737, 10%);
+        background: lighten(#373737, 10%);
+        color: #FFF;
+    }
+}
+
+::ng-deep {
+    .sidebar .responsive-menu--item {
+        padding: .5rem 1rem;
+    }
+
+    .sidebar {
+        h1, h2, h3, h4 {
+            margin: 0 0 10px;
+            border-bottom: 1px solid #373737;
+        }
     }
 }
 
 footer {
+    position: relative;
+    z-index: 5;
     background: linear-gradient(to top, #373737, #212121);
     height: 200px;
     margin-top: -200px;

@@ -23,26 +23,15 @@
   }
 
   ::ng-deep {
-
     .responsive-menu--item {
       span {
         cursor: pointer;
-        margin: 0 10px;
+        margin: 0 10px 0 0;
       }
     }
 
-    .responsive-menu--item.more {
-      span {
-        padding: 5px;
-      }
-
-      &:before {
-          content: "";
-          border: 2px solid;
-          border-width: 0 1px 0 1px;
-          border-color: transparent #060 transparent #0A0;
-          margin-left: 5px;
-      }
+    [ngxresponsivemenutoggle] {
+        cursor: pointer;
     }
   }
 }

@@ -10,9 +10,12 @@
     </section>
 
     <section class="sidebar" *ngIf="showSidebar" [@EnterLeave]="'flyIn'" (@EnterLeave.done)="animationDone($event)">
-        <h3>hier kommt mein overflow rein</h3>
-        <ngx-responsivemenu-content (afterRender)="onAfterRenderMenu()" (beforeRemove)="onBeforeRemoveMenu($event)">
-        </ngx-responsivemenu-content>
+        <h4>Menu</h4>
+        <ngx-responsivemenu-content (beforeRemove)="onBeforeRemoveMenu($event)"></ngx-responsivemenu-content>
+        <div>
+            <h4>Links</h4>
+            <a href="https://github.com/r-hannuschka/ngx-responsivemenu" target="blank">Github</a>
+        </div>
     </section>
 
   </section>

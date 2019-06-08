@@ -2,7 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { trigger, state, style, animate, transition } from "@angular/animations";
 import { AsyncEvent, OverflowControl } from "ngx-responsivemenu";
 import { switchMap, tap, take } from "rxjs/operators";
-import { Subject } from 'rxjs';
+import { Subject } from "rxjs";
 
 @Component( {
     selector: "app-root",
@@ -36,9 +36,6 @@ export class AppComponent implements OnInit {
             tap(() => this.showSidebar = true),
             switchMap(() => this.overflowCtrl.hide)
         ).subscribe(() => this.showSidebar = false);
-    }
-
-    public onAfterRenderMenu() {
     }
 
     /**
