@@ -5,8 +5,8 @@ import { CommonModule } from "@angular/common";
 import { RouterModule } from "@angular/router";
 import { MatTabsModule } from "@angular/material";
 import { ResizableModule } from "angular-resizable-element";
-import { ResponsiveMenuModule } from "lib/public-api";
 import { HighlightModule } from "ngx-highlightjs";
+import { ResponsiveMenuModule } from "ngx-responsivemenu";
 
 /** components */
 import { MainComponent } from "./components/main.component";
@@ -32,7 +32,6 @@ import { AlignMoreExampleComponent } from "./components/align-more/align-more.co
         ResizableModule
     ],
     exports: [
-        ResponsiveMenuModule,
         RouterModule
     ],
     declarations: [

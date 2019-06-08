@@ -4,7 +4,7 @@ import { CommonModule } from "@angular/common";
 import { RouterModule } from "@angular/router";
 import { AppComponent } from "./app.component";
 import { ButtonComponent } from "./components/button.component";
-import { ResponsiveMenuModule } from "lib/public-api";
+import { ResponsiveMenuModule } from "ngx-responsivemenu";
 import { HeaderComponent } from "./components/header/header.component";
 import { ExamplePage } from "./pages/examples/example.page";
 

@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
-import { ResponsiveMenuComponent } from "lib/ngx-responsivemenu/components/responsive-menu.component";
+import { ResponsiveMenuComponent } from "ngx-responsivemenu";
 import { WindowResize } from "example/app/provider/window.resize";
 import { Router } from "@angular/router";
 

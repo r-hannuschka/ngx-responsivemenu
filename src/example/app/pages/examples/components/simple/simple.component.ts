@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
-import { OverflowControl } from "lib/public-api";
 import { ResizeEvent, ResizableDirective } from "angular-resizable-element";
-import { ResponsiveMenuComponent } from "lib/ngx-responsivemenu/components/responsive-menu.component";
+import { OverflowControl, ResponsiveMenuComponent } from "ngx-responsivemenu";
 
 @Component( {
     selector: "app-examples--responsivemenu-simple",

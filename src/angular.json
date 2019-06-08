@@ -18,7 +18,7 @@
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "styles": ["example/styles.scss"],
-            "outputPath": "../dist/example",
+            "outputPath": "./dist/example",
             "index": "example/index.html",
             "main": "example/main.ts",
             "polyfills": "example/polyfills.ts",
