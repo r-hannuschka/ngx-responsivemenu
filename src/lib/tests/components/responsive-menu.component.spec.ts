@@ -1,12 +1,11 @@
 // unit tests comes here
 import { ComponentFixture, async, TestBed, inject } from "@angular/core/testing";
-import { Component, DebugElement, Input, Renderer2, Type } from "@angular/core";
+import { Component, DebugElement, Input, Renderer2, Type, ViewChild, TemplateRef } from "@angular/core";
 import { By } from "@angular/platform-browser";
 import { CommonModule } from "@angular/common";
-import { ResponsiveMenuModule, ResponsiveMenuComponent, MenuItemDirective } from "lib/public-api";
+import { ResponsiveMenuModule, ResponsiveMenuComponent, MenuItemDirective, MenuToggleDirective } from "lib/public-api";
 import { OverflowControl } from "lib/ngx-responsivemenu/provider/overflow.control";
 import { BtnAlign } from "lib/ngx-responsivemenu/components/responsive-menu.component";
-import { MenuItemMoreDirective } from "lib/ngx-responsivemenu/directives/menu-more.directive";
 
 @Component({
     styles: [`
@@ -14,16 +13,26 @@ import { MenuItemMoreDirective } from "lib/ngx-responsivemenu/directives/menu-mo
         .menu-item { width: 50px; }
     `],
     template: `
-        <div class='menu-wrapper' *ngIf=!customToggle>
+        <ng-template #customOverflowTemplate>
+            <div>custom overflow template</div>
+        </ng-template>
+
+        <div class='menu-wrapper' *ngIf="!customToggle && !isCustomOverflowTemplate">
             <ngx-responsivemenu [alignToggle]="toggleAlign" [showMax]="showMaxCount">
                 <div ngxResponsiveMenuItem [visible]="!item.hidden" *ngFor="let item of items" class="menu-item">{{item.label}}</div>
             </ngx-responsivemenu>
         </div>
 
-        <div class='menu-wrapper' *ngIf=customToggle>
+        <div class='menu-wrapper' *ngIf="customToggle && !isCustomOverflowTemplate">
             <ngx-responsivemenu [alignToggle]="toggleAlign" [showMax]="showMaxCount">
                 <div ngxResponsiveMenuItem [visible]="!item.hidden" *ngFor="let item of items" class="menu-item">{{item.label}}</div>
-                <div ngxResponsiveMenuMore>Custom Toggle Btn</div>
+                <div ngxResponsiveMenuToggle>Custom Toggle Btn</div>
+            </ngx-responsivemenu>
+        </div>
+
+        <div class='menu-wrapper' *ngIf=isCustomOverflowTemplate>
+            <ngx-responsivemenu [overflowTemplate]=customOverflowTemplate>
+                <div ngxResponsiveMenuItem [visible]="!item.hidden" *ngFor="let item of items" class="menu-item">{{item.label}}</div>
             </ngx-responsivemenu>
         </div>
     `
@@ -36,6 +45,11 @@ class WrapperComponent {
     public showMaxCount = -1;
 
     public customToggle = false;
+
+    public isCustomOverflowTemplate = false;
+
+    @ViewChild("customOverflowTemplate", {read: TemplateRef, static: true})
+    public overflowTemplate: TemplateRef<any>;
 
     @Input()
     public set itemCount( count: number ) {
@@ -83,7 +97,7 @@ describe( "Responsive Menu Component", () => {
         }).compileComponents();
     }));
 
-    beforeEach(async(async() => {
+    beforeEach(async(async () => {
         fixture = TestBed.createComponent( WrapperComponent );
         wrapperComponent = fixture.componentInstance;
         fixture.detectChanges();
@@ -96,7 +110,7 @@ describe( "Responsive Menu Component", () => {
         fixture.detectChanges();
 
         const renderedItems = fixture.debugElement.queryAll( By.css( ".menu-item" ) );
-        const toggleBtn = fixture.debugElement.query( By.directive( MenuItemMoreDirective ) );
+        const toggleBtn = fixture.debugElement.query( By.directive( MenuToggleDirective ) );
 
         expect( renderedItems.length ).toBe(3);
         expect( toggleBtn.styles.display ).toBe( "none" );
@@ -110,7 +124,7 @@ describe( "Responsive Menu Component", () => {
         fixture.detectChanges();
 
         const renderedItems = fixture.debugElement.queryAll( By.css( ".menu-item" ) );
-        const toggleBtn = fixture.debugElement.query( By.directive( MenuItemMoreDirective ) );
+        const toggleBtn = fixture.debugElement.query( By.directive( MenuToggleDirective ) );
         expect( renderedItems.length ).toBe( 4 );
         expect( toggleBtn.styles.display ).toBe( "none" );
     });
@@ -126,7 +140,7 @@ describe( "Responsive Menu Component", () => {
         fixture.detectChanges();
 
         const renderedItems = fixture.debugElement.queryAll( By.css( ".menu-item" ) );
-        const toggleBtn = fixture.debugElement.query( By.directive( MenuItemMoreDirective ) );
+        const toggleBtn = fixture.debugElement.query( By.directive( MenuToggleDirective ) );
         expect( renderedItems.length ).toBe( 3 );
         expect( toggleBtn.styles.display ).toBeNull();
     });
@@ -171,7 +185,7 @@ describe( "Responsive Menu Component", () => {
         fixture.detectChanges();
 
         const renderedItems = fixture.debugElement.queryAll( By.css( ".menu-item" ) );
-        const toggleBtn = fixture.debugElement.query( By.directive( MenuItemMoreDirective ) );
+        const toggleBtn = fixture.debugElement.query( By.directive( MenuToggleDirective ) );
 
         expect( renderedItems.length ).toBe( 3 );
         expect( overflowDataModel.items.length ).toBe( 4 );
@@ -186,7 +200,7 @@ describe( "Responsive Menu Component", () => {
         wrapperComponent.itemCount = 7;
         fixture.detectChanges();
 
-        const toggleBtn = fixture.debugElement.query( By.directive( MenuItemMoreDirective ) );
+        const toggleBtn = fixture.debugElement.query( By.directive( MenuToggleDirective ) );
         const menuItems = toggleBtn.parent.children;
         expect( menuItems.reverse()[0].nativeElement ).toBe( toggleBtn.nativeElement );
     } );
@@ -199,7 +213,7 @@ describe( "Responsive Menu Component", () => {
         wrapperComponent.itemCount = 7;
         fixture.detectChanges();
 
-        const toggleBtn = fixture.debugElement.query( By.directive( MenuItemMoreDirective ) );
+        const toggleBtn = fixture.debugElement.query( By.directive( MenuToggleDirective ) );
         const menuItems = toggleBtn.parent.children;
         expect( menuItems[0].nativeElement ).toBe( toggleBtn.nativeElement );
     } );
@@ -221,7 +235,7 @@ describe( "Responsive Menu Component", () => {
         renderer.setStyle( menuWrapper.nativeElement, "width", "600px" );
         responsiveMenu.update();
 
-        const toggleBtn = fixture.debugElement.query( By.directive( MenuItemMoreDirective ) );
+        const toggleBtn = fixture.debugElement.query( By.directive( MenuToggleDirective ) );
         const menuItems = fixture.debugElement.queryAll( By.directive( MenuItemDirective ) );
 
         expect( toggleBtn.styles.display ).toBe( "none" );
@@ -243,7 +257,7 @@ describe( "Responsive Menu Component", () => {
         // set width to 600px -> fits 12 items so we could not have any overflow anymore
         responsiveMenu.update( 600 );
 
-        const toggleBtn = fixture.debugElement.query( By.directive( MenuItemMoreDirective ) );
+        const toggleBtn = fixture.debugElement.query( By.directive( MenuToggleDirective ) );
         const menuItems = fixture.debugElement.queryAll( By.directive( MenuItemDirective ) );
 
         expect( toggleBtn.styles.display ).toBe( "none" );
@@ -261,7 +275,7 @@ describe( "Responsive Menu Component", () => {
 
         fixture.detectChanges();
 
-        const toggleBtn = fixture.debugElement.query( By.directive( MenuItemMoreDirective ) );
+        const toggleBtn = fixture.debugElement.query( By.directive( MenuToggleDirective ) );
         const menuItems = fixture.debugElement.queryAll( By.directive( MenuItemDirective ) );
 
         expect(toggleBtn.styles.display ).toBeNull();
@@ -278,8 +292,19 @@ describe( "Responsive Menu Component", () => {
         wrapperComponent.itemCount = 6;
         fixture.detectChanges();
 
-        const toggleBtn = fixture.debugElement.queryAll(By.directive(MenuItemMoreDirective));
+        const toggleBtn = fixture.debugElement.queryAll(By.directive(MenuToggleDirective));
         expect(toggleBtn.length).toBe(1);
         expect(toggleBtn[0].nativeElement.textContent).toBe("Custom Toggle Btn");
     });
+
+    /**
+     * testing custom button for toggle
+     */
+    it( "should set custom overflow template", inject([OverflowControl], (overflowCtrl: OverflowControl) => {
+        const overflowDataModel: any = {};
+        spyOnProperty( overflowCtrl, "data", "get" ).and.returnValue(overflowDataModel);
+        wrapperComponent.isCustomOverflowTemplate = true;
+        fixture.detectChanges();
+        expect(overflowDataModel.template).toBe(wrapperComponent.overflowTemplate);
+    }));
 });
