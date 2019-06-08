@@ -7,15 +7,11 @@
         <router-outlet></router-outlet>
     </section>
 
-    <ng-template #sideBarTpl>
-        <section class="sidebar">
-            <h1>ich bin das overflow menu</h1>
-            <ngx-responsivemenu-content></ngx-responsivemenu-content>
-        </section>
-    </ng-template>
-
     <!-- entry point for sideBarTpl -->
-    <ng-container #sideBarNav></ng-container>
+    <section class="sidebar" >
+        <h3>hier kommt mein overflow rein</h3>
+        <ngx-responsivemenu-content (beforeRender)="onBeforeRender($event)"></ngx-responsivemenu-content>
+    </section>
 </main>
 
 <footer></footer>

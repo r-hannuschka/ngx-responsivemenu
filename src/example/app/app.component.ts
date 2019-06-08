@@ -1,26 +1,20 @@
-import { Component, AfterViewInit, ViewChild, ViewContainerRef, TemplateRef } from "@angular/core";
-import { OverflowControl } from "lib/public-api";
+import { Component } from "@angular/core";
+import { AsyncEvent } from "ngx-responsivemenu";
 
 @Component({
     selector: "app-root",
     templateUrl: "./app.component.html",
-    styleUrls: ["./app.component.scss"],
-    viewProviders: [OverflowControl]
+    styleUrls: ["./app.component.scss"]
 })
-export class AppComponent implements AfterViewInit {
+export class AppComponent {
 
-    @ViewChild("sideBarNav", {read: ViewContainerRef, static: true})
-    private sideNav: ViewContainerRef;
+    public showSidebar: boolean;
 
-    @ViewChild("sideBarTpl", {read: TemplateRef, static: true})
-    private sideTpl: TemplateRef<any>;
-
-    public constructor(
-        private overflowCtrl: OverflowControl) {
-    }
-
-    public ngAfterViewInit() {
-        this.overflowCtrl.data.host     = this.sideNav;
-        this.overflowCtrl.data.template = this.sideTpl;
+    /**
+     * der registriert sich automatisch bei den render
+     * hooks drinnen ?
+     */
+    public onBeforeRender(event: AsyncEvent) {
+        window.setTimeout(() => event.done(), 2000);
     }
 }

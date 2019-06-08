@@ -1,22 +1,28 @@
-import { Directive, ViewContainerRef, OnInit, OnDestroy, Input } from "@angular/core";
-import { Subject, of, Observable } from "rxjs";
-import { takeUntil, filter, mergeMap, switchMap } from "rxjs/operators";
+import { Directive, ViewContainerRef, OnInit, OnDestroy, Output, EventEmitter } from "@angular/core";
+import { Subject } from "rxjs";
+import { takeUntil, filter } from "rxjs/operators";
 import { OverflowControl } from "../provider/overflow.control";
 import { MenuItemDirective } from "./menu-item.directive";
+import { AsyncEvent } from "../provider/async-event";
 
 @Directive( {
     selector: "ngx-responsivemenu-content",
 } )
 export class OverflowContentDirective implements OnInit, OnDestroy {
 
-    private isDestroyed: Subject<boolean>;
+    @Output()
+    public beforeRender: EventEmitter<AsyncEvent> = new EventEmitter();
 
-    private renderHooks = {
-        afterRemoved: this.noopHook,
-        afterRender: this.noopHook,
-        beforeRemoved: this.noopHook,
-        beforeRender: this.noopHook,
-    };
+    @Output()
+    public afterRender: EventEmitter<void> = new EventEmitter();
+
+    @Output()
+    public beforeRemove: EventEmitter<AsyncEvent> = new EventEmitter();
+
+    @Output()
+    public afterRemove: EventEmitter<void> = new EventEmitter();
+
+    private isDestroyed: Subject<boolean>;
 
     constructor(
         private viewRef: ViewContainerRef,
@@ -25,80 +31,57 @@ export class OverflowContentDirective implements OnInit, OnDestroy {
         this.isDestroyed = new Subject();
     }
 
-    /**
-     * append hook on before content gets rendered into content
-     */
-    @Input()
-    public set beforeRender( hookFn: () => Observable<void> ) {
-        this.renderHooks.beforeRender = hookFn;
-    }
-
-    /**
-     * append hook after content gets rendered into content
-     */
-    @Input()
-    public set afterRender( hookFn: () => Observable<void> ) {
-        this.renderHooks.afterRender = hookFn;
-    }
-
-    /**
-     * append hook before content gets removed
-     */
-    @Input()
-    public set beforeRemoved( hookFn: () => Observable<void> ) {
-        this.renderHooks.beforeRemoved = hookFn;
-    }
-
-    /**
-     * append hook after content gets removed
-     */
-    @Input()
-    public set afterRemoved( hookFn: () => Observable<void> ) {
-        this.renderHooks.afterRemoved = hookFn;
-    }
-
     public get view(): ViewContainerRef {
         return this.viewRef;
     }
 
-    ngOnDestroy() {
+    public ngOnDestroy() {
         this.isDestroyed.next(true);
         this.isDestroyed.complete();
     }
 
-    ngOnInit() {
+    public ngOnInit() {
+
         this.overflowCtrl.show
             .pipe(
                 takeUntil(this.isDestroyed),
                 filter((items) => items.length > 0),
-                switchMap((items) => this.renderContent(items))
-            ).subscribe();
+            ).subscribe((items) => this.renderContent(items));
 
         this.overflowCtrl.hide
-            .pipe( takeUntil(this.isDestroyed))
-            .subscribe((items) => this.removeContent(items));
-    }
-
-    /**
-     * no operation hook, does nothing but exists (like me)
-     */
-    private noopHook(): Observable<void> {
-        return of( null );
+            .pipe(
+                takeUntil(this.isDestroyed),
+            ).subscribe((items) => this.removeContent(items));
     }
 
     /**
      * render nodes into host view calls beforeRendered and afterRender hooks
+     * will call beforeRender and afterRender hooks
      */
-    private renderContent( nodes: MenuItemDirective[] ): Observable<void> {
-        return this.renderHooks.beforeRender().pipe(
-            switchMap(() => of(nodes.map((item) => item.addTo(this.viewRef.element.nativeElement)))),
-            switchMap(() => this.renderHooks.afterRender())
-        );
+    private async renderContent(nodes: MenuItemDirective[]) {
+
+        if (this.beforeRender.observers.length) {
+            const event = new AsyncEvent();
+            this.beforeRender.emit(event);
+            await event.completed;
+        }
+
+        nodes.forEach((item) => item.addTo(this.viewRef.element.nativeElement));
+        this.afterRender.emit();
     }
 
-    private removeContent(nodes: MenuItemDirective[]) {
-        nodes.forEach(item => {
-            item.remove();
-        });
+    /**
+     * remove content from overflow container, will call beforeRemove and afterRemove hooks
+     */
+    private async removeContent(nodes: MenuItemDirective[]) {
+
+        if (this.beforeRemove.observers.length) {
+            const event = new AsyncEvent();
+            this.beforeRemove.emit(event);
+            await event.completed;
+        }
+
+        nodes.forEach((item) => item.remove());
+        this.afterRemove.emit();
     }
 }
