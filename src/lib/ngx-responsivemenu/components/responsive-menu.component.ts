@@ -9,8 +9,6 @@ import {
     QueryList,
     Renderer2,
     ViewChild,
-    TemplateRef,
-    ViewContainerRef,
     ContentChild,
     ChangeDetectorRef,
     Output,
@@ -43,20 +41,15 @@ export class ResponsiveMenuComponent implements AfterViewInit, AfterContentInit,
     @Input()
     public showMax = -1;
 
+    @Input()
+    public renderOverflow = true;
+
     /** set position of more button */
     @Input()
     public alignToggle: BtnAlign = BtnAlign.RIGHT;
 
     @Output()
     rendered: EventEmitter<void> = new EventEmitter();
-
-    @ViewChild( "overflowTemplate", { read: TemplateRef, static: true } )
-    @Input()
-    public overflowTemplate: TemplateRef<any>;
-
-    @ViewChild( "overflowContainer", { read: ViewContainerRef, static: true } )
-    @Input()
-    public overflowContainer;
 
     /**
      * static: false wait until change detection loop has been finished in this case
@@ -73,7 +66,7 @@ export class ResponsiveMenuComponent implements AfterViewInit, AfterContentInit,
     /**
      * check if custom button is defined so we dont need to render default more button
      */
-    @ContentChild( MenuToggleDirective, { read: MenuToggleDirective, static: true } )
+    @ContentChild(MenuToggleDirective, {read: MenuToggleDirective, static: true})
     public set customMoreButton( btn: MenuToggleDirective ) {
         this.isCustomButton = Boolean( btn );
         if (btn) {
@@ -133,9 +126,6 @@ export class ResponsiveMenuComponent implements AfterViewInit, AfterContentInit,
         if (this.isCustomButton) {
             this.renderer.appendChild( this.buttonPane.nativeElement, this.moreBtn.nativeElement );
         }
-
-        this.overflowCtrl.data.host = this.overflowContainer;
-        this.overflowCtrl.data.template = this.overflowTemplate;
         this.render();
     }
 

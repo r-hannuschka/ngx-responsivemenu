@@ -1,7 +1,8 @@
 import { OverflowModel } from "../model/overflow.model";
 import { Injectable } from "@angular/core";
 import { MenuItemDirective } from "../directives/menu-item.directive";
-import { Subject, Observable } from "rxjs";
+import { Subject, Observable, concat } from "rxjs";
+import { mergeMap } from "rxjs/operators";
 
 @Injectable()
 export class OverflowControl {
@@ -12,13 +13,13 @@ export class OverflowControl {
 
     private show$: Subject<MenuItemDirective[]> = new Subject();
 
-    private hide$: Subject<void> = new Subject();
+    private hide$: Subject<MenuItemDirective[]> = new Subject();
 
     public get show(): Observable<MenuItemDirective[]> {
         return this.show$.asObservable();
     }
 
-    public get hide(): Observable<void> {
+    public get hide(): Observable<MenuItemDirective[]> {
         return this.hide$.asObservable();
     }
 
@@ -42,7 +43,6 @@ export class OverflowControl {
 
     public open() {
         if (!this.rendered && this.overflowModel.items.length) {
-            this.overflowModel.host.createEmbeddedView(this.overflowModel.template);
             this.rendered = true;
             this.show$.next(this.overflowModel.items);
         }
@@ -51,8 +51,7 @@ export class OverflowControl {
     public close() {
         if (this.rendered) {
             this.rendered = false;
-            this.overflowModel.host.clear();
-            this.hide$.next();
+            this.hide$.next(this.overflowModel.items);
         }
     }
 }

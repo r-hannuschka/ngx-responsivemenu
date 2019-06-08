@@ -1,8 +1,3 @@
-<!-- default overflow template where content will be added -->
-<ng-template #overflowTemplate>
-    <ngx-responsivemenu-content></ngx-responsivemenu-content>
-</ng-template>
-
 <!-- visible buttons -->
 <div class="buttonWrapper">
     <!-- should use tmp button pane to render buttons first -->
@@ -13,6 +8,6 @@
 </div>
 
 <!-- default container where over items will be rendered in -->
-<div class="overflow">
-    <ng-container #overflowContainer></ng-container>
+<div class="overflow" *ngIf="renderOverflow">
+    <ngx-responsivemenu-content></ngx-responsivemenu-content>
 </div>
