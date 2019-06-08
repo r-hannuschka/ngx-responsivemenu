@@ -1,13 +1,13 @@
 import { Directive, ViewContainerRef, OnInit, OnDestroy, Output, EventEmitter } from "@angular/core";
 import { Subject } from "rxjs";
-import { takeUntil, filter, startWith } from "rxjs/operators";
+import { takeUntil, filter } from "rxjs/operators";
 import { OverflowControl } from "../provider/overflow.control";
 import { MenuItemDirective } from "./menu-item.directive";
 import { AsyncEvent } from "../provider/async-event";
 
 @Directive( {
     selector: "ngx-responsivemenu-content",
-} )
+})
 export class OverflowContentDirective implements OnInit, OnDestroy {
 
     @Output()

@@ -1,7 +1,7 @@
 import { OverflowModel } from "../model/overflow.model";
 import { Injectable } from "@angular/core";
 import { MenuItemDirective } from "../directives/menu-item.directive";
-import { Observable, ReplaySubject, Subject } from "rxjs";
+import { Observable, Subject } from "rxjs";
 
 @Injectable()
 export class OverflowControl {
