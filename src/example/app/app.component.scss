@@ -2,36 +2,43 @@ davinci-responsive-menu {
     width: 200px;
 }
 
-.sidebar {
-    position: absolute;
-    right: 0;
-    left: 0;
-    background:darkgreen;
-    bottom: 0;
-    top: 67px;
-    padding: 5px;
-}
-
-
 main {
     min-height: 100%;
-    padding: 0 15px 220px;
-
-    .content {
-        max-width: 800px;
-        margin: 0 auto;
-    }
 
     header {
         background: linear-gradient(to top, #373737, #212121);
         color: #FFF;
         padding: 50px 10px 30px 10px;
-        margin: 0 -15px;
 
         app-header {
             max-width: 800px;
             margin: 0 auto;
         }
+    }
+
+    .body {
+        position: relative;
+        max-width: 800px;
+        margin: 0 auto;
+        overflow-x: hidden;
+        display: flex;
+    }
+
+    .content {
+        padding: 0 15px 220px;
+        flex: 1;
+    }
+
+    .sidebar {
+        position: absolute;
+        white-space: nowrap;
+        background: #373737;
+        opacity: .95;
+        color: #FFF;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        z-index: 10;
     }
 }
 

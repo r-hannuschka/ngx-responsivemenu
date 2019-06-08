@@ -1,7 +1,7 @@
 <h1>ngx-responsivemenu</h1>
 
 <section class="menu">
-  <ngx-responsivemenu [renderOverflow]="false" >
+  <ngx-responsivemenu [renderOverflow]="false">
     <div ngxResponsiveMenuItem *ngFor="let btn of buttons" [visible]="btn.visible" (click)="goTo(btn.route)"
       [ngClass]="{'active': btn.active}">
       <span>{{btn.label}}</span>

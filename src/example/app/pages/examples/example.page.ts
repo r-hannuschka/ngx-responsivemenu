@@ -27,7 +27,6 @@ import { AlignMoreExampleComponent } from "./components/align-more/align-more.co
         ]),
         ResponsiveMenuModule,
         HighlightModule,
-        NoopAnimationsModule,
         MatTabsModule,
         ResizableModule
     ],

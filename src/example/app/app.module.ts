@@ -1,18 +1,20 @@
 import { BrowserModule } from "@angular/platform-browser";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { RouterModule } from "@angular/router";
-import { AppComponent } from "./app.component";
-import { ButtonComponent } from "./components/button.component";
 import { ResponsiveMenuModule } from "ngx-responsivemenu";
-import { HeaderComponent } from "./components/header/header.component";
-import { ExamplePage } from "./pages/examples/example.page";
 
 import { HighlightModule } from "ngx-highlightjs";
 import xml from "highlight.js/lib/languages/xml";
 import scss from "highlight.js/lib/languages/scss";
 import typescript from "highlight.js/lib/languages/typescript";
 import javascript from "highlight.js/lib/languages/javascript";
+
+import { AppComponent } from "./app.component";
+import { ButtonComponent } from "./components/button.component";
+import { HeaderComponent } from "./components/header/header.component";
+import { ExamplePage } from "./pages/examples/example.page";
 
 /**
  * Import every language you wish to highlight here
@@ -34,6 +36,7 @@ export function hljsLanguages() {
         HeaderComponent
     ],
     imports: [
+        BrowserAnimationsModule,
         BrowserModule,
         CommonModule,
         ResponsiveMenuModule,
