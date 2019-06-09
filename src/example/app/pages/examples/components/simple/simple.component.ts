@@ -2,12 +2,12 @@ import { Component, OnInit, ViewChild } from "@angular/core";
 import { ResizeEvent, ResizableDirective } from "angular-resizable-element";
 import { OverflowControl, ResponsiveMenuComponent } from "ngx-responsivemenu";
 
-@Component( {
+@Component({
     selector: "app-examples--responsivemenu-simple",
     templateUrl: "simple.component.html",
     styleUrls: ["./simple.component.scss"],
     viewProviders: [OverflowControl]
-} )
+})
 
 export class SimpleExampleComponent implements OnInit {
 
@@ -34,7 +34,7 @@ export class SimpleExampleComponent implements OnInit {
 }
 `;
 
-    public exampleHtml = ` <ngx-responsivemenu>
+    public exampleHtml = `<ngx-responsivemenu>
     <div ngxResponsiveMenuItem *ngFor="let item of items">{{item}}</div>
 </ngx-responsivemenu>
 `;

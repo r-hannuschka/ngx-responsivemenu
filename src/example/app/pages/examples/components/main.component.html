@@ -1,11 +1,54 @@
-<h3>Examples</h3>
+<div class="row flex-column">
 
-<p>All examples use <a
-    href="https://www.npmjs.com/package/angular-resizable-element" target="blank">Angular Resizeable Element NPM
-    Package</a>
-    Drag and move right border to change size of container to see how the menu changes.
-</p>
-<app-examples--responsivemenu-simple></app-examples--responsivemenu-simple>
-<app-showmax-example></app-showmax-example>
-<app-dynamic-example></app-dynamic-example>
-<app-alignmore-example></app-alignmore-example>
+    <h3 class="col">Examples</h3>
+
+    <p class="col">All examples use <a
+        href="https://www.npmjs.com/package/angular-resizable-element" target="blank">Angular Resizeable Element NPM
+        Package</a> and is not a part of the module, if you need to update the responsive menu if size changes you have
+        to implement it by your own, for the simple reason there are multiple possible triggers for resize (window, css-resize, ...).
+    </p>
+
+    <div class="col">
+        <strong>@example resize</strong>
+        <pre><code [highlight]="exampleResize"></code></pre>
+    </div>
+
+    <p class="col">
+        To change size of Demo containers just drag right border and move it arround.
+    </p>
+</div>
+
+<div class="row mb-3 mt-3">
+    <div class="col">
+        <div class="btn-group btn-group-sm" role="group">
+            <button type="button" class="btn btn-secondary" (click)="goToPage(1)">1</button>
+            <button type="button" class="btn btn-secondary" (click)="goToPage(2)">2</button>
+            <button type="button" class="btn btn-secondary" (click)="goToPage(3)">3</button>
+        </div>
+    </div>
+</div>
+
+<div class="row flex-column" [ngSwitch]="page">
+    <div class="col" *ngSwitchDefault>
+        <app-examples--responsivemenu-simple [class]="'example-tile'"></app-examples--responsivemenu-simple>
+        <app-showmax-example [class]="'example-tile'"></app-showmax-example>
+        <app-dynamic-example [class]="'example-tile'"></app-dynamic-example>
+        <app-alignmore-example [class]="'example-tile'"></app-alignmore-example>
+    </div>
+    <div class="col" *ngSwitchCase="2">
+        <div class="page2">page 2</div>
+    </div>
+    <div class="col" *ngSwitchCase="3">
+        <div>page 3</div>
+    </div>
+</div>
+
+<div class="row mb-3">
+    <div class="col">
+        <div class="btn-group btn-group-sm" role="group">
+            <button type="button" class="btn btn-secondary" (click)="goToPage(1)">1</button>
+            <button type="button" class="btn btn-secondary" (click)="goToPage(2)">2</button>
+            <button type="button" class="btn btn-secondary" (click)="goToPage(3)">3</button>
+        </div>
+    </div>
+</div>

@@ -14,7 +14,9 @@ import javascript from "highlight.js/lib/languages/javascript";
 import { AppComponent } from "./app.component";
 import { ButtonComponent } from "./components/button.component";
 import { HeaderComponent } from "./components/header/header.component";
+
 import { ExamplePage } from "./pages/examples/example.page";
+import { StartPage } from "./pages/start/start.page";
 
 /**
  * Import every language you wish to highlight here
@@ -40,6 +42,7 @@ export function hljsLanguages() {
         BrowserModule,
         CommonModule,
         ResponsiveMenuModule,
+        StartPage,
         ExamplePage,
         RouterModule.forRoot([]),
         HighlightModule.forRoot({

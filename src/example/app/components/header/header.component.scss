@@ -7,9 +7,9 @@
     flex-direction: row;
     align-items: baseline;
 
-  h1 {
-    margin: 0;
-  }
+    h1 {
+        font-size: 1.8rem;
+    }
 
   .menu {
       flex: 1;
@@ -26,7 +26,7 @@
     .responsive-menu--item {
       span {
         cursor: pointer;
-        margin: 0 10px 0 0;
+        margin: 0 .5rem 0 0;
       }
     }
 

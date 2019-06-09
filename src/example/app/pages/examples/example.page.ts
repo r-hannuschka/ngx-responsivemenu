@@ -1,6 +1,5 @@
 /** modules */
 import { NgModule } from "@angular/core";
-import { NoopAnimationsModule } from "@angular/platform-browser/animations";
 import { CommonModule } from "@angular/common";
 import { RouterModule } from "@angular/router";
 import { MatTabsModule } from "@angular/material";
@@ -15,6 +14,7 @@ import { DynamicExampleComponent } from "./components/dynamic/dynamic.component"
 import { SimpleExampleComponent } from "./components/simple/simple.component";
 import { ShowMaxExampleComponent } from "./components/show-max/showmax.component";
 import { AlignMoreExampleComponent } from "./components/align-more/align-more.component";
+import { PaginationModule } from "example/app/modules/pagination";
 
 @NgModule({
     imports: [
@@ -25,6 +25,7 @@ import { AlignMoreExampleComponent } from "./components/align-more/align-more.co
                 component: MainComponent
             }
         ]),
+        PaginationModule,
         ResponsiveMenuModule,
         HighlightModule,
         MatTabsModule,

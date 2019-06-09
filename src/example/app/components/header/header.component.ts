@@ -24,6 +24,11 @@ export class HeaderComponent implements OnInit {
     ngOnInit() {
 
         this.buttons = [{
+            label: "Home",
+            visible: true,
+            active: true,
+            route: ""
+        }, {
             label: "Examples",
             visible: true,
             active: true,

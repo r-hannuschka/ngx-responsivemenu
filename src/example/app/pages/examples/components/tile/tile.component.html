@@ -1,18 +1,29 @@
 <!-- description -->
-<ng-content select="[title]"></ng-content>
-<ng-content select="[description]"></ng-content>
+<div class="card bg-white border-info bg-width mb-3" style="width: 100%;">
 
-<mat-tab-group [dynamicHeight]="true" [@.disabled]="true" style="height: 340px" [disableRipple]=true>
-  <mat-tab label="Example">
-    <ng-content select="[example]"></ng-content>
-  </mat-tab>
-  <mat-tab label="Typescript">
-    <div style="overflow-y: auto; height: 100%;">
-      <ng-content select="[code]"></ng-content>
+    <div class="card-header">
+        <ng-content select="[title]"></ng-content>
     </div>
-  </mat-tab>
-  <mat-tab label="Html">
-    <!-- tab content html -->
-    <ng-content select="[html]"></ng-content>
-  </mat-tab>
-</mat-tab-group>
+
+    <div class="card-body">
+
+        <p class="card-text">
+            <ng-content select="[description]"></ng-content>
+        </p>
+
+        <mat-tab-group [dynamicHeight]="true" [@.disabled]="true" style="height: 340px" [disableRipple]=true>
+        <mat-tab label="Example">
+            <ng-content select="[example]"></ng-content>
+        </mat-tab>
+        <mat-tab label="Typescript">
+            <div style="overflow-y: auto; height: 100%;">
+                <ng-content select="[code]"></ng-content>
+            </div>
+        </mat-tab>
+        <mat-tab label="Html">
+            <!-- tab content html -->
+            <ng-content select="[html]"></ng-content>
+        </mat-tab>
+        </mat-tab-group>
+    </div>
+</div>
