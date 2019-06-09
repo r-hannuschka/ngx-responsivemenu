@@ -53,7 +53,7 @@ export class CustomToggleExampleComponent implements OnInit {
 
 <div *ngIf="showOverflow">
     <strong>Menu</strong>
-    <ngx-responsivemenu-content></ngx-responsivemenu-content>
+    <ngx-responsivemenu-overflow></ngx-responsivemenu-overflow>
 </div>
 `;
 

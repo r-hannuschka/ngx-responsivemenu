@@ -11,19 +11,19 @@ import { AsyncEvent } from "../provider/async-event";
  * @example
  *
  * <div class="menu">
- *   <!-- append option [renderOverflow]=false so default overflow container will not rendered anymore -->
- *   <ngx-responsivemenu [renderOverflow]="false">
+ *   <!-- append option [customOverflow]=true so default overflow container will not rendered anymore -->
+ *   <ngx-responsivemenu [customOverflow]="true">
  *     <button ngxResponsiveMenuItem *ngFor="let btn of buttons"></button>
  *   </ngx-responsivemenu>
  * </div>
  *
  * <div class="sidebar">
  *   <!-- overflow content will rendered here -->
- *   <ngx-responsivemenu-content [...EVENTS]></ngx-responsivemenu-content>
+ *   <ngx-responsivemenu-overflow [...EVENTS]></ngx-responsivemenu-overflow>
  * </div>
  */
 @Directive( {
-    selector: "ngx-responsivemenu-content",
+    selector: "ngx-responsivemenu-overflow",
 })
 export class OverflowContentDirective implements OnInit, OnDestroy {
 
