@@ -11,10 +11,7 @@ import { AsyncEvent } from "../provider/async-event";
  * @example
  *
  * <div class="menu">
- *   <!--
- *       append option [renderOverflow]=false so default overflow container will not
- *       rendered anymore.
- *    -->
+ *   <!-- append option [renderOverflow]=false so default overflow container will not rendered anymore -->
  *   <ngx-responsivemenu [renderOverflow]="false">
  *     <button ngxResponsiveMenuItem *ngFor="let btn of buttons"></button>
  *   </ngx-responsivemenu>

@@ -1,22 +1,25 @@
 :host {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
 
-  .responsive-menu--item {
-    flex-shrink: 0;
-  }
-
-  .buttonWrapper {
     display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-  }
+    flex-direction: column;
+    justify-content: center;
 
-  .buttonPane {
-    display: inline-flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    flex-shrink: 0;
-  }
+    .buttonWrapper {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+    }
+
+    .buttonPane {
+        display: inline-flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        flex-shrink: 0;
+    }
+
+    ::ng-deep {
+        .responsive-menu--item {
+            flex-shrink: 0 !important;
+        }
+    }
 }
