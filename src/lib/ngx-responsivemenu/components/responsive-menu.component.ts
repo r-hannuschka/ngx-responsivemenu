@@ -63,6 +63,19 @@ export class ResponsiveMenuComponent implements AfterViewInit, AfterContentInit,
     }
 
     /**
+     * add a class for the button pane as example for bootstrap
+     * btn-group
+     *
+     * @example
+     *
+     * <ngx-responsive-menu [classBtnPane]="btn-group">
+     *   <button type="button" ngxResponsiveMenuItem class="btn btn-sm btn-secondary" *ngFor="let item of items">{{label}}</button>
+     * </ngx-responsive-menu>
+     */
+    @Input()
+    public classBtnPane: string;
+
+    /**
      * set position of toggle btn, possible values are left or right
      */
     @Input()
