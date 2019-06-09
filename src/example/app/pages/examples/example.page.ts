@@ -16,6 +16,7 @@ import { ShowMaxExampleComponent } from "./components/show-max/showmax.component
 import { AlignMoreExampleComponent } from "./components/align-more/align-more.component";
 import { CustomToggleExampleComponent } from "./components/custom-toggle/custom-toggle.component";
 import { ComplexItemExampleComponent } from "./components/complex-item/complex-item.component";
+import { ForceOverflowExampleComponent } from "./components/force-overflow/force-overflow.component";
 
 @NgModule({
     imports: [
@@ -42,7 +43,8 @@ import { ComplexItemExampleComponent } from "./components/complex-item/complex-i
         SimpleExampleComponent,
         ShowMaxExampleComponent,
         CustomToggleExampleComponent,
-        ComplexItemExampleComponent
+        ComplexItemExampleComponent,
+        ForceOverflowExampleComponent
     ],
     providers: [],
 })
