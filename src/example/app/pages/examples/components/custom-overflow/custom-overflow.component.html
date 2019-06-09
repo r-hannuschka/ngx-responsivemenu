@@ -1,0 +1,36 @@
+<app-example-tile>
+    <ng-container title>
+        <b>Custom Overflow Example</b>
+    </ng-container>
+
+    <ng-container description>
+        <p>This example will render the overflow content into custom overflow container, you have to set renderOverflow directly to false
+            otherwise you will see content twice.
+        </p>
+        <pre><code [highlight]="'<ngx-responsivemenu [renderOverflow]=false></ngx-responsivemenu></code>'"></code></pre>
+    </ng-container>
+
+    <ng-container code>
+        <pre><code [highlight]="exampleCode"></code></pre>
+    </ng-container>
+
+    <ng-container html>
+        <pre><code [highlight]="exampleHtml"></code></pre>
+    </ng-container>
+
+    <div mwlResizable example [enableGhostResize]="false" [ngStyle]="style" class="rectangle"
+        [resizeEdges]="{bottom: false, right: true, top: false, left: false}">
+
+        <ngx-responsivemenu [classBtnPane]="'btn-group'" [renderOverflow]="false">
+            <button type="button" class="btn btn-sm btn-secondary" ngxResponsiveMenuItem *ngFor="let item of items">{{item}}</button>
+            <button class="btn btn-sm btn-secondary" ngxResponsiveMenuToggle>
+                <i class="fa fa-bars"></i>
+            </button>
+        </ngx-responsivemenu>
+
+        <div *ngIf="showOverflow">
+            <strong>Menu</strong>
+            <ngx-responsivemenu-content></ngx-responsivemenu-content>
+        </div>
+    </div>
+</app-example-tile>
