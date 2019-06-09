@@ -16,14 +16,26 @@ export class OverflowControl {
 
     private forced: boolean;
 
+    /**
+     * set force overflow, if set to true this will allways emits show
+     * for overflow conainer even if no overflow items exits.
+     *
+     * default is set to false
+     */
     public set forceOverflow(forced: boolean) {
         this.forced = forced;
     }
 
+    /**
+     * returns oberservable to get notified overflow should be shown
+     */
     public get show(): Observable<MenuItemDirective[]> {
         return this.show$.asObservable();
     }
 
+    /**
+     * returns oberservable to get notified overflow should be hide
+     */
     public get hide(): Observable<MenuItemDirective[]> {
         return this.hide$.asObservable();
     }
@@ -32,10 +44,16 @@ export class OverflowControl {
         this.overflowModel = new OverflowModel();
     }
 
+    /**
+     * returns overflow data model
+     */
     public get data(): OverflowModel<any> {
         return this.overflowModel;
     }
 
+    /**
+     * retursn true if overflow container is rendered
+     */
     public isOpen(): boolean {
         return this.rendered;
     }
@@ -48,6 +66,9 @@ export class OverflowControl {
         }
     }
 
+    /**
+     * show overflow content
+     */
     public open() {
         if (!this.rendered && (this.forced || this.overflowModel.items.length)) {
             this.rendered = true;
@@ -55,6 +76,9 @@ export class OverflowControl {
         }
     }
 
+    /**
+     * close overflow content
+     */
     public close() {
         if (this.rendered) {
             this.rendered = false;

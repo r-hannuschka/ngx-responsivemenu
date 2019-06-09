@@ -1,15 +1,16 @@
-import { Directive, ElementRef, OnInit, AfterViewInit, OnDestroy, Renderer2, HostBinding, Input } from "@angular/core";
-import { fromEvent, Subscription } from "rxjs";
+import { Directive, ElementRef, AfterViewInit, OnDestroy, Renderer2, HostBinding } from "@angular/core";
+import { fromEvent, Subject } from "rxjs";
 import { OverflowControl } from "../provider/overflow.control";
+import { takeUntil } from "rxjs/operators";
 
 /**
- * more button which automatically registers on click event an show overflow if required
+ * toggle button which automatically registers on click event an show overflow if required
  *
  * @example
  *
  * <ngx-responsivemenu>
  *     ...
- *     <button ngxResponsiveMenuToggle></button>
+ *     <button ngxResponsiveMenuToggle>Custom Toggle Button</button>
  * </ngx-responsivemenu>
  */
 @Directive( {
@@ -17,7 +18,7 @@ import { OverflowControl } from "../provider/overflow.control";
 } )
 export class MenuToggleDirective implements AfterViewInit, OnDestroy {
 
-    private click$: Subscription;
+    private isDestroyed: Subject<boolean>;
 
     /**
      * add host css class <b>more</b>
@@ -30,10 +31,12 @@ export class MenuToggleDirective implements AfterViewInit, OnDestroy {
         private renderer: Renderer2,
         private el: ElementRef,
     ) {
+        this.isDestroyed = new Subject();
     }
 
     public ngAfterViewInit() {
-        this.click$ = fromEvent(this.el.nativeElement, "click")
+        fromEvent(this.el.nativeElement, "click")
+            .pipe(takeUntil(this.isDestroyed))
             .subscribe(() => this.openOverflow());
     }
 
@@ -64,7 +67,8 @@ export class MenuToggleDirective implements AfterViewInit, OnDestroy {
      * destroys button
      */
     public ngOnDestroy() {
-        this.click$.unsubscribe();
+        this.isDestroyed.next(true);
+        this.isDestroyed.complete();
     }
 
     private setVisible(hidden = false) {

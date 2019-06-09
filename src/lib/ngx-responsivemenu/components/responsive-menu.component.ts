@@ -77,9 +77,9 @@ export class ResponsiveMenuComponent implements AfterViewInit, AfterContentInit,
      * until change detection finished before we get it
      */
     @ViewChild(MenuToggleDirective, {read: MenuToggleDirective, static: false})
-    protected set defaultMoreBtn( btn: MenuToggleDirective ) {
-        if ( !this.moreBtn ) {
-            this.moreBtn = btn;
+    protected set defaultToggleBtn( btn: MenuToggleDirective ) {
+        if ( !this.toggleBtn ) {
+            this.toggleBtn = btn;
         }
     }
 
@@ -87,16 +87,23 @@ export class ResponsiveMenuComponent implements AfterViewInit, AfterContentInit,
      * check if custom button is defined so we dont need to render default more button
      */
     @ContentChild(MenuToggleDirective, {read: MenuToggleDirective, static: true})
-    protected set customMoreButton( btn: MenuToggleDirective ) {
+    protected set customToggleButton( btn: MenuToggleDirective ) {
         this.isCustomButton = Boolean( btn );
         if (btn) {
-            this.moreBtn = btn;
+            this.toggleBtn = btn;
         }
     }
 
+    /**
+     * button pane where items will be rendered if they fits into
+     */
     @ViewChild( "buttonPane", { read: ElementRef, static: true } )
     private buttonPane: ElementRef;
 
+    /**
+     * temporary button pane where buttons will be rendered on render process
+     * to avoid visualization errors
+     */
     @ViewChild( "tmpButtonPane", { read: ElementRef, static: true } )
     private tmpButtonPane: ElementRef;
 
@@ -104,8 +111,10 @@ export class ResponsiveMenuComponent implements AfterViewInit, AfterContentInit,
 
     private isDestroyed$: Subject<boolean> = new Subject();
 
-    /** more button */
-    private moreBtn: MenuToggleDirective;
+    /**
+     * toggle button to show / close overflow
+     */
+    private toggleBtn: MenuToggleDirective;
 
     /**
      * possible overflow items, which fits into button bar but not with more button
@@ -146,7 +155,7 @@ export class ResponsiveMenuComponent implements AfterViewInit, AfterContentInit,
      */
     public ngAfterViewInit() {
         if (this.isCustomButton) {
-            this.renderer.appendChild( this.buttonPane.nativeElement, this.moreBtn.nativeElement );
+            this.renderer.appendChild( this.buttonPane.nativeElement, this.toggleBtn.nativeElement );
         }
         this.render();
     }
@@ -208,9 +217,9 @@ export class ResponsiveMenuComponent implements AfterViewInit, AfterContentInit,
         this.possibleOverflowItems = [];
         this.overflowCtrl.data.items = [];
 
-        this.moreBtn.show(true);
-        this.reservedWidth = this.moreBtn.width;
-        this.moreBtn.hide();
+        this.toggleBtn.show(true);
+        this.reservedWidth = this.toggleBtn.width;
+        this.toggleBtn.hide();
     }
 
     /**
@@ -221,7 +230,7 @@ export class ResponsiveMenuComponent implements AfterViewInit, AfterContentInit,
         const overflowData = this.finalizeMenuItems();
         this.overflowCtrl.data.items =  overflowData;
 
-        this.isForcedOverflow || overflowData.length ? this.moreBtn.show() : this.moreBtn.hide();
+        this.isForcedOverflow || overflowData.length ? this.toggleBtn.show() : this.toggleBtn.hide();
 
         this.possibleOverflowItems = [];
         this.overflowItems = [];
@@ -260,7 +269,7 @@ export class ResponsiveMenuComponent implements AfterViewInit, AfterContentInit,
             if (!items.length || items.indexOf(item) === -1) {
                 this.alignToggle === BtnAlign.LEFT
                     ? item.addTo(this.buttonPane.nativeElement)
-                    : item.addTo(this.buttonPane.nativeElement, this.moreBtn.nativeElement);
+                    : item.addTo(this.buttonPane.nativeElement, this.toggleBtn.nativeElement);
                 return overflowItems;
             }
 

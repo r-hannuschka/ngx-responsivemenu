@@ -5,20 +5,56 @@ import { OverflowControl } from "../provider/overflow.control";
 import { MenuItemDirective } from "./menu-item.directive";
 import { AsyncEvent } from "../provider/async-event";
 
+/**
+ * renders overflow content if overflow items exists
+ *
+ * @example
+ *
+ * <div class="menu">
+ *   <!--
+ *       append option [renderOverflow]=false so default overflow container will not
+ *       rendered anymore.
+ *    -->
+ *   <ngx-responsivemenu [renderOverflow]="false">
+ *     <button ngxResponsiveMenuItem *ngFor="let btn of buttons"></button>
+ *   </ngx-responsivemenu>
+ * </div>
+ *
+ * <div class="sidebar">
+ *   <!-- overflow content will rendered here -->
+ *   <ngx-responsivemenu-content [...EVENTS]></ngx-responsivemenu-content>
+ * </div>
+ */
 @Directive( {
     selector: "ngx-responsivemenu-content",
 })
 export class OverflowContentDirective implements OnInit, OnDestroy {
 
+    /**
+     * overflow container render hook before content will be applied.
+     * Emits AsyncEvent which should notfied with $event.done() after
+     * all operations are completed
+     */
     @Output()
     public beforeRender: EventEmitter<AsyncEvent> = new EventEmitter();
 
+    /**
+     * overflow container render hook after content has been applied.
+     */
     @Output()
     public afterRender: EventEmitter<void> = new EventEmitter();
 
+    /**
+     * overflow container render hook before content will be removed.
+     * Emits AsyncEvent which should notfied with $event.done() after
+     * all operations are completed
+     */
     @Output()
     public beforeRemove: EventEmitter<AsyncEvent> = new EventEmitter();
 
+    /**
+     * overflow container render hook after content has been removed.
+     */
     @Output()
     public afterRemove: EventEmitter<void> = new EventEmitter();
 
@@ -58,8 +94,7 @@ export class OverflowContentDirective implements OnInit, OnDestroy {
     }
 
     /**
-     * render nodes into host view calls beforeRendered and afterRender hooks
-     * will call beforeRender and afterRender hooks
+     * render nodes into host view, calls beforeRender and afterRender hooks
      */
     private async renderContent(nodes: MenuItemDirective[]) {
         if (this.beforeRender.observers.length) {
@@ -72,7 +107,7 @@ export class OverflowContentDirective implements OnInit, OnDestroy {
     }
 
     /**
-     * remove content from overflow container, will call beforeRemove and afterRemove hooks
+     * remove nodes from host view, calls beforeRemove, afterRemove
      */
     private async removeContent(nodes: MenuItemDirective[]) {
         if (this.beforeRemove.observers.length) {
