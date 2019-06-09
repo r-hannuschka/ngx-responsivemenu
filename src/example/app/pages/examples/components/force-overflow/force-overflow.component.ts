@@ -44,7 +44,7 @@ export class CustomToggleExampleComponent implements OnInit {
 }
 `;
 
-    public exampleHtml = `<ngx-responsivemenu [classBtnPane]="'btn-group'" [forceOverflow]="true" [renderOverflow]="false">
+    public exampleHtml = `<ngx-responsivemenu [classBtnPane]="'btn-group'" [forceOverflow]="true" [customOverflow]="true">
     <button type="button" class="btn btn-sm btn-secondary" ngxResponsiveMenuItem *ngFor="let item of items">{{item}}</button>
     <button class="btn btn-sm btn-secondary" ngxResponsiveMenuToggle>
         <i class="fa fa-bars"></i>

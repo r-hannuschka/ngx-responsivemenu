@@ -20,7 +20,7 @@
     <div mwlResizable example [enableGhostResize]="false" [ngStyle]="style" class="rectangle"
         [resizeEdges]="{bottom: false, right: true, top: false, left: false}">
 
-        <ngx-responsivemenu [classBtnPane]="'btn-group'" [forceOverflow]="true" [renderOverflow]="false">
+        <ngx-responsivemenu [classBtnPane]="'btn-group'" [forceOverflow]="true" [customOverflow]="true">
             <button type="button" class="btn btn-sm btn-secondary" ngxResponsiveMenuItem *ngFor="let item of items">{{item}}</button>
             <button class="btn btn-sm btn-secondary" ngxResponsiveMenuToggle>
                 <i class="fa fa-bars"></i>

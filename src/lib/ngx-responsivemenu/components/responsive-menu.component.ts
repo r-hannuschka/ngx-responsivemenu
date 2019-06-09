@@ -46,11 +46,22 @@ export class ResponsiveMenuComponent implements AfterViewInit, AfterContentInit,
     public showMax = -1;
 
     /**
-     * if false overflow content should rendered on own defined
-     * place and not into default overflow container.
+     * if true content will not rendered longer in default container for overflow
+     * content and should rendered in a custom overflow container.
+     *
+     * @example
+     *
+     * <ngx-responsive-menu [customOverflow]="true">
+     *   <button type="button" ngxResponsiveMenuItem class="btn btn-sm btn-secondary" *ngFor="let item of items">{{label}}</button>
+     * </ngx-responsive-menu>
+     *
+     * <div class="superAwesomeOverflow">
+     *    <!-- overflow will rendered here now -->
+     *    <ngx-responsivemenu-overflow></ngx-responsivemenu-overflow>
+     * </div>
      */
     @Input()
-    public renderOverflow = true;
+    public customOverflow = false;
 
     /**
      * if true toggle button will allways be visible even if content
