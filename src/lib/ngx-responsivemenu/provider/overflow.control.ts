@@ -14,6 +14,12 @@ export class OverflowControl {
 
     private hide$: Subject<MenuItemDirective[]> = new Subject();
 
+    private forced: boolean;
+
+    public set forceOverflow(forced: boolean) {
+        this.forced = forced;
+    }
+
     public get show(): Observable<MenuItemDirective[]> {
         return this.show$.asObservable();
     }
@@ -36,12 +42,14 @@ export class OverflowControl {
 
     public update() {
         if (this.rendered) {
-            this.overflowModel.items.length === 0 ? this.close() : this.show$.next(this.overflowModel.items);
+            this.overflowModel.items.length === 0 && !this.forced
+                ? this.close()
+                : this.show$.next(this.overflowModel.items);
         }
     }
 
     public open() {
-        if (!this.rendered && this.overflowModel.items.length) {
+        if (!this.rendered && (this.forced || this.overflowModel.items.length)) {
             this.rendered = true;
             this.show$.next(this.overflowModel.items);
         }

@@ -38,13 +38,33 @@ export class ResponsiveMenuComponent implements AfterViewInit, AfterContentInit,
     @ContentChildren( MenuItemDirective )
     public menuItems: QueryList<MenuItemDirective>;
 
+    /**
+     * set maximal amount of items which could rendered into button pane
+     * all other items will automatically add to overflow container
+     */
     @Input()
     public showMax = -1;
 
+    /**
+     * if false overflow content should rendered on own defined
+     * place and not into default overflow container.
+     */
     @Input()
     public renderOverflow = true;
 
-    /** set position of more button */
+    /**
+     * if true toggle button will allways be visible even if content
+     * fits into button pane
+     */
+    @Input()
+    public set forceOverflow(forced: boolean) {
+        this.isForcedOverflow = forced;
+        this.overflowCtrl.forceOverflow = forced;
+    }
+
+    /**
+     * set position of toggle btn, possible values are left or right
+     */
     @Input()
     public alignToggle: BtnAlign = BtnAlign.RIGHT;
 
@@ -57,7 +77,7 @@ export class ResponsiveMenuComponent implements AfterViewInit, AfterContentInit,
      * until change detection finished before we get it
      */
     @ViewChild(MenuToggleDirective, {read: MenuToggleDirective, static: false})
-    public set defaultMoreBtn( btn: MenuToggleDirective ) {
+    protected set defaultMoreBtn( btn: MenuToggleDirective ) {
         if ( !this.moreBtn ) {
             this.moreBtn = btn;
         }
@@ -67,7 +87,7 @@ export class ResponsiveMenuComponent implements AfterViewInit, AfterContentInit,
      * check if custom button is defined so we dont need to render default more button
      */
     @ContentChild(MenuToggleDirective, {read: MenuToggleDirective, static: true})
-    public set customMoreButton( btn: MenuToggleDirective ) {
+    protected set customMoreButton( btn: MenuToggleDirective ) {
         this.isCustomButton = Boolean( btn );
         if (btn) {
             this.moreBtn = btn;
@@ -79,6 +99,8 @@ export class ResponsiveMenuComponent implements AfterViewInit, AfterContentInit,
 
     @ViewChild( "tmpButtonPane", { read: ElementRef, static: true } )
     private tmpButtonPane: ElementRef;
+
+    private isForcedOverflow = false;
 
     private isDestroyed$: Subject<boolean> = new Subject();
 
@@ -199,7 +221,7 @@ export class ResponsiveMenuComponent implements AfterViewInit, AfterContentInit,
         const overflowData = this.finalizeMenuItems();
         this.overflowCtrl.data.items =  overflowData;
 
-        overflowData.length ? this.moreBtn.show() : this.moreBtn.hide();
+        this.isForcedOverflow || overflowData.length ? this.moreBtn.show() : this.moreBtn.hide();
 
         this.possibleOverflowItems = [];
         this.overflowItems = [];
@@ -252,18 +274,21 @@ export class ResponsiveMenuComponent implements AfterViewInit, AfterContentInit,
      * validate rendered item fits into button container
      */
     private validateSize( item: MenuItemDirective ): boolean {
-        const usedSize = parseInt( this.tmpButtonPane.nativeElement.offsetWidth, 10 );
+        const usedSize = parseInt(this.tmpButtonPane.nativeElement.offsetWidth, 10);
 
         /** item fits together with more button */
-        if ( usedSize + this.reservedWidth <= this.maxWidth ) {
+        if (usedSize + this.reservedWidth <= this.maxWidth) {
             return true;
         }
 
         /**
-         * item dont fits together with more btn but into view
-         * if this is the last button he could stay in button pane
+         * menu item dosent fit into pane with toggle button
+         * but since this could be the last item, or the next item
+         * which come is smaller as the toggle button we push this
+         * into possible overflow items, unless toggle button should shown
+         * allways
          */
-        if ( usedSize <= this.maxWidth ) {
+        if ( usedSize <= this.maxWidth && !this.isForcedOverflow) {
             this.possibleOverflowItems.push( item );
             return true;
         }
