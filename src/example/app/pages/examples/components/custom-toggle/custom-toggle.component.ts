@@ -3,12 +3,12 @@ import { ResizeEvent, ResizableDirective } from "angular-resizable-element";
 import { OverflowControl, ResponsiveMenuComponent } from "ngx-responsivemenu";
 
 @Component({
-    selector: "app-examples--responsivemenu-simple",
-    templateUrl: "simple.component.html",
-    styleUrls: ["./simple.component.scss"],
+    selector: "app-customtoggle-example",
+    templateUrl: "custom-toggle.component.html",
+    styleUrls: ["./custom-toggle.component.scss"],
     viewProviders: [OverflowControl]
 })
-export class SimpleExampleComponent implements OnInit {
+export class CustomToggleExampleComponent implements OnInit {
 
     public style;
 
@@ -18,11 +18,11 @@ export class SimpleExampleComponent implements OnInit {
 import { OverflowControl } from "ngx-responsivemenu";
 
 @Component({
-    selector: "app-examples--responsivemenu-simple",
-    templateUrl: "simple.component.html",
+    selector: "app-customtoggle-example",
+    templateUrl: "custom-toggle.component.html",
     viewProviders: [OverflowControl]
 })
-export class SimpleExampleComponent implements OnInit {
+export class CustomToggleExampleComponent implements OnInit {
 
     public items: string[] = [];
 
@@ -33,8 +33,11 @@ export class SimpleExampleComponent implements OnInit {
 }
 `;
 
-    public exampleHtml = `<ngx-responsivemenu>
-    <div ngxResponsiveMenuItem *ngFor="let item of items">{{item}}</div>
+    public exampleHtml = `<ngx-responsivemenu [classBtnPane]="'btn-group'">
+    <button type="button" class="btn btn-sm btn-secondary" ngxResponsiveMenuItem *ngFor="let item of items">{{item}}</button>
+    <button class="btn btn-sm btn-secondary" ngxResponsiveMenuToggle>
+        <i class="fa fa-bars"></i>
+    </button>
 </ngx-responsivemenu>
 `;
 

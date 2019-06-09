@@ -1,18 +1,21 @@
 <app-example-tile>
 
-  <h4 title>Add Remove Items on Runtime</h4>
+    <ng-container title>
+        <b>Add Remove Items on Runtime</b>
+    </ng-container>
 
-  <ng-container description>
-      <p>Add and Remove menu items</p>
-  </ng-container>
+    <ng-container description>
+        Add / Remove new items, since responsive menu is watching the content and update itself
+        if items changed you dont need to update menu.
+    </ng-container>
 
-  <ng-container code>
-    <pre><code [highlight]="exampleCode"></code></pre>
-  </ng-container>
+    <ng-container code>
+        <pre><code [highlight]="exampleCode"></code></pre>
+    </ng-container>
 
-  <ng-container html>
-    <pre><code [highlight]="exampleHtml"></code></pre>
-  </ng-container>
+    <ng-container html>
+        <pre><code [highlight]="exampleHtml"></code></pre>
+    </ng-container>
 
     <div example>
         <button type="button" (click)="createMenuItem()">create menu item</button>
@@ -24,4 +27,5 @@
             </ngx-responsivemenu>
         </div>
     </div>
+
 </app-example-tile>

@@ -1,11 +1,11 @@
 <app-example-tile>
-
     <ng-container title>
-        <b>Showmax amount of items</b>
+        <b>Custom Toggle Example</b>
     </ng-container>
 
     <ng-container description>
-        Show max amount of 3 items if enough space, all other items will rendered to overflow container.
+        <p>Change toggle button by adding your own, on this way you can style the button like you want.</p>
+        <p>This example uses <i>Bootstrap: Buttons / Button Group</i></p>
     </ng-container>
 
     <ng-container code>
@@ -18,8 +18,11 @@
 
     <div mwlResizable example [enableGhostResize]="false" [ngStyle]="style" class="rectangle"
         [resizeEdges]="{bottom: false, right: true, top: false, left: false}">
-        <ngx-responsivemenu [showMax]=3>
-        <div ngxResponsiveMenuItem *ngFor="let item of items">{{item}}</div>
+        <ngx-responsivemenu [classBtnPane]="'btn-group'">
+            <button type="button" class="btn btn-sm btn-secondary" ngxResponsiveMenuItem *ngFor="let item of items">{{item}}</button>
+            <button class="btn btn-sm btn-secondary" ngxResponsiveMenuToggle>
+                <i class="fa fa-bars"></i>
+            </button>
         </ngx-responsivemenu>
     </div>
 </app-example-tile>

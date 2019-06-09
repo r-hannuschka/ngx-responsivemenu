@@ -14,6 +14,7 @@ import { DynamicExampleComponent } from "./components/dynamic/dynamic.component"
 import { SimpleExampleComponent } from "./components/simple/simple.component";
 import { ShowMaxExampleComponent } from "./components/show-max/showmax.component";
 import { AlignMoreExampleComponent } from "./components/align-more/align-more.component";
+import { CustomToggleExampleComponent } from "./components/custom-toggle/custom-toggle.component";
 
 @NgModule({
     imports: [
@@ -39,6 +40,7 @@ import { AlignMoreExampleComponent } from "./components/align-more/align-more.co
         DynamicExampleComponent,
         SimpleExampleComponent,
         ShowMaxExampleComponent,
+        CustomToggleExampleComponent,
     ],
     providers: [],
 })
