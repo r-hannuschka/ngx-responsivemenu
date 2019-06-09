@@ -14,7 +14,6 @@ import { DynamicExampleComponent } from "./components/dynamic/dynamic.component"
 import { SimpleExampleComponent } from "./components/simple/simple.component";
 import { ShowMaxExampleComponent } from "./components/show-max/showmax.component";
 import { AlignMoreExampleComponent } from "./components/align-more/align-more.component";
-import { PaginationModule } from "example/app/modules/pagination";
 
 @NgModule({
     imports: [
@@ -25,7 +24,6 @@ import { PaginationModule } from "example/app/modules/pagination";
                 component: MainComponent
             }
         ]),
-        PaginationModule,
         ResponsiveMenuModule,
         HighlightModule,
         MatTabsModule,
