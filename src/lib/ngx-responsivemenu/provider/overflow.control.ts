@@ -3,17 +3,60 @@ import { Injectable } from "@angular/core";
 import { MenuItemDirective } from "../directives/menu-item.directive";
 import { Observable, Subject } from "rxjs";
 
+/**
+ * overflow control to open / close overflow.
+ *
+ * Every ResponsiveMenu will use this shared service. If you want display multiple
+ * responsive menu components u should provide an own OverflowControl service in dependcy injection tree.
+ * In this case both components got his own OverflowControl and dont affect each other.
+ *
+ * @example
+ *
+ * Component({
+ *     selector: "app-sub1-component",
+ *     templateUrl: "sub_1.component.html",
+ *     styleUrls: ["./sub_1.component.scss"],
+ *     viewProviders: [OverflowControl]
+ * })
+ * export class SubComponent1 implements AfterViewInit, AfterContentInit, OnDestroy {
+ *     ...
+ * }
+ *
+ * Component({
+ *     selector: "app-sub2-component",
+ *     templateUrl: "sub_2.component.html",
+ *     styleUrls: ["./sub_2.component.scss"],
+ *     viewProviders: [OverflowControl]
+ * })
+ * export class SubComponent2 implements AfterViewInit, AfterContentInit, OnDestroy {
+ *     ...
+ * }
+ */
 @Injectable()
 export class OverflowControl {
 
     private rendered = false;
 
-    private overflowModel: OverflowModel<any>;
+    /**
+     * data model
+     */
+    private overflowModel: OverflowModel;
 
+    /**
+     * notify all observers if overflow should be rendered
+     * but only if overflow items exists
+     */
     private show$: Subject<MenuItemDirective[]> = new Subject();
 
+    /**
+     * notify all observers if overflow should be removed
+     */
     private hide$: Subject<MenuItemDirective[]> = new Subject();
 
+    /**
+     * if true show$ will allways notify oberservers even if no
+     * items exists
+     */
     private forced: boolean;
 
     /**
@@ -47,7 +90,7 @@ export class OverflowControl {
     /**
      * returns overflow data model
      */
-    public get data(): OverflowModel<any> {
+    public get data(): OverflowModel {
         return this.overflowModel;
     }
 
@@ -58,6 +101,10 @@ export class OverflowControl {
         return this.rendered;
     }
 
+    /**
+     * update overflow visibility, if no overflow items exists it will
+     * close overflow automatically, unless overflow is forced
+     */
     public update() {
         if (this.rendered) {
             this.overflowModel.items.length === 0 && !this.forced

@@ -21,11 +21,24 @@ import { Subject } from "rxjs";
 import { OverflowControl } from "../provider/overflow.control";
 import { MenuToggleDirective } from "../directives/menu-toggle.directive";
 
+/**
+ * possible toggle button alignments
+ */
 export enum BtnAlign {
     LEFT = "left",
     RIGHT = "right"
 }
 
+/**
+ * Responsive menu component, all items which are passed should be from type
+ * ResponsiveMenuItem or ResponsiveMenuToggle. All other items will never rendered
+ * into dom
+ *
+ * @example
+ * <ngx-responsivemenu>
+ *     <button type="button" ngxResponsiveMenuItem ...>Btn</button>
+ * </ngx-responsivemenu>
+ */
 @Component( {
     selector: "ngx-responsivemenu",
     templateUrl: "responsive-menu.component.html",
@@ -33,9 +46,25 @@ export enum BtnAlign {
 } )
 export class ResponsiveMenuComponent implements AfterViewInit, AfterContentInit, OnDestroy {
 
+    /**
+     * if true default toggle button will not rendered anymore, will be set if a custom item
+     * has been added to content from type MenuToggleDirective
+     *
+     * @internal
+     * @example
+     * <ngx-responsivemenu>
+     *     ...
+     *     <button type="button" ngxResponsiveMenuToggle>Button</div>
+     * </ngx-responsivemenu>
+     */
     public isCustomButton = false;
 
-    @ContentChildren( MenuItemDirective )
+    /**
+     * Get querylist for all content items from type MenuItemDirective.
+     * Will also subscribe to querylist to get notified something changes so we can
+     * rerender menu
+     */
+    @ContentChildren(MenuItemDirective)
     public menuItems: QueryList<MenuItemDirective>;
 
     /**
@@ -91,6 +120,9 @@ export class ResponsiveMenuComponent implements AfterViewInit, AfterContentInit,
     @Input()
     public alignToggle: BtnAlign = BtnAlign.RIGHT;
 
+    /**
+     * emits if responsive menu has been completed rendering process
+     */
     @Output()
     rendered: EventEmitter<void> = new EventEmitter();
 
@@ -130,8 +162,14 @@ export class ResponsiveMenuComponent implements AfterViewInit, AfterContentInit,
     @ViewChild( "tmpButtonPane", { read: ElementRef, static: true } )
     private tmpButtonPane: ElementRef;
 
+    /**
+     * if true toggle button will allways included to button pane and be visible
+     */
     private isForcedOverflow = false;
 
+    /**
+     * emits true if component gets destroyed
+     */
     private isDestroyed$: Subject<boolean> = new Subject();
 
     /**
@@ -147,6 +185,9 @@ export class ResponsiveMenuComponent implements AfterViewInit, AfterContentInit,
      */
     private possibleOverflowItems: MenuItemDirective[] = [];
 
+    /**
+     * all overflow items which exists
+     */
     private overflowItems: MenuItemDirective[] = [];
 
     /** max width of button bar */
@@ -163,19 +204,19 @@ export class ResponsiveMenuComponent implements AfterViewInit, AfterContentInit,
     ) {
     }
 
+    /** @inheritdoc */
     public ngOnDestroy() {
         this.isDestroyed$.next( true );
     }
 
+    /** @inheritdoc */
     public ngAfterContentInit() {
         this.menuItems.changes
             .pipe(takeUntil(this.isDestroyed$))
             .subscribe(() => this.update());
     }
 
-    /**
-     * view has been initialized and rendered to dom
-     */
+    /** @inheritdoc */
     public ngAfterViewInit() {
         if (this.isCustomButton) {
             this.renderer.appendChild( this.buttonPane.nativeElement, this.toggleBtn.nativeElement );
@@ -208,7 +249,7 @@ export class ResponsiveMenuComponent implements AfterViewInit, AfterContentInit,
      */
     private render(width?: number) {
         this.initRenderProcess();
-        this.maxWidth = width || this.hostEl.nativeElement.getBoundingClientRect().width;
+        this.maxWidth = width || this.calcHostWidth();
 
         const items = this.prepareMenuItems();
         let isOverflow = false;
@@ -329,5 +370,23 @@ export class ResponsiveMenuComponent implements AfterViewInit, AfterContentInit,
          * item dont fits anymore this is an overflow
          */
         return false;
+    }
+
+    /**
+     * calculate inner width from host element
+     */
+    private calcHostWidth(): number {
+        const hostNode: HTMLElement = this.hostEl.nativeElement;
+        const hostStyle = getComputedStyle(hostNode);
+
+        let width = Math.floor(hostNode.getBoundingClientRect().width);
+
+        /** @todo check better solution to not calculate this every time */
+        width += parseInt(hostStyle.getPropertyValue("border-left-width"), 10);
+        width += parseInt(hostStyle.getPropertyValue("border-right-width"), 10);
+        width += parseInt(hostStyle.getPropertyValue("padding-right"), 10);
+        width += parseInt(hostStyle.getPropertyValue("padding-left"), 10);
+
+        return width;
     }
 }

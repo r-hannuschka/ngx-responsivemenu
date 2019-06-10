@@ -59,8 +59,26 @@
             <code>lib/ngx-responsivemenu/provider/overflow.control.ts</code>
         </p>
 
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>overflow control to open / close overflow.</p>
+<p>Every ResponsiveMenu will use this shared service. If you want display multiple
+responsive menu components u should provide an own OverflowControl service in dependcy injection tree.
+In this case both components got his own OverflowControl and dont affect each other.</p>
+
+            </p>
 
 
+            <p class="comment">
+                <h3>Example</h3>
+            </p>
+            <div class="io-description">
+                        <div>
+                            <pre class="line-numbers"><code class="language-html">Component({     selector: &quot;app-sub1-component&quot;,     templateUrl: &quot;sub_1.component.html&quot;,     styleUrls: [&quot;./sub_1.component.scss&quot;],     viewProviders: [OverflowControl]})export class SubComponent1 implements AfterViewInit, AfterContentInit, OnDestroy {     ...}Component({     selector: &quot;app-sub2-component&quot;,     templateUrl: &quot;sub_2.component.html&quot;,     styleUrls: [&quot;./sub_2.component.scss&quot;],     viewProviders: [OverflowControl]})export class SubComponent2 implements AfterViewInit, AfterContentInit, OnDestroy {     ...}</code></pre>
+                        </div>
+            </div>
 
             <section>
     <h3 id="index">Index</h3>
@@ -138,7 +156,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="41" class="link-to-prism">lib/ngx-responsivemenu/provider/overflow.control.ts:41</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="84" class="link-to-prism">lib/ngx-responsivemenu/provider/overflow.control.ts:84</a></div>
                             </td>
                         </tr>
 
@@ -175,8 +193,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="82"
-                            class="link-to-prism">lib/ngx-responsivemenu/provider/overflow.control.ts:82</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="129"
+                            class="link-to-prism">lib/ngx-responsivemenu/provider/overflow.control.ts:129</a></div>
                 </td>
             </tr>
 
@@ -218,8 +236,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="57"
-                            class="link-to-prism">lib/ngx-responsivemenu/provider/overflow.control.ts:57</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="100"
+                            class="link-to-prism">lib/ngx-responsivemenu/provider/overflow.control.ts:100</a></div>
                 </td>
             </tr>
 
@@ -261,8 +279,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="72"
-                            class="link-to-prism">lib/ngx-responsivemenu/provider/overflow.control.ts:72</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="119"
+                            class="link-to-prism">lib/ngx-responsivemenu/provider/overflow.control.ts:119</a></div>
                 </td>
             </tr>
 
@@ -304,14 +322,17 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="61"
-                            class="link-to-prism">lib/ngx-responsivemenu/provider/overflow.control.ts:61</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="108"
+                            class="link-to-prism">lib/ngx-responsivemenu/provider/overflow.control.ts:108</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>update overflow visibility, if no overflow items exists it will
+close overflow automatically, unless overflow is forced</p>
+</div>
 
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
@@ -344,7 +365,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">lib/ngx-responsivemenu/provider/overflow.control.ts:25</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="68" class="link-to-prism">lib/ngx-responsivemenu/provider/overflow.control.ts:68</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -406,7 +427,7 @@ for overflow conainer even if no overflow items exits.</p>
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">lib/ngx-responsivemenu/provider/overflow.control.ts:32</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="75" class="link-to-prism">lib/ngx-responsivemenu/provider/overflow.control.ts:75</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -439,7 +460,7 @@ for overflow conainer even if no overflow items exits.</p>
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">lib/ngx-responsivemenu/provider/overflow.control.ts:39</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="82" class="link-to-prism">lib/ngx-responsivemenu/provider/overflow.control.ts:82</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -472,7 +493,7 @@ for overflow conainer even if no overflow items exits.</p>
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="50" class="link-to-prism">lib/ngx-responsivemenu/provider/overflow.control.ts:50</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="93" class="link-to-prism">lib/ngx-responsivemenu/provider/overflow.control.ts:93</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -481,7 +502,7 @@ for overflow conainer even if no overflow items exits.</p>
 </div>
 
                                 <div class="io-description">
-                                    <b>Returns : </b>        <code><a href="../classes/OverflowModel.html" target="_self" >OverflowModel&lt;any&gt;</a></code>
+                                    <b>Returns : </b>        <code><a href="../classes/OverflowModel.html" target="_self" >OverflowModel</a></code>
 
                                 </div>
                         </td>
@@ -499,17 +520,60 @@ import { Injectable } from &quot;@angular/core&quot;;
 import { MenuItemDirective } from &quot;../directives/menu-item.directive&quot;;
 import { Observable, Subject } from &quot;rxjs&quot;;
 
+/**
+ * overflow control to open / close overflow.
+ *
+ * Every ResponsiveMenu will use this shared service. If you want display multiple
+ * responsive menu components u should provide an own OverflowControl service in dependcy injection tree.
+ * In this case both components got his own OverflowControl and dont affect each other.
+ *
+ * @example
+ *
+ * Component({
+ *     selector: &quot;app-sub1-component&quot;,
+ *     templateUrl: &quot;sub_1.component.html&quot;,
+ *     styleUrls: [&quot;./sub_1.component.scss&quot;],
+ *     viewProviders: [OverflowControl]
+ * })
+ * export class SubComponent1 implements AfterViewInit, AfterContentInit, OnDestroy {
+ *     ...
+ * }
+ *
+ * Component({
+ *     selector: &quot;app-sub2-component&quot;,
+ *     templateUrl: &quot;sub_2.component.html&quot;,
+ *     styleUrls: [&quot;./sub_2.component.scss&quot;],
+ *     viewProviders: [OverflowControl]
+ * })
+ * export class SubComponent2 implements AfterViewInit, AfterContentInit, OnDestroy {
+ *     ...
+ * }
+ */
 @Injectable()
 export class OverflowControl {
 
     private rendered &#x3D; false;
 
-    private overflowModel: OverflowModel&lt;any&gt;;
+    /**
+     * data model
+     */
+    private overflowModel: OverflowModel;
 
+    /**
+     * notify all observers if overflow should be rendered
+     * but only if overflow items exists
+     */
     private show$: Subject&lt;MenuItemDirective[]&gt; &#x3D; new Subject();
 
+    /**
+     * notify all observers if overflow should be removed
+     */
     private hide$: Subject&lt;MenuItemDirective[]&gt; &#x3D; new Subject();
 
+    /**
+     * if true show$ will allways notify oberservers even if no
+     * items exists
+     */
     private forced: boolean;
 
     /**
@@ -543,7 +607,7 @@ export class OverflowControl {
     /**
      * returns overflow data model
      */
-    public get data(): OverflowModel&lt;any&gt; {
+    public get data(): OverflowModel {
         return this.overflowModel;
     }
 
@@ -554,6 +618,10 @@ export class OverflowControl {
         return this.rendered;
     }
 
+    /**
+     * update overflow visibility, if no overflow items exists it will
+     * close overflow automatically, unless overflow is forced
+     */
     public update() {
         if (this.rendered) {
             this.overflowModel.items.length &#x3D;&#x3D;&#x3D; 0 &amp;&amp; !this.forced

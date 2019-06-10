@@ -1,5 +1,5 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
-import { ResizeEvent, ResizableDirective } from "angular-resizable-element";
+import { Component, OnInit, ViewChild, Renderer2, ElementRef, AfterViewInit } from "@angular/core";
+import { ResizeEvent, ResizableDirective, ResizeHandleDirective } from "angular-resizable-element";
 import { OverflowControl, ResponsiveMenuComponent } from "ngx-responsivemenu";
 import { tap, switchMap } from "rxjs/operators";
 
@@ -9,7 +9,7 @@ import { tap, switchMap } from "rxjs/operators";
     styleUrls: ["./force-overflow.component.scss"],
     viewProviders: [OverflowControl]
 })
-export class ForceOverflowExampleComponent implements OnInit {
+export class ForceOverflowExampleComponent implements OnInit, AfterViewInit {
 
     public style;
 
@@ -58,13 +58,19 @@ export class CustomToggleExampleComponent implements OnInit {
 </div>
 `;
 
+    @ViewChild(ResizeHandleDirective, {read: ElementRef, static: true})
+    private handle: ElementRef;
+
     @ViewChild(ResponsiveMenuComponent, {read: ResponsiveMenuComponent, static: true})
     private responsiveMenu: ResponsiveMenuComponent;
 
     @ViewChild(ResizableDirective, {read: ResizableDirective, static: true})
     private resizeDirective: ResizableDirective;
 
-    public constructor(private overflowCtrl: OverflowControl) {}
+    public constructor(
+        private overflowCtrl: OverflowControl,
+        private renderer: Renderer2
+    ) {}
 
     ngOnInit() {
         /** create array with 10 items */
@@ -79,7 +85,8 @@ export class CustomToggleExampleComponent implements OnInit {
                     width: `${ event.rectangle.width }px`,
                     height: `${ event.rectangle.height }px`
                 };
-                this.responsiveMenu.update(event.rectangle.width);
+                this.updateHandlePosition(event.rectangle.width);
+                this.responsiveMenu.update();
             });
 
         this.overflowCtrl.show
@@ -87,5 +94,14 @@ export class CustomToggleExampleComponent implements OnInit {
                 tap(() => this.showOverflow = true),
                 switchMap(() => this.overflowCtrl.hide)
             ).subscribe(() => this.showOverflow = false);
+    }
+
+    ngAfterViewInit() {
+        this.updateHandlePosition();
+    }
+
+    private updateHandlePosition(w?: number) {
+        const width = w || this.resizeDirective.elm.nativeElement.offsetWidth;
+        this.renderer.setStyle(this.handle.nativeElement, "left", `${width}px`);
     }
 }

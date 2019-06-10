@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
+import {PlatformLocation } from "@angular/common";
 import { ResponsiveMenuComponent } from "ngx-responsivemenu";
 import { WindowResize } from "example/app/provider/window.resize";
 import { Router } from "@angular/router";
@@ -11,17 +12,26 @@ import { Router } from "@angular/router";
 
 export class HeaderComponent implements OnInit {
 
+    public docUrl: string;
+
     @ViewChild(ResponsiveMenuComponent, { read: ResponsiveMenuComponent, static: false })
     private responsiveMenu: ResponsiveMenuComponent;
 
     public constructor(
         private router: Router,
-        private resize: WindowResize
-    ) {}
+        private resize: WindowResize,
+        private platformLocation: PlatformLocation
+    ) {
+    }
 
     public buttons: any[] = [];
 
     ngOnInit() {
+
+        const baseHref = this.platformLocation.getBaseHrefFromDOM();
+
+        /** not the best solution but will work for the repo */
+        this.docUrl = `${baseHref}../documentation/index.html`;
 
         this.buttons = [{
             label: "Home",

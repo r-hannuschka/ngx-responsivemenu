@@ -16,8 +16,7 @@
         <pre><code [highlight]="exampleHtml"></code></pre>
     </ng-container>
 
-    <div mwlResizable example [enableGhostResize]="false" [ngStyle]="style" class="rectangle"
-        [resizeEdges]="{bottom: false, right: true, top: false, left: false}">
+    <div mwlResizable example [enableGhostResize]="false" [ngStyle]="style" class="rectangle">
         <ngx-responsivemenu>
             <!-- by default this is width of 100% which leads to an error -->
             <div class="input-group" style="width: auto;" ngxResponsiveMenuItem>
@@ -31,5 +30,6 @@
             </div> 
             <button type="button" ngxResponsiveMenuItem class="btn btn-secondary">Default Item</button>
         </ngx-responsivemenu>
+        <div mwlResizeHandle [resizeEdges]="{right: true}" class="resize-handle" ></div>
     </div>
 </app-example-tile>

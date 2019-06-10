@@ -18,8 +18,7 @@
         <pre><code [highlight]="exampleHtml"></code></pre>
     </ng-container>
 
-    <div mwlResizable example [enableGhostResize]="false" [ngStyle]="style" class="rectangle"
-        [resizeEdges]="{bottom: false, right: true, top: false, left: false}">
+    <div mwlResizable example [enableGhostResize]="false" [ngStyle]="style" class="rectangle">
 
         <ngx-responsivemenu [classBtnPane]="'btn-group'" [customOverflow]="true">
             <button type="button" class="btn btn-sm btn-secondary" ngxResponsiveMenuItem *ngFor="let item of items">{{item}}</button>
@@ -32,5 +31,6 @@
             <strong>Menu</strong>
             <ngx-responsivemenu-overflow></ngx-responsivemenu-overflow>
         </div>
+        <div mwlResizeHandle [resizeEdges]="{right: true}" class="resize-handle" ></div>
     </div>
 </app-example-tile>
