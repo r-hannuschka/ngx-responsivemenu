@@ -44,7 +44,7 @@ export function hljsLanguages() {
         ResponsiveMenuModule,
         StartPage,
         ExamplePage,
-        RouterModule.forRoot([]),
+        RouterModule.forRoot([], {useHash: true}),
         HighlightModule.forRoot({
             languages: hljsLanguages
         })
