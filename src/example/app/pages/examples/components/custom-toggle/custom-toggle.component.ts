@@ -66,7 +66,7 @@ export class CustomToggleExampleComponent implements OnInit {
                     height: `${ event.rectangle.height }px`
                 };
                 this.updateHandlePosition(event.rectangle.width);
-                this.responsiveMenu.update(event.rectangle.width);
+                this.responsiveMenu.update();
             });
     }
 
