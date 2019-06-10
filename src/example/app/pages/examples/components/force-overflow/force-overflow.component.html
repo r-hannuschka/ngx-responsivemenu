@@ -1,0 +1,37 @@
+<app-example-tile>
+    <ng-container title>
+        <b>Force Overflow Example</b>
+    </ng-container>
+
+    <ng-container description>
+        <p>This example will allways show the toggle button and not only if an overflow exists. Real Overflow content from the menu will rendered into</p>
+        <pre><code [highlight]="'<ngx-responsivemenu-overflow></ngx-responsivemenu-overflow>'"></code></pre>
+        <p>This could be useful if you define your own overflow component which contain some extra components into the overflow which not very useful inside the menu.</p>
+    </ng-container>
+
+    <ng-container code>
+        <pre><code [highlight]="exampleCode"></code></pre>
+    </ng-container>
+
+    <ng-container html>
+        <pre><code [highlight]="exampleHtml"></code></pre>
+    </ng-container>
+
+    <div mwlResizable example [enableGhostResize]="false" [ngStyle]="style" class="rectangle"
+        [resizeEdges]="{bottom: false, right: true, top: false, left: false}">
+
+        <ngx-responsivemenu [classBtnPane]="'btn-group'" [forceOverflow]="true" [customOverflow]="true">
+            <button type="button" class="btn btn-sm btn-secondary" ngxResponsiveMenuItem *ngFor="let item of items">{{item}}</button>
+            <button class="btn btn-sm btn-secondary" ngxResponsiveMenuToggle>
+                <i class="fa fa-bars"></i>
+            </button>
+        </ngx-responsivemenu>
+
+        <div *ngIf="showOverflow">
+            <ngx-responsivemenu-overflow></ngx-responsivemenu-overflow>
+            <strong>Angular rocks</strong>
+            <img width="100px" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
+        </div>
+
+    </div>
+</app-example-tile>

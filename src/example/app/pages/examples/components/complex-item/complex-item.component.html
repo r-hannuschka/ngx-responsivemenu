@@ -1,0 +1,35 @@
+<app-example-tile>
+    <ng-container title>
+        <b>Custom Toggle Example</b>
+    </ng-container>
+
+    <ng-container description>
+        <p>Change toggle button by adding your own, on this way you can style the button like you want.</p>
+        <p>This example uses <i>Bootstrap: Buttons / Button Group</i></p>
+    </ng-container>
+
+    <ng-container code>
+        <pre><code [highlight]="exampleCode"></code></pre>
+    </ng-container>
+
+    <ng-container html>
+        <pre><code [highlight]="exampleHtml"></code></pre>
+    </ng-container>
+
+    <div mwlResizable example [enableGhostResize]="false" [ngStyle]="style" class="rectangle"
+        [resizeEdges]="{bottom: false, right: true, top: false, left: false}">
+        <ngx-responsivemenu>
+            <!-- by default this is width of 100% which leads to an error -->
+            <div class="input-group" style="width: auto;" ngxResponsiveMenuItem>
+                <div class="custom-file">
+                    <input type="file" class="custom-file-input">
+                    <label class="custom-file-label" for="inputGroupFile02">Choose file</label>
+                </div>
+                <div class="input-group-append">
+                    <span class="input-group-text" id="">Upload</span>
+                </div>
+            </div> 
+            <button type="button" ngxResponsiveMenuItem class="btn btn-secondary">Default Item</button>
+        </ngx-responsivemenu>
+    </div>
+</app-example-tile>

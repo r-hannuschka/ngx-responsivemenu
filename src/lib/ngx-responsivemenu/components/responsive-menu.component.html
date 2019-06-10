@@ -1,0 +1,13 @@
+<!-- visible buttons -->
+<div class="buttonWrapper">
+    <!-- should use tmp button pane to render buttons first -->
+    <div #tmpButtonPane class="buttonPane" [ngClass]="classBtnPane"></div>
+    <div #buttonPane class="buttonPane" [ngClass]="classBtnPane">
+        <button type="button"  ngxResponsiveMenuToggle *ngIf="!isCustomButton">...</button>
+    </div>
+</div>
+
+<!-- default container where over items will be rendered in -->
+<div class="overflow" *ngIf="!customOverflow">
+    <ngx-responsivemenu-overflow></ngx-responsivemenu-overflow>
+</div>

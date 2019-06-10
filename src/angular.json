@@ -1,0 +1,116 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "projects",
+  "projects": {
+    "ngx-responsivemenu-example": {
+      "root": "",
+      "sourceRoot": "example",
+      "projectType": "application",
+      "prefix": "app",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "sass"
+        }
+      },
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "styles": [
+                "node_modules/bootstrap-scss/bootstrap.scss",
+                "example/styles.scss"
+            ],
+            "outputPath": "./dist/example",
+            "index": "example/index.html",
+            "main": "example/main.ts",
+            "polyfills": "example/polyfills.ts",
+            "tsConfig": "example/tsconfig.app.json",
+            "preserveSymlinks": true,
+            "assets": [
+              "example/favicon.ico",
+              "example/assets"
+            ],
+            "scripts": [],
+            "es5BrowserSupport": false
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [{
+                "replace": "src/environments/environment.ts",
+                "with": "src/environments/environment.prod.ts"
+              }],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [{
+                "type": "initial",
+                "maximumWarning": "2mb",
+                "maximumError": "5mb"
+              }]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "ngx-responsivemenu-example:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "ngx-responsivemenu-example:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "ngx-responsivemenu-example:build"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "example/tsconfig.app.json",
+              "example/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "ngx-responsivemenu": {
+      "projectType": "library",
+      "root": "lib",
+      "sourceRoot": "lib/ngx-responsivemenu",
+      "prefix": "ngx-responsivemenu",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "lib/tsconfig.lib.json",
+            "project": "lib/ng-package.json"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "lib/tests/main.ts",
+            "tsConfig": "lib/tests/tsconfig.spec.json",
+            "karmaConfig": "lib/tests/karma.conf.js"
+          }
+        }
+      }
+    }
+  },
+  "defaultProject": "ngx-responsivemenu-example"
+}

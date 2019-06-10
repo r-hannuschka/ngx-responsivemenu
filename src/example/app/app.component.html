@@ -1,0 +1,27 @@
+<main role="main" class="flex-shrink-0">
+
+  <header>
+    <app-header></app-header>
+  </header>
+
+    <div class="content-wrapper">
+        <div class="container">
+            <router-outlet></router-outlet>
+        </div>
+
+        <div class="sidebar" *ngIf="showSidebar" [@EnterLeave]="'flyIn'" (@EnterLeave.done)="animationDone($event)">
+            <h4>Menu</h4>
+            <ngx-responsivemenu-overflow (beforeRemove)="onBeforeRemoveMenu($event)"></ngx-responsivemenu-overflow>
+            <div>
+            <h4>Links</h4>
+            <a href="https://github.com/r-hannuschka/ngx-responsivemenu" target="blank">Github</a>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer class="footer mt-auto py-3">
+  <div class="container">
+    <span class="text-muted">Ngx-ResponsiveMenu</span>
+  </div>
+</footer>

@@ -1,0 +1,15 @@
+<h1>ngx-responsivemenu</h1>
+
+<section class="menu">
+  <ngx-responsivemenu [customOverflow]="true" [forceOverflow]="true">
+    <div ngxResponsiveMenuItem *ngFor="let btn of buttons" [visible]="btn.visible" (click)="goTo(btn.route)">
+      <span>{{btn.label}}</span>
+    </div>
+    <div ngxResponsiveMenuItem>
+      <span>Documentation</span>
+    </div>
+    <div ngxResponsiveMenuToggle>
+      <span><i class="fa fa-bars"></i></span>
+    </div>
+  </ngx-responsivemenu>
+</section>

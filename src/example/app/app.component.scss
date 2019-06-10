@@ -1,0 +1,67 @@
+:host {
+
+    display: flex;
+    flex-direction: column;
+    height:100%;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+
+    header {
+        background: linear-gradient(to top, #373737, #212121);
+        color: #FFF;
+        padding: 50px 10px 30px 10px;
+
+        app-header {
+            margin: 0 auto;
+        }
+    }
+
+    .content-wrapper {
+        position: relative;
+        overflow-x: hidden;
+        flex-shrink: 0 !important;
+        flex-grow: 1 !important;
+    }
+
+    .content {
+        padding: 0 15px 220px;
+        max-width: 1024px;
+        margin: auto;
+        flex: 1;
+    }
+
+    .sidebar {
+        position: absolute;
+        white-space: nowrap;
+        background: #FFF;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        z-index: 10;
+        -webkit-box-shadow: -2px 0px 5px 0px rgba(0,0,0,0.5);
+        -moz-box-shadow: -2px 0px 5px 0px rgba(0,0,0,0.5);
+        box-shadow: -2px 0px 5px 0px rgba(0,0,0,0.5);
+    }
+
+    .sidebar h4 {
+        padding: .5rem 1rem;
+        border-bottom: 1px solid darken(#373737, 10%);
+        background: lighten(#373737, 10%);
+        color: #FFF;
+    }
+}
+
+footer {
+    background: linear-gradient(to top, #373737, #212121);
+    flex: 0 0 200px;
+}
+
+::ng-deep {
+    .sidebar .responsive-menu--item {
+        padding: .5rem 1rem;
+    }
+}
