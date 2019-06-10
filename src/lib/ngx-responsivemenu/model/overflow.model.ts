@@ -1,38 +1,32 @@
-import { ViewContainerRef, TemplateRef } from "@angular/core";
 import { MenuItemDirective } from "../directives/menu-item.directive";
 
-export class OverflowModel<T> {
+/**
+ * holds informations which are used from overflow control
+ */
+export class OverflowModel {
 
-    private overflowHost: ViewContainerRef;
-
-    private overflowTemplate: TemplateRef<T>;
-
+    /**
+     * hold all overflow items
+     */
     private overflowItems: MenuItemDirective[] = [];
 
-    public set host(host: ViewContainerRef) {
-        this.overflowHost = host;
-    }
-
-    public get host(): ViewContainerRef {
-        return this.overflowHost;
-    }
-
-    public set template(template: TemplateRef<T>) {
-        this.overflowTemplate = template;
-    }
-
-    public get template(): TemplateRef<T> {
-        return this.overflowTemplate;
-    }
-
+    /**
+     * set items which should rendered to overflow
+     */
     public set items(items: MenuItemDirective[]) {
         this.overflowItems = items;
     }
 
+    /**
+     * get items which should rendered to overflow
+     */
     public get items(): MenuItemDirective[] {
         return this.overflowItems;
     }
 
+    /**
+     * returns true if overflow is not empty
+     */
     public isOverflow() {
         return this.items.length > 0;
     }

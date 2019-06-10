@@ -23,7 +23,6 @@ import { MenuToggleDirective } from "../directives/menu-toggle.directive";
 
 /**
  * possible toggle button alignments
- * @enum {number}
  */
 export enum BtnAlign {
     LEFT = "left",
