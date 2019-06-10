@@ -1,24 +1,100 @@
-# NgxResponsivemenu
+# Ngx-Responsivemenu
 
-This library was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.0.0.
+![documentation](https://r-hannuschka.github.io/ngx-responsivemenu/src/documentation/images/coverage-badge-documentation.svg)
+[![npm](https://img.shields.io/npm/l/express.svg?maxAge=2592000)](/LICENSE)
 
-## Code scaffolding
+Angular 8+ Responsive Menu
+___
 
-Run `ng generate component component-name --project ngx-responsivemenu` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module --project ngx-responsivemenu`.
-> Note: Don't forget to add `--project ngx-responsivemenu` or else it will be added to the default project in your `angular.json` file. 
+## Installation
 
-## Build
+npm
 
-Run `ng build ngx-responsivemenu` to build the project. The build artifacts will be stored in the `dist/` directory.
+```bash
+npm i --save ngx-responsivemenu
+```
 
-## Publishing
+## Usage
 
-After building your library with `ng build ngx-responsivemenu`, go to the dist folder `cd dist/ngx-responsivemenu` and run `npm publish`.
+### app.module.ts
 
-## Running unit tests
+```ts
+// App Module
+import { ResponsiveMenuModule } from "ngx-responsivemenu";
+import { AppComponent } from "./app.component";
 
-Run `ng test ngx-responsivemenu` to execute the unit tests via [Karma](https://karma-runner.github.io).
+@NgModule({
+    declarations: [
+        AppComponent
+    ],
+    imports: [
+        ResponsiveMenuModule,
+    ],
+    bootstrap: [
+        AppComponent
+    ]
+})
+export class AppModule {
+    constructor() { }
+}
+```
 
-## Further help
+### app.component.ts
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+```ts
+
+// AppComponent
+import { Component, OnInit } from "@angular/core";
+import { OverflowControl, ResponsiveMenuComponent } from "ngx-responsivemenu";
+
+@Component({
+    selector: "app-component",
+    templateUrl: "app.component.html",
+    styleUrls: ["./app.component.scss"],
+    viewProviders: [OverflowControl]
+})
+export class SimpleExampleComponent implements OnInit {
+
+    public style;
+
+    public items: string[] = [];
+
+    ngOnInit() {
+        /** create array with 10 items */
+        this.items = Array.from( Array.from( { length: 10 } ), ( v, index ) => `Item #${ index }` );
+    }
+}
+```
+
+### app.component.html
+
+```html
+<ngx-responsivemenu>
+    <div ngxResponsiveMenuItem *ngFor="let item of items">{{item}}</div>
+</ngx-responsivemenu
+```
+
+more [examples](https://r-hannuschka.github.io/ngx-responsivemenu/src/demo/#/examples) can be found here
+
+## Documentation
+
+Documentation will be auto generated with [Compodoc](https://compodoc.app/) and can found [here](https://r-hannuschka.github.io/ngx-responsivemenu/src/documentation/).
+
+## Development
+
+```bash
+git clone git@github.com:r-hannuschka/ngx-responsivemenu.git
+cd ngx-responsivemenu\src && npm i
+ng build ngx-responsivemenu
+ng serve
+```
+
+## Generate Docs
+
+```bash
+npm run compodoc
+```
+
+## Author
+
+Ralf Hannuschka
