@@ -17,11 +17,11 @@
     </ng-container>
 
     <div example>
-        <div mwlResizable [enableGhostResize]="false" [ngStyle]="style" class="rectangle"
-            [resizeEdges]="{bottom: false, right: true, top: false, left: false}">
+        <div mwlResizable [enableGhostResize]="false" [ngStyle]="style" class="rectangle">
             <ngx-responsivemenu [alignToggle]="'left'">
                 <div ngxResponsiveMenuItem *ngFor="let item of items">{{item}}</div>
             </ngx-responsivemenu>
+            <div mwlResizeHandle [resizeEdges]="{right: true}" class="resize-handle" ></div>
         </div>
     </div>
 

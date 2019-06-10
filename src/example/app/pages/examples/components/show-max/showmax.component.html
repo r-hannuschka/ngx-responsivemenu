@@ -19,7 +19,8 @@
     <div mwlResizable example [enableGhostResize]="false" [ngStyle]="style" class="rectangle"
         [resizeEdges]="{bottom: false, right: true, top: false, left: false}">
         <ngx-responsivemenu [showMax]=3>
-        <div ngxResponsiveMenuItem *ngFor="let item of items">{{item}}</div>
+            <div ngxResponsiveMenuItem *ngFor="let item of items">{{item}}</div>
         </ngx-responsivemenu>
+        <div mwlResizeHandle [resizeEdges]="{right: true}" class="resize-handle" ></div>
     </div>
 </app-example-tile>

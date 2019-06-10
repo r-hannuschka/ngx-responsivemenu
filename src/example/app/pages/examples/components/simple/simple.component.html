@@ -15,10 +15,11 @@
         <pre><code [highlight]="exampleHtml"></code></pre>
     </ng-container>
 
-    <div mwlResizable example [enableGhostResize]="false" [ngStyle]="style" class="rectangle"
-        [resizeEdges]="{bottom: false, right: true, top: false, left: false}">
+    <div mwlResizable example [enableGhostResize]="false" [ngStyle]="style" class="rectangle">
         <ngx-responsivemenu>
             <div ngxResponsiveMenuItem *ngFor="let item of items">{{item}}</div>
         </ngx-responsivemenu>
+        <div mwlResizeHandle [resizeEdges]="{right: true}" class="resize-handle" >
+        </div>
     </div>
 </app-example-tile>
