@@ -1,5 +1,7 @@
 # Ngx-Responsivemenu
 
+[![npm](https://img.shields.io/npm/v/ngx-responsivemenu.svg?maxAge=2592000?style=plastic)](https://www.npmjs.com/package/ngx-responsivemenu)
+[![npm](https://img.shields.io/npm/dt/ngx-responsivemenu.svg?maxAge=2592000?style=plastic)](https://www.npmjs.com/package/ngx-responsivemenu)
 ![documentation](https://r-hannuschka.github.io/ngx-responsivemenu/src/documentation/images/coverage-badge-documentation.svg)
 [![npm](https://img.shields.io/npm/l/express.svg?maxAge=2592000)](/LICENSE)
 

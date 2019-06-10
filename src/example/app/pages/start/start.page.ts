@@ -3,6 +3,7 @@ import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { RouterModule } from "@angular/router";
 import { MainComponent } from "./components/main.component";
+import { MarkdownModule } from "ngx-markdown";
 
 @NgModule({
     imports: [
@@ -13,6 +14,7 @@ import { MainComponent } from "./components/main.component";
                 component: MainComponent
             }
         ]),
+        MarkdownModule,
     ],
     exports: [
         RouterModule

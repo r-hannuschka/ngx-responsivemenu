@@ -1,8 +1,21 @@
 {
   "name": "ngx-responsivemenu",
-  "version": "1.0.0",
+  "description": "angular 8+ responsive menu",
+  "version": "1.0.1",
   "peerDependencies": {
     "@angular/common": "^8.0.0",
     "@angular/core": "^8.0.0"
-  }
+  },
+  "repository": {
+    "url": "https://github.com/r-hannuschka/ngx-responsivemenu.git",
+    "type": "git"
+  },
+  "license": "MIT",
+  "author": "Ralf Hannuschka (https://github.com/r-hannuschka)",
+  "keywords": [
+    "angular",
+    "responsive menu",
+    "responsive",
+    "menu"
+  ]
 }

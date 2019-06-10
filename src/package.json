@@ -1,6 +1,6 @@
 {
   "name": "ngx-responsivemenu",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -30,6 +30,7 @@
     "generate-changelog": "^1.7.1",
     "highlight.js": "^9.15.8",
     "ngx-highlightjs": "^3.0.3",
+    "ngx-markdown": "^8.0.2",
     "ngx-responsivemenu": "file:dist/ngx-responsivemenu",
     "rxjs": "~6.5.2",
     "tslib": "^1.9.0",
