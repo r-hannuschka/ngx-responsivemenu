@@ -3,7 +3,7 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { RouterModule } from "@angular/router";
-import { ResponsiveMenuModule } from "ngx-responsivemenu";
+import { ResponsiveMenuModule } from "lib/public-api";
 
 import { HighlightModule } from "ngx-highlightjs";
 import xml from "highlight.js/lib/languages/xml";

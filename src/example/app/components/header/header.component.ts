@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
 import {PlatformLocation } from "@angular/common";
-import { ResponsiveMenuComponent } from "ngx-responsivemenu";
 import { WindowResize } from "example/app/provider/window.resize";
 import { Router } from "@angular/router";
+import { ResponsiveMenuComponent } from "lib/public-api";
 
 @Component({
     selector: "app-header",

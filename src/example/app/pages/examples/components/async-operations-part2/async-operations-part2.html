@@ -16,12 +16,11 @@
     <div class="card-content">
 
         <div class="card-body">
-            <p class="card-text">To solve that problem we can register on animation <strong>SlideInOut</strong> event animation done
-                by adding <strong>(@SlideInOut.done)="animationDone($event)</strong> to our sidebar.
+            <p class="card-text">To solve that problem we can register on animation <strong>SlideInOut</strong> event <strong>done</strong>
                 To get control remove the content not before animation has been finished we register to <strong>beforeRemove</strong>
                  event on <strong>ngx-responsivemenu-overflow</strong> directive.
             </p>
-            <p>Now after the animation is done, the overflow will removed from dom</p>
+            <p>Now after the animation is done we notify the async event all has been done, so the overflow can removed from dom</p>
 
             <mat-tab-group [dynamicHeight]="true" [@.disabled]="true" style="height: 340px" [disableRipple]=true>
                 <mat-tab label="Typescript">

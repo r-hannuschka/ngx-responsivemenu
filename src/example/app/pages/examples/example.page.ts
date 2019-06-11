@@ -5,7 +5,7 @@ import { RouterModule } from "@angular/router";
 import { MatTabsModule } from "@angular/material";
 import { ResizableModule } from "angular-resizable-element";
 import { HighlightModule } from "ngx-highlightjs";
-import { ResponsiveMenuModule } from "ngx-responsivemenu";
+import { ResponsiveMenuModule } from "lib/public-api";
 
 /** components */
 import { MainComponent } from "./components/main.component";

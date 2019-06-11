@@ -1,6 +1,6 @@
 
 import { Component, OnInit } from "@angular/core";
-import { OverflowControl, AsyncEvent } from "ngx-responsivemenu";
+import { OverflowControl, AsyncEvent } from "lib/public-api";
 import { tap, switchMap } from "rxjs/operators";
 import { state, style, trigger, transition, animate } from "@angular/animations";
 import { Subject } from "rxjs";

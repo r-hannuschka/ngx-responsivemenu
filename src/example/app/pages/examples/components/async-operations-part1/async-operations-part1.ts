@@ -1,8 +1,8 @@
 
-import { Component, OnInit } from "@angular/core";
-import { OverflowControl } from "ngx-responsivemenu";
-import { tap, switchMap } from "rxjs/operators";
 import { state, style, trigger, transition, animate } from "@angular/animations";
+import { Component, OnInit } from "@angular/core";
+import { OverflowControl } from "lib/public-api";
+import { tap, switchMap } from "rxjs/operators";
 
 @Component({
     selector: "app-async-operations1-example",
