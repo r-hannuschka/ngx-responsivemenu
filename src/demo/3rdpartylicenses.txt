@@ -173,6 +173,7 @@ ngx-highlightjs
 MIT
 
 ngx-responsivemenu
+MIT
 
 rxjs
 Apache-2.0
