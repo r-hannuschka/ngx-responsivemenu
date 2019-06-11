@@ -9,5 +9,5 @@
 
 <!-- default container where over items will be rendered in -->
 <div class="overflow" *ngIf="!customOverflow">
-    <ngx-responsivemenu-overflow></ngx-responsivemenu-overflow>
+    <ngx-responsivemenu-overflow [ngClass]="classOverflow ? classOverflow : false"></ngx-responsivemenu-overflow>
 </div>

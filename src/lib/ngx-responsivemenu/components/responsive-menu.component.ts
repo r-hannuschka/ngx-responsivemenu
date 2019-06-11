@@ -39,11 +39,11 @@ export enum BtnAlign {
  *     <button type="button" ngxResponsiveMenuItem ...>Btn</button>
  * </ngx-responsivemenu>
  */
-@Component( {
+@Component({
     selector: "ngx-responsivemenu",
     templateUrl: "responsive-menu.component.html",
     styleUrls: ["./responsive-menu.component.scss"]
-} )
+})
 export class ResponsiveMenuComponent implements AfterViewInit, AfterContentInit, OnDestroy {
 
     /**
@@ -106,13 +106,25 @@ export class ResponsiveMenuComponent implements AfterViewInit, AfterContentInit,
      * add a class for the button pane as example for bootstrap btn-group
      *
      * @example
-     *
      * <ngx-responsive-menu [classBtnPane]="'btn-group'">
      *   <button type="button" ngxResponsiveMenuItem class="btn btn-sm btn-secondary" *ngFor="let item of items">{{label}}</button>
      * </ngx-responsive-menu>
      */
     @Input()
     public classBtnPane: string;
+
+    /**
+     * add class to overflow container, only for default overflow if option customOverflow is passed
+     * this class will not added to custom overflow, simply use [ngClass]="'className'" if you want to add
+     * a custom class
+     *
+     * @example
+     * <ngx-responsive-menu [classOverflow]="'overflow-container'">
+     *    ...
+     * </ngx-responsive-menu>
+     */
+    @Input()
+    public classOverflow: string;
 
     /**
      * set position of toggle btn, possible values are left or right
