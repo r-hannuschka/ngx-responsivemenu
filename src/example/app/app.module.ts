@@ -3,9 +3,7 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { RouterModule } from "@angular/router";
-import { HttpClient } from "@angular/common/http";
 import { ResponsiveMenuModule } from "ngx-responsivemenu";
-import { MarkdownModule } from "ngx-markdown";
 
 import { HighlightModule } from "ngx-highlightjs";
 import xml from "highlight.js/lib/languages/xml";
@@ -49,8 +47,7 @@ export function hljsLanguages() {
         RouterModule.forRoot([], {useHash: true}),
         HighlightModule.forRoot({
             languages: hljsLanguages
-        }),
-        MarkdownModule.forRoot({loader: HttpClient})
+        })
     ],
     bootstrap: [
         AppComponent
