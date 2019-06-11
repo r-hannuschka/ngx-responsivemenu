@@ -63,7 +63,7 @@ export class SimpleExampleComponent implements OnInit {
 
     ngOnInit() {
         /** create array with 10 items */
-        this.items = Array.from( Array.from( { length: 10 } ), ( v, index ) => `Item #${ index }` );
+        this.items = Array.from( Array.from({length: 10 } ), ( v, index ) => `Item #${ index }`);
     }
 }
 ```
@@ -76,7 +76,7 @@ export class SimpleExampleComponent implements OnInit {
 </ngx-responsivemenu
 ```
 
-more [examples](https://r-hannuschka.github.io/ngx-responsivemenu/src/demo/#/examples) can be found here
+more [Examples](https://r-hannuschka.github.io/ngx-responsivemenu/src/demo/#/examples)
 
 ## Documentation
 
@@ -87,7 +87,6 @@ Documentation will be auto generated with [Compodoc](https://compodoc.app/) and 
 ```bash
 git clone git@github.com:r-hannuschka/ngx-responsivemenu.git
 cd ngx-responsivemenu\src && npm i
-ng build ngx-responsivemenu
 ng serve
 ```
 

@@ -1,0 +1,50 @@
+<div class="card bg-white border-info bg-width mb-3" style="width: 100%;">
+
+    <div class="card-header d-flex flex-row">
+        <strong>Async Operations Part 2 - AsyncEvent beforeRemove</strong>
+        <ngx-responsivemenu class="responsive-menu" [showMax]=0 [customOverflow]=true>
+            <button type="button" ngxResponsiveMenuItem>Button 1</button>
+            <button type="button" ngxResponsiveMenuItem>Button 2</button>
+            <button type="button" ngxResponsiveMenuItem>Button 3</button>
+            <button type="button" ngxResponsiveMenuItem>Button 4</button>
+            <button class="btn btn-sm btn-secondary" ngxResponsiveMenuToggle>
+                <i class="fa fa-bars"></i>
+            </button>
+        </ngx-responsivemenu>
+    </div>
+
+    <div class="card-content">
+
+        <div class="card-body">
+            <p class="card-text">To solve that problem we can register on animation <strong>SlideInOut</strong> event <strong>done</strong>
+                To get control remove the content not before animation has been finished we register to <strong>beforeRemove</strong>
+                 event on <strong>ngx-responsivemenu-overflow</strong> directive.
+            </p>
+            <p>Now after the animation is done we notify the async event all has been done, so the overflow can removed from dom</p>
+
+            <mat-tab-group [dynamicHeight]="true" [@.disabled]="true" style="height: 340px" [disableRipple]=true>
+                <mat-tab label="Typescript">
+                    <div style="overflow-y: auto; height: 100%;">
+                        <pre><code [highlight]="sourceTs"></code></pre>
+                    </div>
+                </mat-tab>
+                <mat-tab label="Html">
+                    <div style="overflow-y: auto; height: 100%;">
+                        <pre><code [highlight]="sourceHtml"></code></pre>
+                    </div>
+                </mat-tab>
+                <mat-tab label="Scss">
+                    <div style="overflow-y: auto; height: 100%;">
+                        <pre><code [highlight]="sourceScss"></code></pre>
+                    </div>
+                </mat-tab>
+            </mat-tab-group>
+        </div>
+
+        <div class="sidebar" *ngIf="showOverflow" [@SlideInOut]="'slide'" (@SlideInOut.done)="animationDone($event)">
+            <div class="sidebar-content">
+                <ngx-responsivemenu-overflow (beforeRemove)="beforeRemove($event)"></ngx-responsivemenu-overflow>
+            </div>
+        </div>
+    </div>
+</div>

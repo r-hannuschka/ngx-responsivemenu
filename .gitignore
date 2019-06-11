@@ -8,6 +8,7 @@
 /src/coverage
 # Only exists if Bazel was run
 /bazel-out
+/src/CHANGELOG.md
 
 # dependencies
 node_modules

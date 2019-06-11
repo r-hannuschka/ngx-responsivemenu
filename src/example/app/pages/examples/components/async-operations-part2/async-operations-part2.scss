@@ -1,0 +1,25 @@
+:host {
+    
+    .card-content {
+        position: relative;
+    }
+
+    .responsive-menu {
+        flex: 1;
+    }
+
+    .sidebar {
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        top: 0;
+        width: 0;
+        overflow-x:hidden;
+        background: #F7F7F7;
+        z-index: 10;
+    }
+
+    .sidebar-content {
+        padding: .3rem .5rem;
+    }
+}

@@ -1,8 +1,8 @@
 import { Component, OnInit } from "@angular/core";
 import { trigger, state, style, animate, transition } from "@angular/animations";
-import { AsyncEvent, OverflowControl } from "ngx-responsivemenu";
 import { switchMap, tap, take } from "rxjs/operators";
 import { Subject } from "rxjs";
+import { OverflowControl, AsyncEvent } from "lib/public-api";
 
 @Component( {
     selector: "app-root",

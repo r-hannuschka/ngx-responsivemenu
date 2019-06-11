@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, Renderer2, ElementRef, AfterViewInit } from "@angular/core";
 import { ResizeEvent, ResizableDirective, ResizeHandleDirective } from "angular-resizable-element";
-import { OverflowControl, ResponsiveMenuComponent } from "ngx-responsivemenu";
+import { OverflowControl, ResponsiveMenuComponent } from "lib/public-api";
 
 @Component({
     selector: "app-customtoggle-example",
