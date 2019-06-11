@@ -1,5 +1,7 @@
 # Ngx-Responsivemenu
 
+[![npm](https://img.shields.io/npm/v/ngx-responsivemenu.svg?maxAge=2592000?style=plastic)](https://www.npmjs.com/package/ngx-responsivemenu)
+[![npm](https://img.shields.io/npm/dt/ngx-responsivemenu.svg?maxAge=2592000?style=plastic)](https://www.npmjs.com/package/ngx-responsivemenu)
 ![documentation](https://r-hannuschka.github.io/ngx-responsivemenu/src/documentation/images/coverage-badge-documentation.svg)
 [![npm](https://img.shields.io/npm/l/express.svg?maxAge=2592000)](/LICENSE)
 
@@ -61,7 +63,7 @@ export class SimpleExampleComponent implements OnInit {
 
     ngOnInit() {
         /** create array with 10 items */
-        this.items = Array.from( Array.from( { length: 10 } ), ( v, index ) => `Item #${ index }` );
+        this.items = Array.from( Array.from({length: 10 } ), ( v, index ) => `Item #${ index }`);
     }
 }
 ```
@@ -74,7 +76,7 @@ export class SimpleExampleComponent implements OnInit {
 </ngx-responsivemenu
 ```
 
-more [examples](https://r-hannuschka.github.io/ngx-responsivemenu/src/demo/#/examples) can be found here
+more [Examples](https://r-hannuschka.github.io/ngx-responsivemenu/src/demo/#/examples)
 
 ## Documentation
 
@@ -85,7 +87,6 @@ Documentation will be auto generated with [Compodoc](https://compodoc.app/) and 
 ```bash
 git clone git@github.com:r-hannuschka/ngx-responsivemenu.git
 cd ngx-responsivemenu\src && npm i
-ng build ngx-responsivemenu
 ng serve
 ```
 

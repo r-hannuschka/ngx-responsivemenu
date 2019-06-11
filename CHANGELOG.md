@@ -1,3 +1,17 @@
+#### 1.0.2 (2019-06-11)
+
+##### New Features
+
+* **lib:**
+  *  add option to append class to default overflow container [closes#31] (f1e3a068)
+* **example:**
+  *  add example for async operations [closes#23] (beb9cfdf)
+
+##### Bug Fixes
+
+* **docs:**  docs should show now correct header [closes#38] (f0396319)
+
+
 ## 1.0.0 (2019-06-10)
 
 ##### New Features
