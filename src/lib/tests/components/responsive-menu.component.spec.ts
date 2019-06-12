@@ -13,26 +13,16 @@ import { BtnAlign } from "lib/ngx-responsivemenu/components/responsive-menu.comp
         .menu-item { width: 50px; }
     `],
     template: `
-        <ng-template #customOverflowTemplate>
-            <div>custom overflow template</div>
-        </ng-template>
-
-        <div class='menu-wrapper' *ngIf="!customToggle && !isCustomOverflowTemplate">
+        <div class='menu-wrapper' *ngIf="!customToggle">
             <ngx-responsivemenu [alignToggle]="toggleAlign" [showMax]="showMaxCount">
                 <div ngxResponsiveMenuItem [visible]="!item.hidden" *ngFor="let item of items" class="menu-item">{{item.label}}</div>
             </ngx-responsivemenu>
         </div>
 
-        <div class='menu-wrapper' *ngIf="customToggle && !isCustomOverflowTemplate">
+        <div class='menu-wrapper' *ngIf="customToggle">
             <ngx-responsivemenu [alignToggle]="toggleAlign" [showMax]="showMaxCount">
                 <div ngxResponsiveMenuItem [visible]="!item.hidden" *ngFor="let item of items" class="menu-item">{{item.label}}</div>
                 <div ngxResponsiveMenuToggle>Custom Toggle Btn</div>
-            </ngx-responsivemenu>
-        </div>
-
-        <div class='menu-wrapper' *ngIf=isCustomOverflowTemplate>
-            <ngx-responsivemenu [overflowTemplate]=customOverflowTemplate>
-                <div ngxResponsiveMenuItem [visible]="!item.hidden" *ngFor="let item of items" class="menu-item">{{item.label}}</div>
             </ngx-responsivemenu>
         </div>
     `
@@ -103,6 +93,7 @@ describe( "Responsive Menu Component", () => {
         fixture.detectChanges();
         menuComponent = fixture.debugElement.query(By.directive(ResponsiveMenuComponent));
         menuComponentInstance = menuComponent.componentInstance;
+        fixture.detectChanges();
     }));
 
     it( "should render 3 items", () => {
@@ -127,22 +118,6 @@ describe( "Responsive Menu Component", () => {
         const toggleBtn = fixture.debugElement.query( By.directive( MenuToggleDirective ) );
         expect( renderedItems.length ).toBe( 4 );
         expect( toggleBtn.styles.display ).toBe( "none" );
-    });
-
-    /**
-     * testing we can set showMax to show only 3 items at once
-     * even if all 4 will fit
-     */
-    it( "should show max 3 items", () => {
-        wrapperComponent.itemCount = 4;
-        wrapperComponent.showMaxCount = 3;
-
-        fixture.detectChanges();
-
-        const renderedItems = fixture.debugElement.queryAll( By.css( ".menu-item" ) );
-        const toggleBtn = fixture.debugElement.query( By.directive( MenuToggleDirective ) );
-        expect( renderedItems.length ).toBe( 3 );
-        expect( toggleBtn.styles.display ).toBeNull();
     });
 
     /**
@@ -296,15 +271,4 @@ describe( "Responsive Menu Component", () => {
         expect(toggleBtn.length).toBe(1);
         expect(toggleBtn[0].nativeElement.textContent).toBe("Custom Toggle Btn");
     });
-
-    /**
-     * testing custom button for toggle
-     */
-    it( "should set custom overflow template", inject([OverflowControl], (overflowCtrl: OverflowControl) => {
-        const overflowDataModel: any = {};
-        spyOnProperty( overflowCtrl, "data", "get" ).and.returnValue(overflowDataModel);
-        wrapperComponent.isCustomOverflowTemplate = true;
-        fixture.detectChanges();
-        expect(overflowDataModel.template).toBe(wrapperComponent.overflowTemplate);
-    }));
 });
