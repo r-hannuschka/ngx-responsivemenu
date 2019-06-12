@@ -1,0 +1,15 @@
+language: node_js
+node_js:
+  - "10"
+dist: trusty
+sudo: required
+
+branches:
+  only:
+    - feature/travis_ci
+
+before_script:
+  - cd src && npm install
+
+script:
+  - ng test
