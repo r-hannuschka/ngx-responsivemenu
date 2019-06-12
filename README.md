@@ -1,5 +1,6 @@
 # Ngx-Responsivemenu
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/e4971022c6b04c4cb08aff9894544d81)](https://app.codacy.com/app/r-hannuschka/ngx-responsivemenu?utm_source=github.com&utm_medium=referral&utm_content=r-hannuschka/ngx-responsivemenu&utm_campaign=Badge_Grade_Dashboard)
 [![npm](https://img.shields.io/npm/v/ngx-responsivemenu.svg?maxAge=2592000?style=plastic)](https://www.npmjs.com/package/ngx-responsivemenu)
 [![npm](https://img.shields.io/npm/dt/ngx-responsivemenu.svg?maxAge=2592000?style=plastic)](https://www.npmjs.com/package/ngx-responsivemenu)
 ![documentation](https://r-hannuschka.github.io/ngx-responsivemenu/src/documentation/images/coverage-badge-documentation.svg)
