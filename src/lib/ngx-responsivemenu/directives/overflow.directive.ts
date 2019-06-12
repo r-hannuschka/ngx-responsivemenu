@@ -75,7 +75,7 @@ export class OverflowContentDirective implements OnInit, OnDestroy {
 
     public ngOnInit() {
 
-        if (this.overflowCtrl.open) {
+        if (this.overflowCtrl.isOpen()) {
             this.renderContent(this.overflowCtrl.data.items);
         }
 
@@ -94,6 +94,7 @@ export class OverflowContentDirective implements OnInit, OnDestroy {
      * render nodes into host view, calls beforeRender and afterRender hooks
      */
     private async renderContent(nodes: MenuItemDirective[]) {
+
         if (this.beforeRender.observers.length) {
             const event = new AsyncEvent();
             this.beforeRender.emit(event);
