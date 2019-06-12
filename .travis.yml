@@ -6,7 +6,7 @@ sudo: required
 
 branches:
   only:
-    - feature/travis_ci
+    - master
 
 before_script:
   - cd src && npm install
