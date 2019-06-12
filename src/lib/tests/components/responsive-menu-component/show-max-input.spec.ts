@@ -58,12 +58,17 @@ describe( "Responsive Menu Component", () => {
 
     describe("Input: showMax", () => {
 
-        it("should render 0 items", () => {
+        it("should render 0 items and 4 into overflow, showMax: 0", inject([OverflowControl], (overflowCtrl) => {
+
+            const overflowDataModel: any = {};
+            spyOnProperty(overflowCtrl, "data", "get").and.returnValue(overflowDataModel);
+
             showMaxComponent.showMax = 0;
             fixture.detectChanges();
             const renderedItems = fixture.debugElement.queryAll(By.css(".menu-item"));
             expect(renderedItems.length).toEqual(0);
-        });
+            expect(overflowDataModel.items.length).toBe(4);
+        }));
 
         it("should render 2 items", () => {
             showMaxComponent.showMax = 2;

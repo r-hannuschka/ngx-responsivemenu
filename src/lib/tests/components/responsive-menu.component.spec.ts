@@ -169,31 +169,6 @@ describe( "Responsive Menu Component", () => {
     } ) );
 
     /**
-     * by default toggle button should be rendered on the right side
-     */
-    it( "should render toggle button by default right", () => {
-        wrapperComponent.itemCount = 7;
-        fixture.detectChanges();
-
-        const toggleBtn = fixture.debugElement.query( By.directive( MenuToggleDirective ) );
-        const menuItems = toggleBtn.parent.children;
-        expect( menuItems.reverse()[0].nativeElement ).toBe( toggleBtn.nativeElement );
-    } );
-
-    /**
-     * test toggle button will be align to the left side
-     */
-    it( "should render toggle button on the left side", () => {
-        wrapperComponent.buttonAlign = BtnAlign.LEFT;
-        wrapperComponent.itemCount = 7;
-        fixture.detectChanges();
-
-        const toggleBtn = fixture.debugElement.query( By.directive( MenuToggleDirective ) );
-        const menuItems = toggleBtn.parent.children;
-        expect( menuItems[0].nativeElement ).toBe( toggleBtn.nativeElement );
-    } );
-
-    /**
      * update menu after host component has been resized
      */
     it("should update menu depends on parent width", () => {
