@@ -118,6 +118,7 @@ export class OverflowControl {
      */
     public open() {
         if (!this.rendered && (this.forced || this.overflowModel.items.length)) {
+            console.log("aber ich komm hier noch an oder ?");
             this.rendered = true;
             this.show$.next(this.overflowModel.items);
         }

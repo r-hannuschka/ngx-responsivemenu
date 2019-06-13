@@ -30,6 +30,13 @@ export enum BtnAlign {
 }
 
 /**
+ * @ignore
+ */
+interface CssClasses {
+    [key: string]: boolean;
+}
+
+/**
  * Responsive menu component, all items which are passed should be from type
  * ResponsiveMenuItem or ResponsiveMenuToggle. All other items will never rendered
  * into dom
@@ -50,7 +57,7 @@ export class ResponsiveMenuComponent implements AfterViewInit, AfterContentInit,
      * if true default toggle button will not rendered anymore, will be set if a custom item
      * has been added to content from type MenuToggleDirective
      *
-     * @internal
+     * @ignore
      * @example
      * <ngx-responsivemenu>
      *     ...
@@ -58,6 +65,13 @@ export class ResponsiveMenuComponent implements AfterViewInit, AfterContentInit,
      * </ngx-responsivemenu>
      */
     public isCustomButton = false;
+
+    /**
+     * overflow css classes
+     *
+     * @ignore
+     */
+    public overflowClasses: CssClasses = { overflow: true };
 
     /**
      * Get querylist for all content items from type MenuItemDirective.
@@ -124,7 +138,9 @@ export class ResponsiveMenuComponent implements AfterViewInit, AfterContentInit,
      * </ngx-responsive-menu>
      */
     @Input()
-    public classOverflow: string;
+    public set classOverflow(name: string) {
+        this.overflowClasses[name] = true;
+    }
 
     /**
      * set position of toggle btn, possible values are left or right
