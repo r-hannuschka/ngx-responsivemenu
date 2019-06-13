@@ -107,9 +107,9 @@ export class OverflowControl {
      */
     public update() {
         if (this.rendered) {
-            this.overflowModel.items.length === 0 && !this.forced
+            this.data.items.length === 0 && !this.forced
                 ? this.close()
-                : this.show$.next(this.overflowModel.items);
+                : this.show$.next(this.data.items);
         }
     }
 
@@ -117,10 +117,9 @@ export class OverflowControl {
      * show overflow content
      */
     public open() {
-        if (!this.rendered && (this.forced || this.overflowModel.items.length)) {
-            console.log("aber ich komm hier noch an oder ?");
+        if (!this.rendered && (this.forced || this.data.items.length)) {
             this.rendered = true;
-            this.show$.next(this.overflowModel.items);
+            this.show$.next(this.data.items);
         }
     }
 
@@ -130,7 +129,7 @@ export class OverflowControl {
     public close() {
         if (this.rendered) {
             this.rendered = false;
-            this.hide$.next(this.overflowModel.items);
+            this.hide$.next(this.data.items);
         }
     }
 }
