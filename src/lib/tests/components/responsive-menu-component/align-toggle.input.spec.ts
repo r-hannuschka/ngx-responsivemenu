@@ -7,7 +7,7 @@ import { ResponsiveMenuModule, MenuToggleDirective } from "lib/public-api";
 import { BtnAlign } from "lib/ngx-responsivemenu/components/responsive-menu.component";
 import { By } from "@angular/platform-browser";
 
-@Component( {
+@Component({
     styles: [`
         .menu-wrapper { width: 200px; }
         .menu-item { width: 50px; }
@@ -19,7 +19,7 @@ import { By } from "@angular/platform-browser";
             </ngx-responsivemenu>
         </div>
     `
-} )
+})
 class AlignToggleComponent implements OnInit {
 
     public items: string[] = [];

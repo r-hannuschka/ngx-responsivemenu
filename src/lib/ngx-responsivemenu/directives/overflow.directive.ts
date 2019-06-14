@@ -23,7 +23,8 @@ import { AsyncEvent } from "../provider/async-event";
  * </div>
  */
 @Directive( {
-    selector: "ngx-responsivemenu-overflow"
+    selector: "ngx-responsivemenu-overflow",
+    exportAs: "overflowContent"
 })
 export class OverflowContentDirective implements OnInit, OnDestroy {
 
@@ -58,7 +59,7 @@ export class OverflowContentDirective implements OnInit, OnDestroy {
     private isDestroyed: Subject<boolean>;
 
     constructor(
-        private el: ElementRef,
+        public el: ElementRef,
         private overflowCtrl: OverflowControl,
         private renderer: Renderer2,
     ) {
@@ -71,6 +72,7 @@ export class OverflowContentDirective implements OnInit, OnDestroy {
     }
 
     public ngOnInit() {
+
         if (this.overflowCtrl.isOpen()) {
             this.renderContent(this.overflowCtrl.data.items);
         }
