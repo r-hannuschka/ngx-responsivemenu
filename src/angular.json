@@ -110,6 +110,18 @@
             "tsConfig": "lib/tests/tsconfig.spec.json",
             "karmaConfig": "lib/tests/karma.conf.js"
           }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "lib/tsconfig.lib.json",
+              "lib/tests/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
         }
       }
     }

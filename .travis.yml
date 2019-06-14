@@ -13,5 +13,6 @@ before_script:
   - npm i -g codecov
 
 script:
+  - ng lint ngx-responsivemenu
   - ng test ngx-responsivemenu --watch=false --code-coverage
   - codecov
