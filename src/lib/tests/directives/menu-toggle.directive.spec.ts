@@ -62,7 +62,7 @@ describe("MenuToggleDirective", () => {
         const spy = spyOn(ctrl, "close").and.callThrough();
 
         /**
-         * triggerEventHandler was not working, work arround dispatch own event 
+         * triggerEventHandler was not working, work arround dispatch own event
          * trigger twice to open / close
          */
         const event = new Event("click");
