@@ -13,31 +13,40 @@ import { takeUntil } from "rxjs/operators";
  *     <button ngxResponsiveMenuToggle>Custom Toggle Button</button>
  * </ngx-responsivemenu>
  */
-@Directive( {
+@Directive({
     selector: "[ngxResponsiveMenuToggle]"
-} )
+})
 export class MenuToggleDirective implements AfterViewInit, OnDestroy {
 
+    /**
+     * emits true if component gets destroyed to remove from subscriptions
+     *
+     * @ignore
+     */
     private isDestroyed: Subject<boolean>;
 
     /**
      * add host css class <b>more</b>
      */
-    @HostBinding("class.more")
+    @HostBinding("class.toggle")
     public className = true;
 
+    /**
+     * Creates an instance of MenuToggleDirective.
+     */
     constructor(
         private overflowCtrl: OverflowControl,
         private renderer: Renderer2,
-        private el: ElementRef,
+        private el: ElementRef
     ) {
         this.isDestroyed = new Subject();
     }
 
-    public ngAfterViewInit() {
-        fromEvent(this.el.nativeElement, "click")
-            .pipe(takeUntil(this.isDestroyed))
-            .subscribe(() => this.openOverflow());
+    /**
+     * display button if soft is true button has css property visibilty: hidden
+     */
+    public set display(display: boolean) {
+        this.renderer.setStyle(this.el.nativeElement, "display", display ? null : "none");
     }
 
     /**
@@ -48,42 +57,30 @@ export class MenuToggleDirective implements AfterViewInit, OnDestroy {
     }
 
     /**
-     * display button if soft is true button has css property visibilty: hidden
+     * @inheritdoc
+     * @ignore
      */
-    public show(soft = false) {
-        this.setVisible(soft);
-        this.setDisplay();
+    public ngAfterViewInit() {
+        fromEvent(this.el.nativeElement, "click")
+            .pipe(
+                takeUntil(this.isDestroyed)
+            )
+            .subscribe(() => this.openOverflow());
     }
 
     /**
-     * hide button (display none)
-     */
-    public hide() {
-        this.setVisible();
-        this.setDisplay(true);
-    }
-
-    /**
-     * destroys button
+     * @inheritdoc
+     * @ignore
      */
     public ngOnDestroy() {
         this.isDestroyed.next(true);
         this.isDestroyed.complete();
     }
 
-    private setVisible(hidden = false) {
-        this.renderer.setStyle(this.el.nativeElement, "visibility", hidden ? "hidden" : null);
-    }
-
-    private setDisplay(hidden = false) {
-        this.renderer.setStyle(this.el.nativeElement, "display", hidden ? "none" : null);
-    }
-
     /**
      * get current width of button includes margin
      */
     public get width(): number {
-
         const width = this.el.nativeElement.getBoundingClientRect().width;
         const style = getComputedStyle( this.el.nativeElement );
 
