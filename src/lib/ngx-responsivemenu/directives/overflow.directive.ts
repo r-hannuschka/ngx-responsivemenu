@@ -1,6 +1,6 @@
-import { Directive, ViewContainerRef, OnInit, OnDestroy, Output, EventEmitter } from "@angular/core";
+import { Directive, OnInit, OnDestroy, Output, EventEmitter, Renderer2, ElementRef } from "@angular/core";
 import { Subject } from "rxjs";
-import { takeUntil, filter } from "rxjs/operators";
+import { takeUntil, filter, tap } from "rxjs/operators";
 import { OverflowControl } from "../provider/overflow.control";
 import { MenuItemDirective } from "./menu-item.directive";
 import { AsyncEvent } from "../provider/async-event";
@@ -23,7 +23,7 @@ import { AsyncEvent } from "../provider/async-event";
  * </div>
  */
 @Directive( {
-    selector: "ngx-responsivemenu-overflow",
+    selector: "ngx-responsivemenu-overflow"
 })
 export class OverflowContentDirective implements OnInit, OnDestroy {
 
@@ -58,14 +58,11 @@ export class OverflowContentDirective implements OnInit, OnDestroy {
     private isDestroyed: Subject<boolean>;
 
     constructor(
-        private viewRef: ViewContainerRef,
-        private overflowCtrl: OverflowControl
+        private el: ElementRef,
+        private overflowCtrl: OverflowControl,
+        private renderer: Renderer2,
     ) {
         this.isDestroyed = new Subject();
-    }
-
-    public get view(): ViewContainerRef {
-        return this.viewRef;
     }
 
     public ngOnDestroy() {
@@ -74,17 +71,30 @@ export class OverflowContentDirective implements OnInit, OnDestroy {
     }
 
     public ngOnInit() {
-
-        if (this.overflowCtrl.open) {
+        if (this.overflowCtrl.isOpen()) {
             this.renderContent(this.overflowCtrl.data.items);
         }
 
-        this.overflowCtrl.show
-            .pipe(
-                takeUntil(this.isDestroyed),
-                filter((items) => items.length > 0),
-            ).subscribe((items) => this.renderContent(items));
+        this.registerShowEvent();
+        this.registerHideEvent();
+    }
 
+    /**
+     * subscribe to overflowctrl show observeable
+     * only renders content if items exists
+     */
+    private registerShowEvent() {
+        this.overflowCtrl.show.pipe(
+            takeUntil(this.isDestroyed),
+            filter((items) => items.length > 0),
+        ).subscribe((items) => this.renderContent(items));
+    }
+
+    /**
+     * subscribe to overflowctrl hide observeable
+     * remove content from directive
+     */
+    private registerHideEvent() {
         this.overflowCtrl.hide
             .pipe(takeUntil(this.isDestroyed))
             .subscribe((items) => this.removeContent(items));
@@ -94,12 +104,14 @@ export class OverflowContentDirective implements OnInit, OnDestroy {
      * render nodes into host view, calls beforeRender and afterRender hooks
      */
     private async renderContent(nodes: MenuItemDirective[]) {
+
+        this.renderer.setStyle(this.el.nativeElement, "display", null);
         if (this.beforeRender.observers.length) {
             const event = new AsyncEvent();
             this.beforeRender.emit(event);
             await event.completed;
         }
-        nodes.forEach((item) => item.addTo(this.viewRef.element.nativeElement));
+        nodes.forEach((item) => item.addTo(this.el.nativeElement));
         this.afterRender.emit();
     }
 
@@ -112,7 +124,10 @@ export class OverflowContentDirective implements OnInit, OnDestroy {
             this.beforeRemove.emit(event);
             await event.completed;
         }
+
         nodes.forEach((item) => item.remove());
+
         this.afterRemove.emit();
+        this.renderer.setStyle(this.el.nativeElement, "display", "none");
     }
 }

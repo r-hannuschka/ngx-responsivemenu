@@ -30,6 +30,13 @@ export enum BtnAlign {
 }
 
 /**
+ * @ignore
+ */
+interface CssClasses {
+    [key: string]: boolean;
+}
+
+/**
  * Responsive menu component, all items which are passed should be from type
  * ResponsiveMenuItem or ResponsiveMenuToggle. All other items will never rendered
  * into dom
@@ -50,7 +57,7 @@ export class ResponsiveMenuComponent implements AfterViewInit, AfterContentInit,
      * if true default toggle button will not rendered anymore, will be set if a custom item
      * has been added to content from type MenuToggleDirective
      *
-     * @internal
+     * @ignore
      * @example
      * <ngx-responsivemenu>
      *     ...
@@ -58,6 +65,13 @@ export class ResponsiveMenuComponent implements AfterViewInit, AfterContentInit,
      * </ngx-responsivemenu>
      */
     public isCustomButton = false;
+
+    /**
+     * overflow css classes
+     *
+     * @ignore
+     */
+    public overflowClasses: CssClasses = { overflow: true };
 
     /**
      * Get querylist for all content items from type MenuItemDirective.
@@ -124,7 +138,9 @@ export class ResponsiveMenuComponent implements AfterViewInit, AfterContentInit,
      * </ngx-responsive-menu>
      */
     @Input()
-    public classOverflow: string;
+    public set classOverflow(name: string) {
+        this.overflowClasses[name] = true;
+    }
 
     /**
      * set position of toggle btn, possible values are left or right
@@ -208,6 +224,9 @@ export class ResponsiveMenuComponent implements AfterViewInit, AfterContentInit,
     /** reserved width which we will need to show more button */
     private reservedWidth: number;
 
+    /**
+     * Creates an instance of ResponsiveMenuComponent.
+     */
     public constructor(
         private overflowCtrl: OverflowControl,
         private renderer: Renderer2,
@@ -216,19 +235,27 @@ export class ResponsiveMenuComponent implements AfterViewInit, AfterContentInit,
     ) {
     }
 
-    /** @inheritdoc */
+    /**
+     * component gets destroyed
+     */
     public ngOnDestroy() {
         this.isDestroyed$.next( true );
     }
 
-    /** @inheritdoc */
+    /**
+     * after content has initialized register to QueryList
+     * to get notified about changes
+     */
     public ngAfterContentInit() {
         this.menuItems.changes
             .pipe(takeUntil(this.isDestroyed$))
             .subscribe(() => this.update());
     }
 
-    /** @inheritdoc */
+    /**
+     * after view has been initialized and custom button exists
+     * append custom toggle button to button pane
+     */
     public ngAfterViewInit() {
         if (this.isCustomButton) {
             this.renderer.appendChild( this.buttonPane.nativeElement, this.toggleBtn.nativeElement );
@@ -293,9 +320,9 @@ export class ResponsiveMenuComponent implements AfterViewInit, AfterContentInit,
         this.possibleOverflowItems = [];
         this.overflowCtrl.data.items = [];
 
-        this.toggleBtn.show(true);
+        this.toggleBtn.display = true;
         this.reservedWidth = this.toggleBtn.width;
-        this.toggleBtn.hide();
+        this.toggleBtn.display = false;
     }
 
     /**
@@ -306,7 +333,7 @@ export class ResponsiveMenuComponent implements AfterViewInit, AfterContentInit,
         const overflowData = this.finalizeMenuItems();
         this.overflowCtrl.data.items =  overflowData;
 
-        this.isForcedOverflow || overflowData.length ? this.toggleBtn.show() : this.toggleBtn.hide();
+        this.toggleBtn.display = this.isForcedOverflow || overflowData.length > 0;
 
         this.possibleOverflowItems = [];
         this.overflowItems = [];
@@ -321,8 +348,8 @@ export class ResponsiveMenuComponent implements AfterViewInit, AfterContentInit,
     private prepareMenuItems(): MenuItemDirective[] {
         return this.menuItems.reduce<MenuItemDirective[]>((itemCollection, menuItem) => {
             menuItem.visible
-                ? itemCollection.push( menuItem )
-                : this.overflowItems.push( menuItem );
+                ? itemCollection.push(menuItem)
+                : this.overflowItems.push(menuItem);
 
             return itemCollection;
         }, []);

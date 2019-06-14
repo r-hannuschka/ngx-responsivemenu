@@ -1,7 +1,7 @@
 {
   "name": "ngx-responsivemenu",
   "description": "angular 8+ responsive menu",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "peerDependencies": {
     "@angular/common": "^8.0.0",
     "@angular/core": "^8.0.0"
