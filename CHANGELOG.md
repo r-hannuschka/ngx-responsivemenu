@@ -1,3 +1,27 @@
+#### 1.0.4 (2019-06-15)
+
+##### New Features
+
+* **lib:**
+  *  dont remove overflow if beforeRemove has been canceled [closes#47] (1223b8ff)
+  *  dont render overflow after beforeRender has been canceled [closes#46] (37cf4c3e)
+  *  add option to append class to default overflow container [closes#31] (f1e3a068)
+* **testing:**  complete unit tests responsive menu component [closes#43] (3c72c247)
+* **example:**
+  *  add example for async operations [closes#23] (beb9cfdf)
+
+##### Bug Fixes
+
+* **lib:**
+  *  fixed bug overflow allways rendered [closes#42] (06204374)
+* **docs:**  docs should show now correct header [closes#38] (f0396319)
+
+##### Other Changes
+
+*  add custom toggle example (b7e92a05)
+*  update documentation (d8c907fa)
+*  clean up code (5ff05616)
+
 #### 1.0.2 (2019-06-11)
 
 ##### New Features
@@ -49,4 +73,3 @@
 *  add custom toggle example (b7e92a05)
 *  update documentation (d8c907fa)
 *  clean up code (5ff05616)
-
