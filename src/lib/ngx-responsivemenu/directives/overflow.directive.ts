@@ -29,6 +29,13 @@ import { AsyncEvent } from "../provider/async-event";
 export class OverflowContentDirective implements OnInit, OnDestroy {
 
     /**
+     * triggers allways after rendering has been completed even if
+     * beforeRender / beforeRemove canceled
+     */
+    @Output()
+    public finalizeRender: EventEmitter<boolean> = new EventEmitter();
+
+    /**
      * overflow container render hook before content will be applied.
      * Emits AsyncEvent which should notfied with $event.done() after
      * all operations are completed
@@ -105,15 +112,21 @@ export class OverflowContentDirective implements OnInit, OnDestroy {
      * render nodes into host view, calls beforeRender and afterRender hooks
      */
     private async renderContent(nodes: MenuItemDirective[]) {
-
-        this.renderer.setStyle(this.el.nativeElement, "display", null);
+        let completed = true;
         if (this.beforeRender.observers.length) {
             const event = new AsyncEvent();
             this.beforeRender.emit(event);
-            await event.completed;
+            completed = await event.completed;
         }
-        nodes.forEach((item) => item.addTo(this.el.nativeElement));
-        this.afterRender.emit();
+
+        /** add content here */
+        if (completed) {
+            nodes.forEach((item) => item.addTo(this.el.nativeElement));
+            this.renderer.setStyle(this.el.nativeElement, "display", null);
+            this.afterRender.emit();
+        }
+
+        this.finalizeRender.emit(completed);
     }
 
     /**

@@ -83,6 +83,7 @@ describe("Directive: OverflowContentDirective", () => {
     });
 
     describe("emit show", () => {
+
         it("should render overflow directly if allready open", () => {
             /** overflow should be open */
             ctrl.open = true;
@@ -134,6 +135,28 @@ describe("Directive: OverflowContentDirective", () => {
             /** pass items */
             ctrl.show$.next(ctrl.items);
         });
+
+        it("should not render items to overflow after event has canceled", (done) => {
+            const spy = spyOn(menuItem, "addTo").and.callFake(() => null);
+            ctrl.items = [menuItem];
+
+            fixture.detectChanges();
+
+            /** delay stream by 50ms to simulate async operation */
+            const delayStream = of(0).pipe(delay(50));
+
+            overflowDirective.beforeRender.pipe(
+                take(1),
+                switchMap((event: AsyncEvent) => delayStream.pipe(tap(() => event.cancel()))),
+                switchMap(() => overflowDirective.finalizeRender),
+            ).subscribe(() => {
+                expect(spy).not.toHaveBeenCalled();
+                done();
+            });
+
+            /** pass items */
+            ctrl.show$.next(ctrl.items);
+        });
     });
 
     describe("emit hide", () => {
@@ -155,17 +178,13 @@ describe("Directive: OverflowContentDirective", () => {
         });
 
         it("should not remove items before async operation has been donee", (done) => {
-
             const spy = spyOn(menuItem, "remove").and.callFake(() => null);
-            let isDelay = false;
-
             ctrl.items = [menuItem];
 
             fixture.detectChanges();
 
             /** delay stream by 50ms to simulate async operation */
-            const delayStream = of(0)
-                .pipe(delay(50), tap(() => isDelay = true));
+            const delayStream = of(0).pipe(delay(50));
 
             overflowDirective.beforeRemove.pipe(
                 take(1),
@@ -173,13 +192,11 @@ describe("Directive: OverflowContentDirective", () => {
                 switchMap(() => overflowDirective.afterRemove),
             ).subscribe(() => {
                 expect(spy).toHaveBeenCalled();
-                expect(isDelay).toBeTruthy();
                 done();
             });
 
             /** pass items */
             ctrl.hide$.next(ctrl.items);
         });
-
     });
 });
