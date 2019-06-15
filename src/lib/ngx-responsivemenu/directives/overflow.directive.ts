@@ -23,9 +23,17 @@ import { AsyncEvent } from "../provider/async-event";
  * </div>
  */
 @Directive( {
-    selector: "ngx-responsivemenu-overflow"
+    selector: "ngx-responsivemenu-overflow",
+    exportAs: "overflowContent"
 })
 export class OverflowContentDirective implements OnInit, OnDestroy {
+
+    /**
+     * triggers allways after rendering has been completed even if
+     * beforeRender / beforeRemove canceled
+     */
+    @Output()
+    public finalizeRender: EventEmitter<boolean> = new EventEmitter();
 
     /**
      * overflow container render hook before content will be applied.
@@ -58,7 +66,7 @@ export class OverflowContentDirective implements OnInit, OnDestroy {
     private isDestroyed: Subject<boolean>;
 
     constructor(
-        private el: ElementRef,
+        public el: ElementRef,
         private overflowCtrl: OverflowControl,
         private renderer: Renderer2,
     ) {
@@ -104,30 +112,41 @@ export class OverflowContentDirective implements OnInit, OnDestroy {
      * render nodes into host view, calls beforeRender and afterRender hooks
      */
     private async renderContent(nodes: MenuItemDirective[]) {
-
-        this.renderer.setStyle(this.el.nativeElement, "display", null);
+        let completed = true;
         if (this.beforeRender.observers.length) {
             const event = new AsyncEvent();
             this.beforeRender.emit(event);
-            await event.completed;
+            completed = await event.completed;
         }
-        nodes.forEach((item) => item.addTo(this.el.nativeElement));
-        this.afterRender.emit();
+
+        /** add content here */
+        if (completed) {
+            nodes.forEach((item) => item.addTo(this.el.nativeElement));
+            this.renderer.setStyle(this.el.nativeElement, "display", null);
+            this.afterRender.emit();
+        }
+
+        this.finalizeRender.emit(completed);
     }
 
     /**
      * remove nodes from host view, calls beforeRemove, afterRemove
      */
     private async removeContent(nodes: MenuItemDirective[]) {
+
+        let completed = true;
         if (this.beforeRemove.observers.length) {
             const event = new AsyncEvent();
             this.beforeRemove.emit(event);
-            await event.completed;
+            completed = await event.completed;
         }
 
-        nodes.forEach((item) => item.remove());
+        if (completed) {
+            nodes.forEach((item) => item.remove());
+            this.renderer.setStyle(this.el.nativeElement, "display", "none");
+            this.afterRemove.emit();
+        }
 
-        this.afterRemove.emit();
-        this.renderer.setStyle(this.el.nativeElement, "display", "none");
+        this.finalizeRender.emit(completed);
     }
 }
