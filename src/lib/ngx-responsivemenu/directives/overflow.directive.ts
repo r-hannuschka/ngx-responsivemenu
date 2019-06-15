@@ -133,15 +133,20 @@ export class OverflowContentDirective implements OnInit, OnDestroy {
      * remove nodes from host view, calls beforeRemove, afterRemove
      */
     private async removeContent(nodes: MenuItemDirective[]) {
+
+        let completed = true;
         if (this.beforeRemove.observers.length) {
             const event = new AsyncEvent();
             this.beforeRemove.emit(event);
-            await event.completed;
+            completed = await event.completed;
         }
 
-        nodes.forEach((item) => item.remove());
+        if (completed) {
+            nodes.forEach((item) => item.remove());
+            this.renderer.setStyle(this.el.nativeElement, "display", "none");
+            this.afterRemove.emit();
+        }
 
-        this.afterRemove.emit();
-        this.renderer.setStyle(this.el.nativeElement, "display", "none");
+        this.finalizeRender.emit(completed);
     }
 }

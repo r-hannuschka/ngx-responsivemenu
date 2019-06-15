@@ -198,5 +198,28 @@ describe("Directive: OverflowContentDirective", () => {
             /** pass items */
             ctrl.hide$.next(ctrl.items);
         });
+
+        it("should not remove items from overflow after event has canceled", (done) => {
+            const spy = spyOn(menuItem, "addTo").and.callFake(() => null);
+            ctrl.items = [menuItem];
+
+            fixture.detectChanges();
+
+            /** delay stream by 50ms to simulate async operation */
+            const delayStream = of(0).pipe(delay(50));
+
+            overflowDirective.beforeRemove.pipe(
+                take(1),
+                switchMap((event: AsyncEvent) => delayStream.pipe(tap(() => event.cancel()))),
+                switchMap(() => overflowDirective.finalizeRender),
+            ).subscribe((removed: boolean) => {
+                expect(spy).not.toHaveBeenCalled();
+                expect(removed).toBeFalsy();
+                done();
+            });
+
+            /** pass items */
+            ctrl.hide$.next(ctrl.items);
+        });
     });
 });
