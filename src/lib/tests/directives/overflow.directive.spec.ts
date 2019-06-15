@@ -1,4 +1,4 @@
-import { TestBed, ComponentFixture, async } from "@angular/core/testing";
+import { TestBed, ComponentFixture } from "@angular/core/testing";
 import { Component } from "@angular/core";
 import { By } from "@angular/platform-browser";
 import { AsyncEvent, MenuItemDirective, OverflowContentDirective, OverflowControl } from "lib/public-api";
@@ -82,55 +82,104 @@ describe("Directive: OverflowContentDirective", () => {
         expect(TestBed.get(OverflowControl) instanceof FakeOverflowControl).toBeTruthy();
     });
 
-    it("should render overflow directly if allready open", () => {
-        /** overflow should be open */
-        ctrl.open = true;
+    describe("emit show", () => {
+        it("should render overflow directly if allready open", () => {
+            /** overflow should be open */
+            ctrl.open = true;
 
-        const overflowEl = fixture.debugElement.query(By.directive(OverflowContentDirective));
-        const menuItemEl = fixture.debugElement.query(By.directive(MenuItemDirective));
+            const overflowEl = fixture.debugElement.query(By.directive(OverflowContentDirective));
+            const menuItemEl = fixture.debugElement.query(By.directive(MenuItemDirective));
 
-        /** detect changes this will trigger onInit now */
-        fixture.detectChanges();
+            /** detect changes this will trigger onInit now */
+            fixture.detectChanges();
 
-        const children = overflowEl.children;
-        expect(children).toContain(menuItemEl);
-    });
-
-    it("should render overflow if ctrl emits show", (done) => {
-        const spy = spyOn(menuItem, "addTo").and.callFake(() => null);
-        ctrl.items = [menuItem];
-
-        fixture.detectChanges();
-
-        overflowDirective.afterRender.pipe(take(1))
-        .subscribe(() => {
-            expect(spy).toHaveBeenCalled();
-            done();
+            const children = overflowEl.children;
+            expect(children).toContain(menuItemEl);
         });
 
-        /** pass items */
-        ctrl.show$.next(ctrl.items);
-    });
+        it("should render overflow if ctrl emits show", (done) => {
+            const spy = spyOn(menuItem, "addTo").and.callFake(() => null);
+            ctrl.items = [menuItem];
 
-    it("should render overflow after async operations are done", (done) => {
-        const spy = spyOn(menuItem, "addTo").and.callFake(() => null);
-        ctrl.items = [menuItem];
+            fixture.detectChanges();
 
-        fixture.detectChanges();
+            overflowDirective.afterRender.pipe(take(1))
+            .subscribe(() => {
+                expect(spy).toHaveBeenCalled();
+                done();
+            });
 
-        /** delay stream by 50ms to simulate async operation */
-        const delayStream = of(0).pipe(delay(50));
-
-        overflowDirective.beforeRender.pipe(
-            take(1),
-            switchMap((event: AsyncEvent) => delayStream.pipe(tap(() => event.done()))),
-            switchMap(() => overflowDirective.afterRender),
-        ).subscribe(() => {
-            expect(spy).toHaveBeenCalled();
-            done();
+            /** pass items */
+            ctrl.show$.next(ctrl.items);
         });
 
-        /** pass items */
-        ctrl.show$.next(ctrl.items);
+        it("should render overflow after async operations are done", (done) => {
+            const spy = spyOn(menuItem, "addTo").and.callFake(() => null);
+            ctrl.items = [menuItem];
+
+            fixture.detectChanges();
+
+            /** delay stream by 50ms to simulate async operation */
+            const delayStream = of(0).pipe(delay(50));
+
+            overflowDirective.beforeRender.pipe(
+                take(1),
+                switchMap((event: AsyncEvent) => delayStream.pipe(tap(() => event.done()))),
+                switchMap(() => overflowDirective.afterRender),
+            ).subscribe(() => {
+                expect(spy).toHaveBeenCalled();
+                done();
+            });
+
+            /** pass items */
+            ctrl.show$.next(ctrl.items);
+        });
+    });
+
+    describe("emit hide", () => {
+
+        it("should remove items from overflow", (done) => {
+            const spy = spyOn(menuItem, "remove").and.callFake(() => null);
+            ctrl.items = [menuItem];
+
+            fixture.detectChanges();
+
+            overflowDirective.afterRemove.pipe(take(1))
+            .subscribe(() => {
+                expect(spy).toHaveBeenCalled();
+                done();
+            });
+
+            /** pass items */
+            ctrl.hide$.next(ctrl.items);
+        });
+
+        it("should not remove items before async operation has been donee", (done) => {
+
+            const spy = spyOn(menuItem, "remove").and.callFake(() => null);
+            let isDelay = false;
+
+            ctrl.items = [menuItem];
+
+            fixture.detectChanges();
+
+            /** delay stream by 50ms to simulate async operation */
+            const delayStream = of(0)
+                .pipe(delay(50), tap(() => isDelay = true));
+
+            overflowDirective.beforeRemove.pipe(
+                take(1),
+                switchMap((event: AsyncEvent) => delayStream.pipe(tap(() => event.done()))),
+                switchMap(() => overflowDirective.afterRemove),
+            ).subscribe(() => {
+                expect(spy).toHaveBeenCalled();
+                expect(isDelay).toBeTruthy();
+                done();
+            });
+
+            /** pass items */
+            ctrl.hide$.next(ctrl.items);
+        });
+
     });
 });

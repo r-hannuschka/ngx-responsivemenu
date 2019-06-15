@@ -72,7 +72,6 @@ export class OverflowContentDirective implements OnInit, OnDestroy {
     }
 
     public ngOnInit() {
-
         if (this.overflowCtrl.isOpen()) {
             this.renderContent(this.overflowCtrl.data.items);
         }
