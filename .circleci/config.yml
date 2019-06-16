@@ -1,27 +1,115 @@
 version: 2.1
+
 orbs:
     codecov: codecov/codecov@1.0.5
+
+defaults: &defaults
+  working_directory: ~/ngx-responsivemenu
+  docker:
+      - image: circleci/node:10.9.0-browsers
+
+aliases:
+  - &filter_master
+      branches:
+        only: master
+
 jobs:
-    build:
-        working_directory: ~/ngx-responsivemenu
-        docker:
-            - image: circleci/node:10-browsers
-        steps:
-            - checkout
-            - restore_cache:
-                key: ngx-responsivemenu-{{ .Branch }}-{{ checksum "src/package-lock.json" }}
-            - run:
-                name: "install node packages"
-                command: cd src && npm install
-            - save_cache:
-                key: ngx-responsivemenu-{{ .Branch }}-{{ checksum "src/package-lock.json" }}
-                paths:
-                    - "src/node_modules"
-            - run: 
-                name: "lint library source files"
-                command: cd src && npm run lint -- ngx-responsivemenu
-            - run:
-                name: "run unit tests"
-                command: cd src && npm run test -- ngx-responsivemenu --watch=false --progress=false --code-coverage
-            - codecov/upload:
-                file: "src/coverage/ngx-responsivemenu/lcov.info"
+  install:
+    <<: *defaults
+    steps:
+      - checkout
+      - restore_cache:
+          key: ngx-responsivemenu-{{ .Branch }}-{{ checksum "src/package-lock.json" }}
+      - run:
+          name: "install packages"
+          command: cd src && npm install
+      - save_cache:
+          key: ngx-responsivemenu-{{ .Branch }}-{{ checksum "src/package-lock.json" }}
+          paths:
+            - "src/node_modules"
+      - persist_to_workspace:
+          root: ~/ngx-responsivemenu
+          paths:
+            - .
+  lint:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ~/ngx-responsivemenu
+      - run:
+          name: "run lint"
+          command: cd src && npm run lint -- ngx-responsivemenu
+  test:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ~/ngx-responsivemenu
+      - run:
+          name: "run unit tests"
+          command: cd src && npm run test -- ngx-responsivemenu --watch=false --code-coverage
+      - persist_to_workspace:
+          root: ~/ngx-responsivemenu
+          paths:
+            - ./src/coverage
+  coverage:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ~/ngx-responsivemenu
+      - codecov/upload:
+          file: "./src/coverage/ngx-responsivemenu/lcov.info"
+  build-docs:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ~/ngx-responsivemenu
+      - run:
+          name: "generate documentation"
+          command: cd src && npm run compodoc
+      - persist_to_workspace:
+          root: ~/ngx-responsivemenu
+          paths:
+            - ./src/documentation
+  deploy-docs:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ~/ngx-responsivemenu
+      - run:
+          name: Avoid hosts unknown for github
+          command: mkdir -p ~/.ssh/ && echo -e "Host github.com\n\tStrictHostKeyChecking no\n" > ~/.ssh/config
+      - run:
+          name: "install dependencies" 
+          command: |
+            sudo npm i -g --silent gh-pages@2.0.1
+            git config user.email "ci-build@ngx-responsivemenu.net"
+            git config user.name "ci-build:deploy"
+      - add_ssh_keys:
+          fingerprints:
+            - "75:3d:da:0d:c9:ab:a0:76:28:2e:fa:e4:da:0a:75:71"
+      - run:
+          name: "Deploy documentation to gh-pages"
+          command: gh-pages --dotfiles --message "update docs [skip ci]" --dist ./src/documentation --dest documentation
+
+workflows:
+  version: 2.1
+  build:
+    jobs:
+      - install
+      - lint:
+          requires:
+            - install
+      - test:
+          requires:
+            - install
+      - coverage:
+          requires:
+            - test
+      - build-docs:
+          requires:
+            - test
+          filters: *filter_master
+      - deploy-docs:
+          requires:
+            - build-docs
+          filters: *filter_master
