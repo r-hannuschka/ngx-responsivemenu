@@ -1,7 +1,7 @@
 # Ngx-Responsivemenu
 
 [![npm](https://img.shields.io/npm/v/ngx-responsivemenu.svg?maxAge=2592000?style=plastic)](https://www.npmjs.com/package/ngx-responsivemenu)
-[![CircleCI](https://circleci.com/gh/r-hannuschka/ngx-responsivemenu/tree/ci%2Fcircle_ci.svg?style=svg)](https://circleci.com/gh/r-hannuschka/ngx-responsivemenu/tree/master)
+[![CircleCI](https://circleci.com/gh/r-hannuschka/ngx-responsivemenu/tree/master.svg?style=svg)](https://circleci.com/gh/r-hannuschka/ngx-responsivemenu/tree/master)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/e4971022c6b04c4cb08aff9894544d81)](https://app.codacy.com/app/r-hannuschka/ngx-responsivemenu?utm_source=github.com&utm_medium=referral&utm_content=r-hannuschka/ngx-responsivemenu&utm_campaign=Badge_Grade_Dashboard)
 [![codecov](https://codecov.io/gh/r-hannuschka/ngx-responsivemenu/branch/master/graph/badge.svg)](https://codecov.io/gh/r-hannuschka/ngx-responsivemenu)
 ![documentation](https://r-hannuschka.github.io/ngx-responsivemenu/src/documentation/images/coverage-badge-documentation.svg)
