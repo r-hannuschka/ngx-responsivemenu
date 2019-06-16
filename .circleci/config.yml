@@ -1,0 +1,27 @@
+version: 2.1
+orbs:
+    codecov: codecov/codecov@1.0.5
+jobs:
+    build:
+        working_directory: ~/ngx-responsivemenu
+        docker:
+            - image: circleci/node:10-browsers
+        steps:
+            - checkout
+            - restore_cache:
+                key: ngx-responsivemenu-{{ .Branch }}-{{ checksum "src/package-lock.json" }}
+            - run:
+                name: "install node packages"
+                command: cd src && npm install
+            - save_cache:
+                key: ngx-responsivemenu-{{ .Branch }}-{{ checksum "src/package-lock.json" }}
+                paths:
+                    - "src/node_modules"
+            - run: 
+                name: "lint library source files"
+                command: cd src && npm run lint -- ngx-responsivemenu
+            - run:
+                name: "run unit tests"
+                command: cd src && npm run test -- ngx-responsivemenu --watch=false --progress=false --code-coverage
+            - codecov/upload:
+                file: "src/coverage/ngx-responsivemenu/lcov.info"
