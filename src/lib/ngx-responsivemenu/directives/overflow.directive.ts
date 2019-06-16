@@ -85,7 +85,7 @@ export class OverflowContentDirective implements OnInit, OnDestroy {
      * component initialized, if overflow is allready flag as open
      * render directly.
      * Register to show / hide
-     * 
+     *
      * @ignore
      */
     public ngOnInit() {
