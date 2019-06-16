@@ -10,6 +10,9 @@
 /bazel-out
 /src/CHANGELOG.md
 
+# docs
+/src/documentation
+
 # dependencies
 node_modules
 
