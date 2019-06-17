@@ -31,7 +31,7 @@ export class HeaderComponent implements OnInit {
         const baseHref = this.platformLocation.getBaseHrefFromDOM();
 
         /** not the best solution but will work for the repo */
-        this.docUrl = `${baseHref}../documentation/index.html`;
+        this.docUrl = `${baseHref}documentation/index.html`;
 
         this.buttons = [{
             label: "Home",
