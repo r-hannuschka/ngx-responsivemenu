@@ -497,11 +497,21 @@ export class OverflowContentDirective implements OnInit, OnDestroy {
         this.isDestroyed &#x3D; new Subject();
     }
 
+    /**
+     * @ignore
+     */
     public ngOnDestroy() {
         this.isDestroyed.next(true);
         this.isDestroyed.complete();
     }
 
+    /**
+     * component initialized, if overflow is allready flag as open
+     * render directly.
+     * Register to show / hide
+     *
+     * @ignore
+     */
     public ngOnInit() {
         if (this.overflowCtrl.isOpen()) {
             this.renderContent(this.overflowCtrl.data.items);
