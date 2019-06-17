@@ -1,3 +1,12 @@
+#### 1.0.5 (2019-06-17)
+
+##### New Features
+
+* **ci:**
+  *  auto deploy demo page [closes#53] (4ceb7e2a)
+  *  auto deploy documentation to gh-pages branch [closes#51] (059502d6)
+  *  move to circle_ci [closes#49] (90862f41)
+
 #### 1.0.4 (2019-06-15)
 
 ##### New Features
